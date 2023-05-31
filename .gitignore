@@ -5,7 +5,7 @@
 .vscode
 
 # Django
-db.sqlite3
+*.sqlite
 
 # MacOs
 .DS_Store

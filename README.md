@@ -14,6 +14,7 @@ pipenv install
 Activate the virtual environment and run.
 ```bash
 pipenv shell
+(backend) export DJANGO_DATABASE=no-docker
 (backend) python manage.py runserver
 (backend) exit # deactivate virtual environment
 ```
