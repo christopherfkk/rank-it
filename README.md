@@ -31,3 +31,11 @@ Check Django server at http://127.0.0.1:8000/
 docker-compose logs # to debug
 docker-compose down # to stop and remove all containers
 ```
+
+## Run the frontend app on Expo
+Download Expo app on App Store.
+```bash
+cd frontend
+npm install
+npx expo start # Use camera to scan QR code
+```
