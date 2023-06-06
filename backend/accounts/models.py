@@ -12,8 +12,8 @@ class CustomUser(AbstractUser):
         FEMALE = "F", _("Female")
 
     email = models.EmailField(_("email address"), unique=True)  # email is not unique by default
-    dob = models.DateField()
-    gender = models.CharField(max_length=1, choices=Gender.choices)
+    dob = models.DateField(_("date of brith"))
+    gender = models.CharField(_("gender"), max_length=1, choices=Gender.choices)
 
     REQUIRED_FIELDS = ["email", "first_name", "last_name", "dob", "gender"]  # username and password required by default
     objects = CustomUserManager()

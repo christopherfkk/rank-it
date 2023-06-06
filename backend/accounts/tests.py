@@ -19,8 +19,8 @@ class UsersManagersTests(TestCase):
         self.assertEqual(user.username, "normal-user")
         self.assertEqual(user.email, "normal@user.com")
         self.assertEqual(user.first_name, "Normal")
-        self.asserEqual(user.last_name, "User")
-        self.assertEqual(user.dob, datetime.datetime(2002, 2, 5))
+        self.assertEqual(user.last_name, "User")
+        self.assertEqual(user.dob, datetime.date(2002, 2, 5))
         self.assertEqual(user.gender, "M")
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_staff)
@@ -52,4 +52,4 @@ class UsersManagersTests(TestCase):
 
         with self.assertRaises(ValueError):
             User.objects.create_superuser(
-                email="super@user.com", password="foo", is_superuser=False)
+                username="super-user", email="super@user.com", password="foo", is_superuser=False)
