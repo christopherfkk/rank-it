@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # Local
     'accounts.apps.AccountsConfig',
+    'matches.apps.MatchesConfig',
 
     # Third party
     'rest_framework',
