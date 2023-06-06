@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+import datetime
 
 
 class UsersManagersTests(TestCase):
@@ -12,14 +13,14 @@ class UsersManagersTests(TestCase):
             password="password",
             first_name="Normal",
             last_name="User",
-            age=21,
+            dob=datetime.datetime.strptime('05-02-2002', "%d-%m-%Y").date(),
             gender="M",
         )
         self.assertEqual(user.username, "normal-user")
         self.assertEqual(user.email, "normal@user.com")
         self.assertEqual(user.first_name, "Normal")
         self.asserEqual(user.last_name, "User")
-        self.assertEqual(user.age, 21)
+        self.assertEqual(user.dob, datetime.datetime(2002, 2, 5))
         self.assertEqual(user.gender, "M")
         self.assertTrue(user.is_active)
         self.assertFalse(user.is_staff)
@@ -40,7 +41,7 @@ class UsersManagersTests(TestCase):
             password="password",
             first_name="Super",
             last_name="User",
-            age=42,
+            dob=datetime.datetime.strptime('05-02-1990', "%d-%m-%Y").date(),
             gender="M",
         )
         self.assertEqual(admin.username, "super-user")
