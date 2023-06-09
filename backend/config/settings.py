@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'drf_spectacular',
 ]
 
 REST_FRAMEWORK = {
@@ -65,6 +66,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication'
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 REST_AUTH = {
@@ -81,6 +83,12 @@ SIMPLE_JWT = {
 }
 
 ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "RankIt backend",
+    "DESCRIPTION": "A Django REST API server for the RankIt mobile app",
+    "VERSION": "0.1",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
