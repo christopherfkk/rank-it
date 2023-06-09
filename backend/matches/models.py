@@ -8,9 +8,9 @@ class Match(models.Model):
     class MatchType(models.TextChoices):
         BADMINTON_SINGLES = "S", _("Singles")
 
-    submitter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    opponent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    type = models.CharField(_("match type"), choices=MatchType.choices, default=MatchType.BADMINTON_SINGLES)
+    submitter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='match_submitter', on_delete=models.CASCADE)
+    opponent = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='match_opponent', on_delete=models.CASCADE)
+    type = models.CharField(_("match type"), choices=MatchType.choices, max_length=20, default=MatchType.BADMINTON_SINGLES)
     submitter_score = models.IntegerField()
     opponent_score = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
