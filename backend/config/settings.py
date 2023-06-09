@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Local
     'accounts.apps.AccountsConfig',
@@ -47,9 +48,13 @@ INSTALLED_APPS = [
     # Third party
     'rest_framework',
     'corsheaders',
-    'rest_framework_simplejwt',
     'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'rest_framework_simplejwt',
     'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 REST_FRAMEWORK = {
@@ -66,12 +71,16 @@ REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_RETURN_EXPIRATION': True,
     'JWT_AUTH_HTTPONLY': False,
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 }
+
+ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,10 +116,15 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SITE_ID = 1
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
