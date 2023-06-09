@@ -17,4 +17,4 @@ class Match(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.submitter.username} vs {self.opponent.username} on {self.created_at.date()}"
+        return f"{self.submitter.username} vs {self.opponent.username} ({self.submitter_score}-{self.opponent_score}) on {self.created_at.date()}"
