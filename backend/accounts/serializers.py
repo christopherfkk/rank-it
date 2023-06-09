@@ -1,6 +1,7 @@
 from dj_rest_auth.serializers import UserDetailsSerializer
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from django.contrib.auth import get_user_model
 
 from .models import CustomUser
 
@@ -20,8 +21,13 @@ class CustomRegisterSerializer(RegisterSerializer):
         return data
 
 
-class CustomUserDetailsSerializer(UserDetailsSerializer):
+# class CustomUserDetailsSerializer(UserDetailsSerializer):
+#
+#     class Meta(UserDetailsSerializer.Meta):
+#         fields = UserDetailsSerializer.Meta.fields + \
+#             ('first_name', 'last_name', 'dob', 'gender',)
 
-    class Meta(UserDetailsSerializer.Meta):
-        fields = UserDetailsSerializer.Meta.fields + \
-            ('first_name', 'last_name', 'dob', 'gender',)
+class AccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'dob', 'gender',)
