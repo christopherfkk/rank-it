@@ -6,6 +6,7 @@ from .models import Match
 class MatchSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
+            "id",
             "submitter",
             "opponent",
             "type",
