@@ -76,12 +76,12 @@ class CustomUser(AbstractUser):
         ),
     )
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
-    dob = models.DateField(_("date of brith"))
-    gender = models.CharField(_("gender"), max_length=1, choices=Gender.choices)
+    dob = models.DateField(_("date of brith"), null=True)
+    gender = models.CharField(_("gender"), null=True, max_length=1, choices=Gender.choices)
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email", "first_name", "last_name", "dob", "gender"]  # username and password required by default
+    REQUIRED_FIELDS = ["email"]  # username and password required by default
     objects = CustomUserManager()
 
     def __str__(self):

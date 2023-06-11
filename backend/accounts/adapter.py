@@ -1,5 +1,5 @@
-from allauth.account.adapter import DefaultAccountAdapter
 # An adapter is a tool to transform easily a CSV/XML file/form into a python object or a django model instance
+from allauth.account.adapter import DefaultAccountAdapter
 
 
 class CustomAccountAdapter(DefaultAccountAdapter):
