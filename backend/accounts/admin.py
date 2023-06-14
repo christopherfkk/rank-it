@@ -36,8 +36,8 @@ class CustomUserAdmin(UserAdmin):
         "gender",
         "is_staff",
     ]
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("dob", "gender")}),)
-    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("dob", "gender")}),)
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("dob", "gender", "avatar")}),)
+    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("dob", "gender", "avatar")}),)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

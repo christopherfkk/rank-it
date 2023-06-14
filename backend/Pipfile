@@ -13,6 +13,7 @@ dj-rest-auth = "==4.0.1"
 django-allauth = "==0.50.0"
 drf-spectacular = "~=0.26.2"
 python-dotenv = "~=1.0.0"
+pillow = "*"
 
 [dev-packages]
 

@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import viewsets
 from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -13,6 +14,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUserOrSelf, )
     queryset = get_user_model().objects.all()
     serializer_class = AccountSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     def update(self, request, *args, **kwargs):
         kwargs['partial'] = True

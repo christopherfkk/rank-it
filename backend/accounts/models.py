@@ -120,6 +120,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         choices=Gender.choices
     )
 
+    def get_image_upload_path(instance, filename):
+        """Custom logic to determine the subdirectory path `MEDIA_ROOT/avatars/<username>/<filename>`"""
+        return f'avatars/{instance.username}/{filename}'
+
+    avatar = models.ImageField(
+        upload_to=get_image_upload_path,
+        default=None,
+        blank=True,
+        null=True,
+    )
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
