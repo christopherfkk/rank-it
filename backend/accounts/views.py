@@ -9,7 +9,7 @@ from .permission import IsAdminUserOrSelf
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    """View set for the user model"""
+    """View set for the CustomUser model"""
     permission_classes = (IsAdminUserOrSelf, )
     queryset = get_user_model().objects.all()
     serializer_class = AccountSerializer
