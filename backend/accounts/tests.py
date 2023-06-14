@@ -137,6 +137,57 @@ class DefaultRegistrationTest(TestCase):
         self.assertTrue(get_user_model().objects.filter(email="chris@email.com", is_active=True).exists())
 
 
+class GoogleSigninTest(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+        # Google provides some default values for later account setup
+        self.EXPECTED_RESPONSE = {
+            "status_code": status.HTTP_201_CREATED,
+            "data": {
+                "access": "ACCESS_TOKEN",
+                "refresh": "REFRESH_TOKEN",
+                "user": {
+                    "id": 1,
+                    "email": "christopherfkk@uni.minerva.edu",
+                    "username": "kar_keung_christopher_fok",  # Google fill
+                    "first_name": "Kar Keung Christopher",  # Google fill
+                    "last_name": "Fok",  # Google fill
+                    "dob": None,
+                    "gender": "",
+                }
+            }
+        }
+
+    def test_google_sign_in(self):
+        """test POST to google endpoint"""
+
+        # Frontend: clicking "Sign-in with Google" obtains an access token to be sent to backend
+        data_from_frontend = {
+            'access_token': 'google_oauth2_access_token'
+        }
+
+        with patch.object(APIClient, 'post', return_value=self.EXPECTED_RESPONSE) as MOCK_POST_RESPONSE:
+            self.client.post('/api/v1/accounts/google/', data_from_frontend)
+
+        response = MOCK_POST_RESPONSE.return_value
+        self.assertEqual(response["status_code"], status.HTTP_201_CREATED)
+
+        # Assert access and refresh tokens exist
+        self.assertIn('access', response["data"])
+        self.assertIn('refresh', response["data"])
+
+        # Add additional assertions to check the response data
+        account_detail = response["data"]['user']
+        self.assertEqual(account_detail['id'], 1)
+        self.assertEqual(account_detail['email'], 'christopherfkk@uni.minerva.edu')
+        self.assertEqual(account_detail['username'], 'kar_keung_christopher_fok')
+        self.assertEqual(account_detail['first_name'], "Kar Keung Christopher")
+        self.assertEqual(account_detail['last_name'], "Fok")
+        self.assertEqual(account_detail['gender'], "")
+        self.assertIsNone(account_detail['dob'])
+
+
 class DefaultAccountSetUp(TestCase):
 
     def setUp(self):
@@ -170,54 +221,3 @@ class DefaultAccountSetUp(TestCase):
         self.assertEqual(user.last_name, "Fok")
         self.assertEqual(user.dob, datetime.date(1989, 2, 5))
         self.assertEqual(user.gender, "M")
-
-
-class GoogleSigninTest(TestCase):
-    def setUp(self):
-        self.client = APIClient()
-
-        # Google provides some default values for later account setup
-        self.EXPECTED_RESPONSE = {
-            "status_code": status.HTTP_201_CREATED,
-            "data": {
-                "access": "ACCESS_TOKEN",
-                "refresh": "REFRESH_TOKEN",
-                "user": {
-                    "id": 1,
-                    "email": "christopherfkk@uni.minerva.edu",
-                    "username": "kar_keung_christopher_fok",  # Google fill
-                    "first_name": "Kar Keung Christopher",  # Google fill
-                    "last_name": "Fok",  # Google fill
-                    "dob": None,
-                    "gender": "",
-                }
-            }
-        }
-
-    def test_default_registration(self):
-        """test POST to google endpoint"""
-
-        # Frontend: clicking "Sign-in with Google" obtains an access token to be sent to backend
-        data_from_frontend = {
-            'access_token': 'google_oauth2_access_token'
-        }
-
-        with patch.object(APIClient, 'post', return_value=self.EXPECTED_RESPONSE) as MOCK_POST_RESPONSE:
-            self.client.post('/api/v1/accounts/google/', data_from_frontend)
-
-        response = MOCK_POST_RESPONSE.return_value
-        self.assertEqual(response["status_code"], status.HTTP_201_CREATED)
-
-        # Assert access and refresh tokens exist
-        self.assertIn('access', response["data"])
-        self.assertIn('refresh', response["data"])
-
-        # Add additional assertions to check the response data
-        account_detail = response["data"]['user']
-        self.assertEqual(account_detail['id'], 1)
-        self.assertEqual(account_detail['email'], 'christopherfkk@uni.minerva.edu')
-        self.assertEqual(account_detail['username'], 'kar_keung_christopher_fok')
-        self.assertEqual(account_detail['first_name'], "Kar Keung Christopher")
-        self.assertEqual(account_detail['last_name'], "Fok")
-        self.assertEqual(account_detail['gender'], "")
-        self.assertIsNone(account_detail['dob'])
