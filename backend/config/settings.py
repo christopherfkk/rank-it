@@ -63,6 +63,14 @@ INSTALLED_APPS = [
     'drf_spectacular',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+
 SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -99,6 +107,7 @@ REST_AUTH = {
     'JWT_AUTH_RETURN_EXPIRATION': True,
     'JWT_AUTH_HTTPONLY': False,
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.AccountSerializer',
 }
 
 SIMPLE_JWT = {

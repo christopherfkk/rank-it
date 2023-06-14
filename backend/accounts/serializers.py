@@ -6,6 +6,7 @@ from .models import CustomUser
 
 
 class CustomRegisterSerializer(RegisterSerializer):
+
     username = serializers.CharField(
         allow_blank=True,
     )
