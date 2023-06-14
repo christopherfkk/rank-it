@@ -1,11 +1,29 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import CustomUser
-from .forms import CustomUserChangeForm, CustomUserCreationForm
+
+
+class CustomUserCreationForm(UserCreationForm):
+    """User Creation Form in the admin site"""
+    class Meta(UserCreationForm):
+        model = CustomUser
+        fields = UserCreationForm.Meta.fields + ("dob", "gender")
+
+
+class CustomUserChangeForm(UserChangeForm):
+    """User Change Form in the admin site"""
+    class Meta:
+        model = CustomUser
+        fields = UserChangeForm.Meta.fields
 
 
 class CustomUserAdmin(UserAdmin):
+    """
+    Admin to handle the User model in the admin site. Defines the form to create
+    and change the User instance. Also displays which fields of the User instances.
+    """
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser

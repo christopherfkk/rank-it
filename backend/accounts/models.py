@@ -1,14 +1,14 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.validators import UnicodeUsernameValidator
-from django.utils import timezone
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
     """
-    Custom user model manager where username is the unique identifiers
+    Custom user model manager where email is the unique identifiers
     """
     def create_user(self, email, password, **extra_fields):
         """
@@ -42,7 +42,19 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-
+    """
+    Custom user model with fields
+    - email
+    - password
+    - username
+    - first_name
+    - last_name,
+    - is_staff
+    - is_active
+    - date_joined
+    - dob (date of birth)
+    - gender
+    """
     email = models.EmailField(
         _("email address"),
         unique=True
@@ -55,17 +67,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         blank=True,
         help_text=_("Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."),
         validators=[UnicodeUsernameValidator],
-        error_messages={"unique": _("A user with that username already exists."),},
+        error_messages={"unique": _("A user with that username already exists."), },
     )
     first_name = models.CharField(
+        _("first name"),
         max_length=30,
         blank=True,
-        null=True
+        null=True,
     )
     last_name = models.CharField(
+        _("last name"),
         max_length=30,
         blank=True,
-        null=True
+        null=True,
     )
     is_staff = models.BooleanField(
         _("staff status"),
