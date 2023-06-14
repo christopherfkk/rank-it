@@ -62,6 +62,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         _("username"),
         max_length=150,
+        default=None,
         unique=True,
         null=True,
         blank=True,
@@ -72,12 +73,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(
         _("first name"),
         max_length=30,
+        default=None,
         blank=True,
         null=True,
     )
     last_name = models.CharField(
         _("last name"),
         max_length=30,
+        default=None,
         blank=True,
         null=True,
     )
@@ -100,6 +103,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     dob = models.DateField(
         _("date of brith"),
+        default=None,
         blank=True,
         null=True
     )

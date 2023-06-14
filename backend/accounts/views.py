@@ -14,6 +14,10 @@ class AccountViewSet(viewsets.ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = AccountSerializer
 
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
+
 
 class GoogleLogin(SocialLoginView):
     """View for Google Login"""

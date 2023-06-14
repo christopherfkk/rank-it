@@ -8,13 +8,16 @@ from .models import CustomUser
 class CustomRegisterSerializer(RegisterSerializer):
 
     username = serializers.CharField(
+        required=False,
         allow_blank=True,
     )
     first_name = serializers.CharField(
+        required=False,
         allow_blank=True,
         max_length=30,
     )
     last_name = serializers.CharField(
+        required=False,
         allow_blank=True,
         max_length=30,
     )
@@ -23,6 +26,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         allow_null=True,
     )
     gender = serializers.ChoiceField(
+        required=False,
         allow_blank=True,
         choices=CustomUser.Gender.choices,
     )
@@ -31,7 +35,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         data = super().get_cleaned_data()
         data['first_name'] = self.validated_data.get('first_name', '')
         data['last_name'] = self.validated_data.get('last_name', '')
-        data['dob'] = self.validated_data.get('dob', '')
+        data['dob'] = self.validated_data.get('dob', None)
         data['gender'] = self.validated_data.get('gender', '')
         return data
 
