@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
@@ -33,35 +33,42 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_active", True)
 
         if extra_fields.get("is_staff") is not True:
-            raise ValueError(_("Superuser must have is_staff=True."))
+            raise ValueError(
+                _("Superuser must have is_staff=True.")
+            )
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError(_("Superuser must have is_superuser=True."))
+            raise ValueError(
+                _("Superuser must have is_superuser=True.")
+            )
         return self.create_user(username, email, password, **extra_fields)
 
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
 
-    class Gender(models.TextChoices):
-        MALE = "M", _("Male")
-        FEMALE = "F", _("Female")
-
-    username_validator = UnicodeUsernameValidator()
-
+    email = models.EmailField(
+        _("email address"),
+        unique=True
+    )
     username = models.CharField(
         _("username"),
         max_length=150,
         unique=True,
-        help_text=_(
-            "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-        ),
-        validators=[username_validator],
-        error_messages={
-            "unique": _("A user with that username already exists."),
-        },
+        null=True,
+        blank=True,
+        help_text=_("Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."),
+        validators=[UnicodeUsernameValidator],
+        error_messages={"unique": _("A user with that username already exists."),},
     )
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField(_("email address"), unique=True)  # email is not unique by default
+    first_name = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True
+    )
+    last_name = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True
+    )
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,
@@ -75,17 +82,35 @@ class CustomUser(AbstractUser):
             "Unselect this instead of deleting accounts."
         ),
     )
-    date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
-    dob = models.DateField(_("date of brith"), null=True)
-    gender = models.CharField(_("gender"), null=True, max_length=1, choices=Gender.choices)
+    date_joined = models.DateTimeField(
+        _("date joined"),
+        default=timezone.now
+    )
+    dob = models.DateField(
+        _("date of brith"),
+        blank=True,
+        null=True
+    )
 
-    EMAIL_FIELD = "email"
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email"]  # username and password required by default
+    class Gender(models.TextChoices):
+        MALE = "M", _("Male")
+        FEMALE = "F", _("Female")
+
+    gender = models.CharField(
+        _("gender"),
+        blank=True,
+        null=True,
+        max_length=1,
+        choices=Gender.choices
+    )
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.username
+        return self.email
 
     def is_male(self):
         return self.gender == self.Gender.MALE

@@ -6,10 +6,25 @@ from .models import CustomUser
 
 
 class CustomRegisterSerializer(RegisterSerializer):
-    first_name = serializers.CharField(required=True, max_length=30)
-    last_name = serializers.CharField(required=True, max_length=30)
-    dob = serializers.DateField(required=True)
-    gender = serializers.ChoiceField(required=True, choices=CustomUser.Gender.choices)
+    username = serializers.CharField(
+        allow_blank=True,
+    )
+    first_name = serializers.CharField(
+        allow_blank=True,
+        max_length=30,
+    )
+    last_name = serializers.CharField(
+        allow_blank=True,
+        max_length=30,
+    )
+    dob = serializers.DateField(
+        required=False,
+        allow_null=True,
+    )
+    gender = serializers.ChoiceField(
+        allow_blank=True,
+        choices=CustomUser.Gender.choices,
+    )
 
     def get_cleaned_data(self):
         data = super().get_cleaned_data()
