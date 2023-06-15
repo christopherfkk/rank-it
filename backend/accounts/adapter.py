@@ -25,20 +25,14 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
 
     def save_user(self, request, sociallogin, form=None):
         user = super().save_user(request, sociallogin, form=form)
-        print(sociallogin.account)
 
-        # Check if the social account is a Google account
         if sociallogin.account.provider == 'google':
-            # Access the user's avatar URL from the social account data
-            print("Getting avatar url")
-            avatar_url = sociallogin.account.extra_data.get('picture')
-            print(f"Avatar url: {avatar_url}")
+            avatar_url = sociallogin.account.extra_data.get('picture')  # Access the user's avatar URL from the social account data
 
             if avatar_url:
+                # TODO: unsafe
                 context = ssl._create_unverified_context()
                 avatar_image = urllib.request.urlopen(avatar_url, context=context)  # Download the avatar image
-                print(f"Avatar image {avatar_image}")
                 user.avatar.save(f'{user.username}_avatar.jpg', File(avatar_image))
-                print("Saved image")
 
         return user
