@@ -52,7 +52,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     - is_staff
     - is_active
     - date_joined
-    - dob (date of birth)
+    - dob (date ofi birth)
     - gender
     """
     email = models.EmailField(
@@ -136,6 +136,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     city = 
     community = 
     self_skill_level
+    peer_skill_level
     availability
     short_blurb
     preference to play with

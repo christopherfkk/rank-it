@@ -53,7 +53,6 @@ class UserManagerTests(TestCase):
         """Test create a superuser"""
         User = get_user_model()
 
-        # Create a superuser
         admin = User.objects.create_superuser(
             email="super@user.com",
             password="password",
@@ -100,13 +99,14 @@ class UserManagerTests(TestCase):
 
 
 class DefaultRegistrationTest(TestCase):
+    """Test suite for registering with email and password"""
+
     def setUp(self):
         self.client = APIClient()
 
-    def test_default_registration(self):
+    def test_registration_flow(self):
         """test POST to registration endpoint"""
 
-        # Not required to specify all fields
         registration_data = {
             'email': 'chris@email.com',
             'password1': 'testpass123',
@@ -132,14 +132,64 @@ class DefaultRegistrationTest(TestCase):
         self.assertEqual(account_detail['gender'], "")
         self.assertIsNone(account_detail['dob'])
 
+        # Check if user exists in database
         self.assertTrue(get_user_model().objects.filter(email="chris@email.com", is_active=True).exists())
+
+    def test_registration_with_invalid_email(self):
+
+        registration_data = {
+            'email': 'chris',
+            'password1': 'testpass123',
+            'password2': 'testpass123',
+        }
+
+        response = self.client.post('/api/v1/accounts/registration/', registration_data)
+
+        self.assertEqual(
+            str(response.data["email"][0]),
+            "Enter a valid email address."
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_registration_with_empty_password(self):
+
+        registration_data = {
+            'email': 'chris@email.com',
+            'password1': '',
+            'password2': '',
+        }
+
+        response = self.client.post('/api/v1/accounts/registration/', registration_data)
+
+        self.assertEqual(str(response.data["password1"][0]), "This field may not be blank.")
+        self.assertEqual(str(response.data["password2"][0]), "This field may not be blank.")
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_registration_with_invalid_password(self):
+
+        registration_data = {
+            'email': 'chris@email.com',
+            'password1': 'short',
+            'password2': 'short',
+        }
+
+        response = self.client.post('/api/v1/accounts/registration/', registration_data)
+
+        error_detail: ErrorDetail = response.data["password1"][0]
+        self.assertIn("This Password Is Too Short.", error_detail.title())
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class GoogleSigninTest(TestCase):
+    """Test suite for signing in with Google"""
+
     def setUp(self):
         self.client = APIClient()
 
-        # Google provides some default values for later account setup
+        # Google provides some default values through the social account adaptor
         self.EXPECTED_RESPONSE = {
             "status_code": status.HTTP_201_CREATED,
             "data": {
@@ -157,14 +207,15 @@ class GoogleSigninTest(TestCase):
             }
         }
 
-    def test_google_sign_in(self):
+    def test_google_sign_in_flow(self):
         """test POST to google endpoint"""
 
         # Frontend: clicking "Sign-in with Google" obtains an access token to be sent to backend
         data_from_frontend = {
-            'access_token': 'google_oauth2_access_token'
+            'access_token': 'VALID_ACCESS_TOKEN'
         }
 
+        # Mock call to Google Oauth2 server
         with patch.object(APIClient, 'post', return_value=self.EXPECTED_RESPONSE) as MOCK_POST_RESPONSE:
             self.client.post('/api/v1/accounts/google/', data_from_frontend)
 
@@ -185,18 +236,44 @@ class GoogleSigninTest(TestCase):
         self.assertEqual(account_detail['gender'], "")
         self.assertIsNone(account_detail['dob'])
 
+    def test_google_sign_in_with_invalid_access_token(self):
+
+        data_from_frontend = {
+            'access_token': 'INVALID_ACCESS_TOKEN'
+        }
+
+        response = self.client.post('/api/v1/accounts/google/', data_from_frontend)
+        self.assertEqual(response.data['non_field_errors'][0].title(), "Incorrect Value")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_google_sign_in_with_empty_access_token(self):
+
+        data_from_frontend = {
+            'access_token': ''
+        }
+
+        response = self.client.post('/api/v1/accounts/google/', data_from_frontend)
+        self.assertEqual(
+            str(response.data['non_field_errors'][0]),
+            "Incorrect input. access_token or code is required."
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 class DefaultAccountSetUp(TestCase):
 
     def setUp(self):
         self.client = APIClient()
 
-    def test_default_account_setup(self):
+        # Register first
+        registration_data = {'email': 'chris@email.com', 'password1': 'testpass123', 'password2': 'testpass123'}
+        self.response = self.client.post('/api/v1/accounts/registration/', registration_data)
 
-        # Register
-        resp = self.client.post('/api/v1/accounts/registration/', {'email': 'chris@email.com', 'password1': 'testpass123', 'password2': 'testpass123'})
-        access_token = resp.data['access']
+        # Get access token and send it through the AUTHORIZATION for all subsequent requests
+        access_token = self.response.data['access']
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + access_token)
+
+    def test_account_setup_flow(self):
 
         account_set_up_data = {
             'username': 'chris_fok',
@@ -207,7 +284,7 @@ class DefaultAccountSetUp(TestCase):
         }
 
         # Send a PUT request to the accounts detail endpoint
-        response = self.client.put(f'/api/v1/accounts/{resp.data["user"]["id"]}/', account_set_up_data)
+        response = self.client.put(f'/api/v1/accounts/{self.response.data["user"]["id"]}/', account_set_up_data)
 
         # Check the response status code
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -219,3 +296,40 @@ class DefaultAccountSetUp(TestCase):
         self.assertEqual(user.last_name, "Fok")
         self.assertEqual(user.dob, datetime.date(1989, 2, 5))
         self.assertEqual(user.gender, "M")
+
+    def test_with_invalid_date_format(self):
+        account_set_up_data = {
+            'username': 'chris_fok',
+            'dob': '02-05-1989',
+        }
+
+        # Send a PUT request to the accounts detail endpoint
+        response = self.client.put(f'/api/v1/accounts/{self.response.data["user"]["id"]}/', account_set_up_data)
+
+        self.assertEqual(
+            str(response.data["dob"][0]),
+            'Date has wrong format. Use one of these formats instead: YYYY-MM-DD.'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_partial_account_setup(self):
+
+        account_set_up_data = {
+            'username': 'chris_fok',
+            'first_name': 'Chris',
+            'last_name': 'Fok',
+        }
+
+        # Send a PUT request to the accounts detail endpoint
+        response = self.client.put(f'/api/v1/accounts/{self.response.data["user"]["id"]}/', account_set_up_data)
+
+        # Check the response status code
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Check if updated
+        user = get_user_model().objects.get(email='chris@email.com')
+        self.assertEqual(user.username, "chris_fok")
+        self.assertEqual(user.first_name, "Chris")
+        self.assertEqual(user.last_name, "Fok")
+        self.assertIsNone(user.dob)
+        self.assertEqual(user.gender, "")
