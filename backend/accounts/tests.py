@@ -177,9 +177,7 @@ class DefaultRegistrationTest(TestCase):
 
         response = self.client.post('/api/v1/accounts/registration/', registration_data)
 
-        error_detail: ErrorDetail = response.data["password1"][0]
-        self.assertIn("This Password Is Too Short.", error_detail.title())
-
+        self.assertIn("This password is too short.", str(response.data["password1"][0]))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
@@ -243,7 +241,10 @@ class GoogleSigninTest(TestCase):
         }
 
         response = self.client.post('/api/v1/accounts/google/', data_from_frontend)
-        self.assertEqual(response.data['non_field_errors'][0].title(), "Incorrect Value")
+        self.assertEqual(
+            str(response.data['non_field_errors'][0]),
+            "Incorrect value"
+        )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_google_sign_in_with_empty_access_token(self):
