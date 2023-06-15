@@ -26,21 +26,14 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
         user = super().save_user(request, sociallogin, form=form)
 
         if sociallogin.account.provider == 'google':
-            avatar_url = sociallogin.account.extra_data.get('picture')  # Access the user's avatar URL from the social account data
+            avatar_url = sociallogin.account.extra_data.get('picture')
 
             if avatar_url:
-                # Download the avatar image using requests
-                response = requests.get(avatar_url, verify=True)
-                print(response.content)
+                response = requests.get(avatar_url, verify=True)  # Download the avatar image using requests
 
                 if response.status_code == 200:
-                    # Wrap the image content in a BytesIO object
-                    image_file = BytesIO(response.content)
-
-                    # Create a File object from the BytesIO object
-                    avatar_image = File(image_file)
+                    image_file = BytesIO(response.content)  # Wrap the image content in a BytesIO object
+                    avatar_image = File(image_file)  # Create a django File object
                     user.avatar.save(f'{user.username}_avatar.jpg', avatar_image)
-                    print(avatar_image)
-                    print("saved")
 
         return user
