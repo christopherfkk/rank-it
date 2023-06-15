@@ -131,6 +131,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         null=True,
     )
 
+    """
+    country = 
+    city = 
+    community = 
+    self_skill_level
+    availability
+    short_blurb
+    preference to play with
+    """
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 

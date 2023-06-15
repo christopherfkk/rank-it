@@ -1,9 +1,8 @@
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-import urllib.request
+import requests
 from django.core.files import File
-
-import ssl
+from io import BytesIO
 
 
 class CustomAccountAdapter(DefaultAccountAdapter):
@@ -30,9 +29,18 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
             avatar_url = sociallogin.account.extra_data.get('picture')  # Access the user's avatar URL from the social account data
 
             if avatar_url:
-                # TODO: unsafe
-                context = ssl._create_unverified_context()
-                avatar_image = urllib.request.urlopen(avatar_url, context=context)  # Download the avatar image
-                user.avatar.save(f'{user.username}_avatar.jpg', File(avatar_image))
+                # Download the avatar image using requests
+                response = requests.get(avatar_url, verify=True)
+                print(response.content)
+
+                if response.status_code == 200:
+                    # Wrap the image content in a BytesIO object
+                    image_file = BytesIO(response.content)
+
+                    # Create a File object from the BytesIO object
+                    avatar_image = File(image_file)
+                    user.avatar.save(f'{user.username}_avatar.jpg', avatar_image)
+                    print(avatar_image)
+                    print("saved")
 
         return user
