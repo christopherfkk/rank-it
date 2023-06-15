@@ -116,6 +116,7 @@ SIMPLE_JWT = {
 }
 
 ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'accounts.adapter.CustomSocialAccountAdapter'
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "RankIt backend",

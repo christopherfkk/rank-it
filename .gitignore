@@ -6,6 +6,7 @@
 
 # Django
 *.sqlite
+media/avatars/
 
 # MacOs
 .DS_Store
