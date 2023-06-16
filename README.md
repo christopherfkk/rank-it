@@ -14,10 +14,9 @@ pipenv install
 Activate the virtual environment and run.
 ```bash
 pipenv shell
-export DJANGO_DATABASE=no-docker
-python manage.py migrate
-python manage.py runserver
-exit # deactivate virtual environment
+(backend) export DJANGO_DATABASE=no-docker
+(backend) python manage.py runserver
+(backend) exit # deactivate virtual environment
 ```
 
 ## Run the backend server in Docker with PostgreSQL
