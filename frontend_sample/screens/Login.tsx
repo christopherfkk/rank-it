@@ -17,14 +17,6 @@ const Login = () => {
 
   return (
     <View style={styles.login}>
-      <View style={styles.statusBarLight}>
-        <Image
-          style={styles.icons}
-          contentFit="cover"
-          source={require("../assets/icons4.png")}
-        />
-        <Text style={styles.time}>9:41</Text>
-      </View>
       <View style={styles.signUpBody}>
         <ImageBackground
           style={styles.memberPhotoIcon}

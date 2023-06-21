@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     borderRadius: Border.br_mini,
     marginTop: 21,
     alignItems: "center",
+    height:40,
   },
   icons: {
     top: 17,
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
     marginTop: 21,
     alignItems: "center",
     backgroundColor: Color.white,
+    display: 'flex',
   },
   submit1: {
     color: Color.white,
