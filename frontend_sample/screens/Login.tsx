@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";;
 import { Image } from "expo-image";
 import {
   StyleSheet,
@@ -14,6 +15,30 @@ import { Color, FontSize, FontFamily, Padding, Border } from "../GlobalStyles";
 
 const Login = () => {
   const navigation = useNavigation();
+  // const [email, setEmail] = useState("")
+  // const [password,setPassword] = useState("")
+
+  // const handleSignIn = () => {
+  //   // Perform your API call or network request here to send email and password to the backend
+  //   // You can use libraries like Axios or the built-in fetch function
+
+  //   // Example using fetch:
+  //   fetch("https://your-backend-url.com/signin", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ email, password }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       // Handle the response from the backend
+  //       console.log(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
 
   return (
     <View style={styles.login}>
