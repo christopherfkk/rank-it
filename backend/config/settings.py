@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     # Local
     'accounts.apps.AccountsConfig',
     'matches.apps.MatchesConfig',
+    'communities.apps.CommunitiesConfig',
+    'notifications.apps.NotificationsConfig',
 
     # Third party
     'rest_framework',
@@ -63,6 +65,10 @@ INSTALLED_APPS = [
     'drf_spectacular',
 ]
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+SITE_ID = 1
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -70,8 +76,6 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
-
-SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -207,8 +211,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-AUTH_USER_MODEL = "accounts.CustomUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
