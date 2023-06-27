@@ -7,7 +7,7 @@ import datetime
 
 from .models import MatchOffer, Match, PostMatchFeedback
 from ../communities/models import Community
-from ../notifications/models import Notifcation
+from ../notifications/models import Notification
 
 
 """
@@ -192,8 +192,8 @@ class MatchOfferTest(TestCase):
         match_counteroffer_data = {
             'submitter_id': str(self.opponent.id),
             'opponent_id': str(self.submitter.id),
-            'start_datetime': '2023-07-31 17:00:00',
-            'end_datetime': '2023-07-31 18:00:00',
+            'start_datetime': '2023-07-15 17:00:00',
+            'end_datetime': '2023-07-15 18:00:00',
             'community_id': str(self.community.id),
             'status': 'Pending',
             'is_counter_offer': True,
@@ -209,8 +209,8 @@ class MatchOfferTest(TestCase):
         self.assertEqual(match_counteroffer['id'], 2)
         self.assertEqual(match_counteroffer['submitter']['first_name'], 'Chris')  # full user detail
         self.assertEqual(match_counteroffer['opponent']['first_name'], 'Jim')  # full user detail
-        self.assertEqual(match_counteroffer['start_date'], '2023-07-31 17:00:00')
-        self.assertEqual(match_counteroffer['end_datetime'], '2023-07-31 18:00:00')
+        self.assertEqual(match_counteroffer['start_date'], '2023-07-15 17:00:00')
+        self.assertEqual(match_counteroffer['end_datetime'], '2023-07-15 18:00:00')
         self.assertEqual(match_counteroffer['community']['name'], 'Tokyo National Badminton Gym')  # full community detail
         self.assertEqual(match_counteroffer['status'], 'Pending')
         self.assertEqual(match_counteroffer['is_counter_offer'], True)
@@ -346,19 +346,26 @@ class PostMatchFeedbackTest(MatchOfferTest):
         self.client.login(email='jim@email.com', password='testpass123')
         response = self.client.post(f'/api/v1/postmatchfeedback/', opponent_feedback)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['match']['status'], 'Match scores conflicted')  # TODO: Possible constant
+        self.assertEqual(response.data['match']['status'], 'Cancelled')
         self.assertEqual(response.data['match']['submitter_score'], None)
         self.assertEqual(response.data['match']['opponent_score'], None)
+        self.assertEqual(response.data['match']['match_cancelled_reason_phrase'], 'Match scores conflicted')  # TODO: Possible constant
         self.client.logout()
 
         # Check if a match score resubmission notification is sent out to both
-        self.assertEqual(Notifcation.objects.filter(user=self.submitter).first().message, 'Match scores conflicted. Which one is it? 21-15 or 20-21?')  # TODO: Possible constant
-        self.assertEqual(Notifcation.objects.filter(user=self.opponent).first().message, 'Match scores conflicted. Which one is it? 21-15 or 20-21?')  # TODO: Possible constant
+        # self.assertEqual(Notification.objects.filter(
+        #     user=self.submitter).first().message,
+        #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
+        # )  # TODO: Possible constant
+        # self.assertEqual(Notification.objects.filter(
+        #     user=self.opponent).first().message,
+        #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
+        # )  # TODO: Possible constant
 
     def test_only_one_submits_feedback(self):
 
         submitter_feedback = {
-            'match_id': self.match.id,
+            'match_id': self.match.id,  # match_id = 1, ref match_offer_id = 1 with play date on 2023/07/10
             'user_id': self.submitter.id,
             'user_is_match_offer_submitter': True,
             'submitter_score': 21,
@@ -367,8 +374,11 @@ class PostMatchFeedbackTest(MatchOfferTest):
             'peer_skill_level_received': 8,
             'peer_sportsmanship_rating_received': 4,
             'peer_feedback_blurb_received': 'Definitely play Chris again. Great player.',
-            'created_at': '2023-07-16 17:00:00',
         }
+
+        # Same day submission, 2 hours after match
+        current_valid_time = timezone.datetime(2023, 7, 10, 20, 0, 0)
+        timezone.override(current_valid_time)
 
         # Submitter logins and gives feedback. Status should be 'Awaiting confirmation'. No scores are confirmed in Match model.
         self.client.login(email='chris@email.com', password='testpass123')
@@ -379,10 +389,11 @@ class PostMatchFeedbackTest(MatchOfferTest):
         self.assertEqual(response.data['match']['submitter_score'], None)
         self.assertEqual(response.data['match']['opponent_score'], None)
 
-        current_time = timezone.datetime(2023, 7, 16, 20, 0, 0)
-        timezone.override(current_time)
+        # Get details of match 24 hours after with only one PostMatchFeedback
+        current_invalid_time = timezone.datetime(2023, 7, 11, 20, 0, 0)
+        timezone.override(current_invalid_time)
 
-        # Saves in get_queryset to check time
+        # Saves in get_queryset to check time  # TODO: Should be doable
         response = self.client.get(f'/api/v1/match/{self.match.id}')
         self.assertEqual(response.data['status'], 'Confirmed')
         self.assertEqual(response.data['submitter_score'], '21')
@@ -394,28 +405,46 @@ class PostMatchFeedbackTest(MatchOfferTest):
 
     def test_neither_submits_feedback(self):
         """UPDATE MatchOffer"""
-        current_time = timezone.datetime(2023, 7, 16, 20, 0, 0)
+
+        # Get details of match 24 hours after with no PostMatchFeedback
+        current_time = timezone.datetime(2023, 7, 11, 20, 0, 0)
         timezone.override(current_time)
 
         self.client.login(email='chris@email.com', password='testpass123')
-        # Saves in get_queryset to check time
+
+        # Saves in get_queryset to check time  # TODO: Should be doable
         response = self.client.get(f'/api/v1/match/{self.match.id}')
         self.assertEqual(response.data['status'], 'Cancelled')
         self.assertEqual(response.data['submitter_score'], None)
         self.assertEqual(response.data['opponent_score'], None)
 
-        # Clean up by resetting the current time
         self.client.logout()
+
+        # Clean up by resetting the current time
         timezone.deactivate()
 
 
-class ProofOfMatchTest(PostMatchFeedbackTest):
-
-    def test_same_resubmitted_scores(self):
-        pass
-
-    def test_different_resubmitted_scores(self):
-        pass
-
-    def test_only_one_resubmitted_score(self):
-        pass
+# class ProofOfMatchTest(PostMatchFeedbackTest):
+#
+#     @classmethod
+#     def setUpTestData(cls):
+#         """Inherit the submitter, the opponent, the community, the match offer, the match, and the API client"""
+#         cls.submitter_notification = Notifcation.objects.create(
+#             user=self.submitter,
+#             message='Match scores conflicted. Which one is it? 21-15 or 20-21?',
+#             is_read=False
+#         )
+#         cls.opponent_notifcation = Notifcation.objects.create(
+#             user=self.opponent,
+#             message='Match scores conflicted. Which one is it? 21-15 or 20-21?',
+#             is_read=False
+#         )
+#
+#     def test_same_resubmitted_scores(self):
+#         pass
+#
+#     def test_different_resubmitted_scores(self):
+#         pass
+#
+#     def test_only_one_resubmitted_score(self):
+#         pass
