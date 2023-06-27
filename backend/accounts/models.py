@@ -1,6 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db import models
@@ -42,19 +43,11 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    """
-    Custom user model with fields
-    - email
-    - password
-    - username
-    - first_name
-    - last_name,
-    - is_staff
-    - is_active
-    - date_joined
-    - dob (date ofi birth)
-    - gender
-    """
+
+    class Gender(models.TextChoices):
+        MALE = "M", _("Male")
+        FEMALE = "F", _("Female")
+
     email = models.EmailField(
         _("email address"),
         unique=True
@@ -101,17 +94,21 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         _("date joined"),
         default=timezone.now
     )
+    phone_number = models.CharField(
+        max_length=20,
+        validators=[
+            RegexValidator(
+                regex=r'^\+?\d{1,3}[-.\s]?\d{3,14}$',
+                message="Phone number must be entered in a valid format."
+            )
+        ]
+    )
     dob = models.DateField(
         _("date of brith"),
         default=None,
         blank=True,
         null=True
     )
-
-    class Gender(models.TextChoices):
-        MALE = "M", _("Male")
-        FEMALE = "F", _("Female")
-
     gender = models.CharField(
         _("gender"),
         blank=True,
@@ -130,17 +127,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         blank=True,
         null=True,
     )
-
-    """
-    country = 
-    city = 
-    community = 
-    self_skill_level
-    peer_skill_level
-    availability
-    short_blurb
-    preference to play with
-    """
+    blurb = models.TextField(
+        null=True
+    )
+    matches_played = models.IntegerField()
+    matches_won = models.IntegerField()
+    overall_skill_level_received = models.FloatField(
+        validators=[MinValueValidator(0.0),MaxValueValidator(10.0)]
+    )
+    overall_sportsmanship_rating = models.FloatField(
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)]
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

@@ -28,7 +28,7 @@ class MatchOffer(models.Model):
     )
     community = models.ForeignKey(
         Community,
-        on_delete=models.CASCADE()
+        on_delete=models.CASCADE,
     )
     type = models.CharField(
         _("match offer type"),
@@ -72,10 +72,10 @@ class MatchOffer(models.Model):
 class Match(models.Model):
 
     class MatchStatus(models.TextChoices):
-        PENDING = "P", _("Pending")
+        PENDING = "PE", _("Pending")
         CANCELLED = "C", _("Cancelled")
         AWAITING_CONFIRMATION = "A", _("Awaiting confirmation")
-        PLAYED = "P", _("Played")
+        PLAYED = "PL", _("Played")
 
     class MatchCancelledReasonPhrase(models.TextChoices):
         SUBMITTER_CANCELLED = "SC", _("The submitter cancelled the match")
