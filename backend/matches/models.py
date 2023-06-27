@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 
 from communities.models import Community
@@ -54,7 +55,7 @@ class MatchOffer(models.Model):
         'self',
         null=True,
         blank=True,
-        on_delete=models.CASCADE(),
+        on_delete=models.CASCADE,
     )
     created_at = models.DateTimeField(auto_now_add=True,)
     update_at = models.DateTimeField(auto_now=True,)
@@ -84,7 +85,7 @@ class Match(models.Model):
 
     match_offer = models.ForeignKey(
         MatchOffer,
-        on_delete=models.CASCADE(),
+        on_delete=models.CASCADE,
     )
     submitter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -130,5 +131,45 @@ class Match(models.Model):
 
 class PostMatchFeedback(models.Model):
 
+    match = models.ForeignKey(
+        Match,
+        on_delete=models.CASCADE,
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    user_is_submitter = models.BooleanField(
+        null=False,
+    )
+    submitter_score = models.IntegerField(
+        null=False,
+    )
+    opponent_score = models.IntegerField(
+        null=False,
+    )
+
+    # Perceived competitiveness of the match (easy, moderate, hard sliding scale 1-10)
+    match_competitiveness_rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(10)]
+    )
+    # Perceived skill level of the other person (beginner, intermediate, expert, sliding scale 1-5)
+    peer_skill_level_given = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    # Overall and sportsmanship of the other person (1-5 Uber stars)
+    peer_sportsmanship_rating_given = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    # Airbnb review
+    peer_feedback_blurb_given = models.TextField(
+        null=True
+    )
+
     def __str__(self):
-        return
+        return \
+            f"""
+            PostMatchFeedback completed by {self.user.username}
+            for match between {self.match.submitter.username} & {self.match.opponent.username}
+            on {self.match.match_offer.start_datetime}
+            """
