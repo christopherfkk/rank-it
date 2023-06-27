@@ -130,13 +130,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     blurb = models.TextField(
         null=True
     )
-    matches_played = models.IntegerField()
-    matches_won = models.IntegerField()
+    matches_played = models.IntegerField(default=0,)
+    matches_won = models.IntegerField(default=0,)
     overall_skill_level_received = models.FloatField(
-        validators=[MinValueValidator(0.0),MaxValueValidator(10.0)]
+        null=True,
+        validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],
     )
     overall_sportsmanship_rating = models.FloatField(
-        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)]
+        null=True,
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
     )
 
     USERNAME_FIELD = "email"
