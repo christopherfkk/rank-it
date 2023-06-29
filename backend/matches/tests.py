@@ -15,9 +15,9 @@ from notifications.models import Notification
 
     APIs
     - /matchoffer POST CREATE
-    - /matchoffer/<id>/accept POST UPDATE
-        - /match/ POST CREATE
-    - /matchoffer/<id>/decline POST UPDATE
+    - /matchoffer/<id>/accept PUT UPDATE
+        - /match/ POST CREATE 
+    - /matchoffer/<id>/decline PUT UPDATE
     - /match/<id>/cancel POST UPDATE
     - /postmatchfeedback/ POST CREATE
     
@@ -44,7 +44,7 @@ class MatchOfferTest(TestCase):
             last_name='Fok'
         )
         cls.opponent = get_user_model().objects.create_user(
-            email='jim@emamil.com',
+            email='jim@email.com',
             password='testpass123',
             first_name='Jim',
             last_name='Tanaka',
@@ -77,12 +77,12 @@ class MatchOfferTest(TestCase):
         match_offer_data = {
             'submitter_id': str(self.submitter.id),
             'opponent_id': str(self.opponent.id),
+            'community_id': str(self.community.id),
             'start_datetime': '2023-07-15 17:00:00',
             'end_datetime': '2023-07-15 18:00:00',
-            'community_id': str(self.community.id),
             'status': 'Pending',
             'is_counter_offer': False,
-            'last_offer_id': None,
+            'last_offer_id': "",
         }
 
         # Login and make POST to CREATE MatchOffer
@@ -96,8 +96,8 @@ class MatchOfferTest(TestCase):
         self.assertEqual(data['id'], 2)
         self.assertEqual(data['submitter']['first_name'], 'Chris')  # full user detail
         self.assertEqual(data['opponent']['first_name'], 'Jim')  # full user detail
-        self.assertEqual(data['start_date'], '2023-07-15 17:00:00')
-        self.assertEqual(data['end_datetime'], '2023-07-15 18:00:00')
+        self.assertEqual(data['start_datetime'], '2023-07-15T17:00:00')
+        self.assertEqual(data['end_datetime'], '2023-07-15T18:00:00')
         self.assertEqual(data['community']['name'], 'Tokyo National Badminton Gym')  # full community detail
         self.assertEqual(data['status'], 'Pending')
 
@@ -117,7 +117,7 @@ class MatchOfferTest(TestCase):
         # Login and make PUT to UPDATE MatchOffer
         self.client.login(email='jim@email.com', password='testpass123')
 
-        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/accept')
+        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/accept/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Response should have Match details for frontend rendering
@@ -142,7 +142,7 @@ class MatchOfferTest(TestCase):
         # Login and make PUT to UPDATE MatchOffer
         self.client.login(email='jim@email.com', password='testpass123')
 
-        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/decline')
+        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/decline/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Response should have Match details for frontend rendering
@@ -150,8 +150,8 @@ class MatchOfferTest(TestCase):
         self.assertEqual(data['id'], 1)
         self.assertEqual(data['submitter']['first_name'], 'Chris')  # full user detail
         self.assertEqual(data['opponent']['first_name'], 'Jim')  # full user detail
-        self.assertEqual(data['start_date'], '2023-07-15 17:00:00')
-        self.assertEqual(data['end_datetime'], '2023-07-15 18:00:00')
+        self.assertEqual(data['start_datetime'], '2023-07-10T17:00:00')
+        self.assertEqual(data['end_datetime'], '2023-07-10T18:00:00')
         self.assertEqual(data['community']['name'], 'Tokyo National Badminton Gym')  # full community detail
         self.assertEqual(data['status'], 'Declined')
 
@@ -164,10 +164,10 @@ class MatchOfferTest(TestCase):
         """
         self.client.login(email='chris@email.com', password='testpass123')
 
-        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/accept')
+        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/accept/')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/decline')
+        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/decline/')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
         self.client.logout()
@@ -181,7 +181,7 @@ class MatchOfferTest(TestCase):
 
         self.client.login(email='jim@email.com', password='testpass123')
 
-        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/decline')
+        response = self.client.put(f'/api/v1/matchoffer/{self.match_offer.id}/decline/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Response should have Match details for frontend rendering
@@ -207,10 +207,10 @@ class MatchOfferTest(TestCase):
         # Response should have MatchOffer details for frontend rendering
         match_counteroffer = response.data
         self.assertEqual(match_counteroffer['id'], 2)
-        self.assertEqual(match_counteroffer['submitter']['first_name'], 'Chris')  # full user detail
-        self.assertEqual(match_counteroffer['opponent']['first_name'], 'Jim')  # full user detail
-        self.assertEqual(match_counteroffer['start_date'], '2023-07-15 17:00:00')
-        self.assertEqual(match_counteroffer['end_datetime'], '2023-07-15 18:00:00')
+        self.assertEqual(match_counteroffer['submitter']['first_name'], 'Jim')  # full user detail
+        self.assertEqual(match_counteroffer['opponent']['first_name'], 'Chris')  # full user detail
+        self.assertEqual(match_counteroffer['start_datetime'], '2023-07-15T17:00:00')
+        self.assertEqual(match_counteroffer['end_datetime'], '2023-07-15T18:00:00')
         self.assertEqual(match_counteroffer['community']['name'], 'Tokyo National Badminton Gym')  # full community detail
         self.assertEqual(match_counteroffer['status'], 'Pending')
         self.assertEqual(match_counteroffer['is_counter_offer'], True)
@@ -222,208 +222,238 @@ class MatchOfferTest(TestCase):
         self.client.logout()
 
 
-# class PostMatchFeedbackTest(MatchOfferTest):
-#
-#     @classmethod
-#     def setUpTestData(cls):
-#         """Inherit the submitter, the opponent, the community, the match offer, and the API client"""
-#         cls.match = Match.objects.create(
-#             match_offer=self.match_offer,
-#             submitter=self.submitter,
-#             opponent=self.opponent,
-#             status='Pending',
-#         )
-#
-#     def test_cancel_match(self):
-#         """
-#         Test when submitter or opponent cancels the match before match date
-#         - PUT to /api/v1/match/<id>/cancel to UPDATE status and add reason_phrase
-#         """
-#         self.client.login(email='chris@email.com', password='testpass123')
-#
-#         response = self.client.put(f'/api/v1/match/{self.match.id}/cancel')
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#
-#         data = response.data
-#         self.assertEqual(data['id'], 1)
-#         self.assertEqual(data['match_offer']['id'], 1)
-#         self.assertEqual(data['submitter']['first_name'], 'Chris')  # full user detail
-#         self.assertEqual(data['opponent']['first_name'], 'Jim')  # full user detail
-#         self.assertEqual(data['status'], 'Cancelled')
-#         self.assertEqual(data['match_cancelled_reason_phrase'], 'Submitter cancelled match')  # Reason phrase
-#
-#         self.client.logout()
-#
-#     def test_both_submit_feedback_with_same_submitted_scores(self):
-#         """
-#         Test the ideal case when submitter and opponent both submit feedback with the same scores
-#         - POST to /api/v1/postmatchfeedback/ to CREATE new PostMatchFeedback
-#         """
-#
-#         submitter_feedback = {
-#             'match_id': self.match.id,
-#             'user_id': self.submitter.id,
-#             'user_is_match_offer_submitter': True,
-#             'submitter_score': 21,
-#             'opponent_score': 15,
-#             'match_competitive_rating': 8,
-#             'peer_skill_level_received': 8,
-#             'peer_sportsmanship_rating_received': 4,
-#             'peer_feedback_blurb_received': 'Definitely play Chris again. Great player.',
-#         }
-#
-#         opponent_feedback = {
-#             'match_id': self.match.id,
-#             'user_id': self.opponent.id,
-#             'user_is_match_offer_submitter': False,
-#             'submitter_score': 21,
-#             'opponent_score': 15,
-#             'match_competitive_rating': 9,
-#             'peer_skill_level_received': 5,
-#             'peer_sportsmanship_rating_received': 5,
-#             'peer_feedback_blurb_received': 'Jim is a nice player.',
-#         }
-#
-#         # Submitter logins and gives feedback. Status should be 'Awaiting confirmation'. No scores are confirmed in Match model.
-#         self.client.login(email='chris@email.com', password='testpass123')
-#         response = self.client.post(f'/api/v1/postmatchfeedback/', submitter_feedback)
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['match']['status'], 'Awaiting confirmation')  # TODO: Possible constant
-#         self.assertEqual(response.data['match']['submitter_score'], None)
-#         self.assertEqual(response.data['match']['opponent_score'], None)
-#         self.client.logout()
-#
-#         # Submitter logins and gives feedback. Status should be 'Confirmed'. Scores are confirmed in Match model.
-#         self.client.login(email='jim@email.com', password='testpass123')
-#         response = self.client.post(f'/api/v1/postmatchfeedback/', opponent_feedback)
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['match']['status'], 'Match confirmed')  # TODO: Possible constant
-#         self.assertEqual(response.data['match']['submitter_score'], 21)
-#         self.assertEqual(response.data['match']['opponent_score'], 15)
-#         self.client.logout()
-#
-#     def test_both_submit_feedback_with_different_submitted_scores(self):
-#         """
-#         Test when submitter and opponent submits different scores
-#         - POST to /api/v1/postmatchfeedback/
-#         -
-#         """
-#
-#         submitter_feedback = {
-#             'match_id': self.match.id,
-#             'user_id': self.submitter.id,
-#             'user_is_match_offer_submitter': True,
-#             'submitter_score': 21,
-#             'opponent_score': 15,
-#             'match_competitive_rating': 8,
-#             'peer_skill_level_received': 8,
-#             'peer_sportsmanship_rating_received': 4,
-#             'peer_feedback_blurb_received': 'Definitely play Chris again. Great player.',
-#         }
-#
-#         opponent_feedback = {
-#             'match_id': self.match.id,
-#             'user_id': self.opponent.id,
-#             'user_is_match_offer_submitter': False,
-#             'submitter_score': 20,
-#             'opponent_score': 21,
-#             'match_competitive_rating': 9,
-#             'peer_skill_level_received': 5,
-#             'peer_sportsmanship_rating_received': 5,
-#             'peer_feedback_blurb_received': 'Jim is a nice player.',
-#         }
-#
-#         # Submitter logins and gives feedback. Status should be 'Awaiting confirmation'. No scores are confirmed in Match model.
-#         self.client.login(email='chris@email.com', password='testpass123')
-#         response = self.client.post(f'/api/v1/postmatchfeedback/', submitter_feedback)
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['match']['status'], 'Awaiting confirmation')  # TODO: Possible constant
-#         self.assertEqual(response.data['match']['submitter_score'], None)
-#         self.assertEqual(response.data['match']['opponent_score'], None)
-#         self.client.logout()
-#
-#         # Submitter logins and gives feedback. Status should be 'Confirmed'. Scores are confirmed in Match model.
-#         self.client.login(email='jim@email.com', password='testpass123')
-#         response = self.client.post(f'/api/v1/postmatchfeedback/', opponent_feedback)
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['match']['status'], 'Cancelled')
-#         self.assertEqual(response.data['match']['submitter_score'], None)
-#         self.assertEqual(response.data['match']['opponent_score'], None)
-#         self.assertEqual(response.data['match']['match_cancelled_reason_phrase'], 'Match scores conflicted')  # TODO: Possible constant
-#         self.client.logout()
-#
-#         Check if a match score resubmission notification is sent out to both
-#         self.assertEqual(Notification.objects.filter(
-#             user=self.submitter).first().message,
-#             'Match scores conflicted. Which one is it? 21-15 or 20-21?'
-#         )  # TODO: Possible constant
-#         self.assertEqual(Notification.objects.filter(
-#             user=self.opponent).first().message,
-#             'Match scores conflicted. Which one is it? 21-15 or 20-21?'
-#         )  # TODO: Possible constant
-#
-#     def test_only_one_submits_feedback(self):
-#
-#         submitter_feedback = {
-#             'match_id': self.match.id,  # match_id = 1, ref match_offer_id = 1 with play date on 2023/07/10
-#             'user_id': self.submitter.id,
-#             'user_is_match_offer_submitter': True,
-#             'submitter_score': 21,
-#             'opponent_score': 15,
-#             'match_competitive_rating': 8,
-#             'peer_skill_level_received': 8,
-#             'peer_sportsmanship_rating_received': 4,
-#             'peer_feedback_blurb_received': 'Definitely play Chris again. Great player.',
-#         }
-#
-#         # Same day submission, 2 hours after match
-#         current_valid_time = timezone.datetime(2023, 7, 10, 20, 0, 0)
-#         timezone.override(current_valid_time)
-#
-#         # Submitter logins and gives feedback. Status should be 'Awaiting confirmation'. No scores are confirmed in Match model.
-#         self.client.login(email='chris@email.com', password='testpass123')
-#
-#         response = self.client.post(f'/api/v1/postmatchfeedback/', submitter_feedback)
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#         self.assertEqual(response.data['match']['status'], 'Awaiting confirmation')  # TODO: Possible constant
-#         self.assertEqual(response.data['match']['submitter_score'], None)
-#         self.assertEqual(response.data['match']['opponent_score'], None)
-#
-#         # Get details of match 24 hours after with only one PostMatchFeedback
-#         current_invalid_time = timezone.datetime(2023, 7, 11, 20, 0, 0)
-#         timezone.override(current_invalid_time)
-#
-#         # Saves in get_queryset to check time  # TODO: Should be doable
-#         response = self.client.get(f'/api/v1/match/{self.match.id}')
-#         self.assertEqual(response.data['status'], 'Confirmed')
-#         self.assertEqual(response.data['submitter_score'], '21')
-#         self.assertEqual(response.data['opponent_score'], '15')
-#
-#         # Clean up by resetting the current time
-#         self.client.logout()
-#         timezone.deactivate()
-#
-#     def test_neither_submits_feedback(self):
-#         """UPDATE MatchOffer"""
-#
-#         # Get details of match 24 hours after with no PostMatchFeedback
-#         current_time = timezone.datetime(2023, 7, 11, 20, 0, 0)
-#         timezone.override(current_time)
-#
-#         self.client.login(email='chris@email.com', password='testpass123')
-#
-#         # Saves in get_queryset to check time  # TODO: Should be doable
-#         response = self.client.get(f'/api/v1/match/{self.match.id}')
-#         self.assertEqual(response.data['status'], 'Cancelled')
-#         self.assertEqual(response.data['submitter_score'], None)
-#         self.assertEqual(response.data['opponent_score'], None)
-#
-#         self.client.logout()
-#
-#         # Clean up by resetting the current time
-#         timezone.deactivate()
-#
-#
+class PostMatchFeedbackTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        """Inherit the submitter, the opponent, the community, the match offer, and the API client"""
+        cls.submitter = get_user_model().objects.create_user(
+            email='chris@email.com',
+            password='testpass123',
+            first_name='Chris',
+            last_name='Fok'
+        )
+        cls.opponent = get_user_model().objects.create_user(
+            email='jim@email.com',
+            password='testpass123',
+            first_name='Jim',
+            last_name='Tanaka',
+        )
+        cls.community = Community.objects.create(
+            country='Japan',
+            city='Tokyo',
+            name='Tokyo National Badminton Gym',
+        )
+        cls.match_offer = MatchOffer.objects.create(
+            submitter=cls.submitter,
+            opponent=cls.opponent,
+            start_datetime=datetime.datetime(2023, 7, 10, 17, 0, 0),
+            end_datetime=datetime.datetime(2023, 7, 10, 18, 0, 0),
+            community=cls.community,
+            status='Pending',
+            is_counter_offer=False,
+            last_offer_id=None,
+        )
+        cls.match = Match.objects.create(
+            match_offer=cls.match_offer,
+            submitter=cls.submitter,
+            opponent=cls.opponent,
+            status='Pending',
+        )
+        cls.client = APIClient()
+
+    def test_cancel_match(self):
+        """
+        Test when submitter or opponent cancels the match before match date
+        - PUT to /api/v1/match/<id>/cancel to UPDATE status and add reason_phrase
+        """
+        self.client.login(email='chris@email.com', password='testpass123')
+
+        response = self.client.put(f'/api/v1/match/{self.match.id}/cancel/')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.data
+        self.assertEqual(data['id'], 1)
+        self.assertEqual(data['match_offer']['id'], 1)
+        self.assertEqual(data['submitter']['first_name'], 'Chris')
+        self.assertEqual(data['opponent']['first_name'], 'Jim')
+        self.assertEqual(data['status'], 'Cancelled')
+        self.assertEqual(data['cancelled_reason_phrase'], 'Submitter cancelled')
+
+        self.client.logout()
+
+    def test_both_submit_feedback_with_same_submitted_scores(self):
+        """
+        Test the ideal case when submitter and opponent both submit feedback with the same scores
+        - POST to /api/v1/postmatchfeedback/ to CREATE new PostMatchFeedback
+        """
+
+        submitter_feedback = {
+            'match_id': str(self.match.id),
+            'reporter_id': str(self.submitter.id),
+            'reporter_is_submitter': True,
+            'submitter_score': 21,
+            'opponent_score': 15,
+            'match_competitiveness_rating': 8,
+            'peer_skill_level_given': 8,
+            'peer_sportsmanship_rating_given': 4,
+            'peer_feedback_blurb_given': 'Definitely play Jim again. Great player.',
+        }
+
+        opponent_feedback = {
+            'match_id': str(self.match.id),
+            'reporter_id': str(self.opponent.id),
+            'reporter_is_submitter': False,
+            'submitter_score': 21,
+            'opponent_score': 15,
+            'match_competitiveness_rating': 9,
+            'peer_skill_level_given': 5,
+            'peer_sportsmanship_rating_given': 5,
+            'peer_feedback_blurb_given': 'Chris is a nice player.',
+        }
+
+        # Submitter logins and gives feedback. Status 'Awaiting confirmation'. No scores are confirmed in Match model.
+        self.client.login(email='chris@email.com', password='testpass123')
+        response = self.client.post(f'/api/v1/postmatchfeedback/', submitter_feedback)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['match']['status'], 'Awaiting confirmation')
+        self.assertEqual(response.data['match']['submitter_score'], None)
+        self.assertEqual(response.data['match']['opponent_score'], None)
+        self.client.logout()
+
+        # Submitter logins and gives feedback. Status should be 'Confirmed'. Scores are confirmed in Match model.
+        self.client.login(email='jim@email.com', password='testpass123')
+        response = self.client.post(f'/api/v1/postmatchfeedback/', opponent_feedback)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['match']['status'], 'Confirmed')
+        self.assertEqual(response.data['match']['submitter_score'], 21)
+        self.assertEqual(response.data['match']['opponent_score'], 15)
+        self.client.logout()
+
+    def test_both_submit_feedback_with_different_submitted_scores(self):
+        """
+        Test when submitter and opponent submits different scores
+        - POST to /api/v1/postmatchfeedback/
+        -
+        """
+
+        submitter_feedback = {
+            'match_id': self.match.id,
+            'reporter_id': self.submitter.id,
+            'reporter_is_submitter': True,
+            'submitter_score': 21,
+            'opponent_score': 15,
+            'match_competitiveness_rating': 8,
+            'peer_skill_level_given': 8,
+            'peer_sportsmanship_rating_given': 4,
+            'peer_feedback_blurb_given': 'Definitely play Jim again. Great player.',
+        }
+
+        opponent_feedback = {
+            'match_id': self.match.id,
+            'reporter_id': self.opponent.id,
+            'reporter_is_submitter': False,
+            'submitter_score': 20,
+            'opponent_score': 21,
+            'match_competitiveness_rating': 9,
+            'peer_skill_level_given': 5,
+            'peer_sportsmanship_rating_given': 5,
+            'peer_feedback_blurb_given': 'Chris is a nice player.',
+        }
+
+        # Submitter logins and gives feedback. Status 'Awaiting confirmation'. No scores are confirmed in Match model.
+        self.client.login(email='chris@email.com', password='testpass123')
+        response = self.client.post(f'/api/v1/postmatchfeedback/', submitter_feedback)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['match']['status'], 'Awaiting confirmation')  # TODO: Possible constant
+        self.assertEqual(response.data['match']['submitter_score'], None)
+        self.assertEqual(response.data['match']['opponent_score'], None)
+        self.client.logout()
+
+        # Submitter logins and gives feedback. Status should be 'Confirmed'. Scores are confirmed in Match model.
+        self.client.login(email='jim@email.com', password='testpass123')
+        response = self.client.post(f'/api/v1/postmatchfeedback/', opponent_feedback)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['match']['status'], 'Cancelled')
+        self.assertEqual(response.data['match']['submitter_score'], None)
+        self.assertEqual(response.data['match']['opponent_score'], None)
+        self.assertEqual(response.data['match']['cancelled_reason_phrase'], 'Conflicted reported scores')
+        self.client.logout()
+
+        # # Check if a match score resubmission notification is sent out to both
+        # self.assertEqual(Notification.objects.filter(
+        #     user=self.submitter).first().message,
+        #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
+        # )  # TODO: Possible constant
+        # self.assertEqual(Notification.objects.filter(
+        #     user=self.opponent).first().message,
+        #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
+        # )  # TODO: Possible constant
+
+    # def test_only_one_submits_feedback(self):
+    #
+    #     submitter_feedback = {
+    #         'match_id': self.match.id,  # match_id = 1, ref match_offer_id = 1 with play date on 2023/07/10
+    #         'user_id': self.submitter.id,
+    #         'user_is_match_offer_submitter': True,
+    #         'submitter_score': 21,
+    #         'opponent_score': 15,
+    #         'match_competitive_rating': 8,
+    #         'peer_skill_level_received': 8,
+    #         'peer_sportsmanship_rating_received': 4,
+    #         'peer_feedback_blurb_received': 'Definitely play Chris again. Great player.',
+    #     }
+    #
+    #     # Same day submission, 2 hours after match
+    #     current_valid_time = timezone.datetime(2023, 7, 10, 20, 0, 0)
+    #     timezone.override(current_valid_time)
+    #
+    #     # Submitter logins and gives feedback. Status should be 'Awaiting confirmation'. No scores are confirmed in Match model.
+    #     self.client.login(email='chris@email.com', password='testpass123')
+    #
+    #     response = self.client.post(f'/api/v1/postmatchfeedback/', submitter_feedback)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(response.data['match']['status'], 'Awaiting confirmation')  # TODO: Possible constant
+    #     self.assertEqual(response.data['match']['submitter_score'], None)
+    #     self.assertEqual(response.data['match']['opponent_score'], None)
+    #
+    #     # Get details of match 24 hours after with only one PostMatchFeedback
+    #     current_invalid_time = timezone.datetime(2023, 7, 11, 20, 0, 0)
+    #     timezone.override(current_invalid_time)
+    #
+    #     # Saves in get_queryset to check time  # TODO: Should be doable
+    #     response = self.client.get(f'/api/v1/match/{self.match.id}')
+    #     self.assertEqual(response.data['status'], 'Confirmed')
+    #     self.assertEqual(response.data['submitter_score'], '21')
+    #     self.assertEqual(response.data['opponent_score'], '15')
+    #
+    #     # Clean up by resetting the current time
+    #     self.client.logout()
+    #     timezone.deactivate()
+    #
+    # def test_neither_submits_feedback(self):
+    #     """UPDATE MatchOffer"""
+    #
+    #     # Get details of match 24 hours after with no PostMatchFeedback
+    #     current_time = timezone.datetime(2023, 7, 11, 20, 0, 0)
+    #     timezone.override(current_time)
+    #
+    #     self.client.login(email='chris@email.com', password='testpass123')
+    #
+    #     # Saves in get_queryset to check time  # TODO: Should be doable
+    #     response = self.client.get(f'/api/v1/match/{self.match.id}')
+    #     self.assertEqual(response.data['status'], 'Cancelled')
+    #     self.assertEqual(response.data['submitter_score'], None)
+    #     self.assertEqual(response.data['opponent_score'], None)
+    #
+    #     self.client.logout()
+    #
+    #     # Clean up by resetting the current time
+    #     timezone.deactivate()
+
+
 # class ProofOfMatchTest(PostMatchFeedbackTest):
 #
 #     @classmethod

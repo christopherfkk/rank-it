@@ -16,6 +16,6 @@ class IsAdminUserOrSelf(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         """Allow users to modify their own instance"""
-        if request.method in ['PUT', 'GET'] and request.user == obj:
+        if (request.method in ['PUT', 'GET']) and (request.user == obj or request.user.is_superuser):
             return True
         return False

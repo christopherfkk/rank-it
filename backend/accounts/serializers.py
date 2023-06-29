@@ -18,15 +18,18 @@ class CustomRegisterSerializer(RegisterSerializer):
     username = serializers.CharField(
         required=False,
         allow_blank=True,
+        allow_null=True,
     )
     first_name = serializers.CharField(
         required=False,
         allow_blank=True,
+        allow_null=True,
         max_length=30,
     )
     last_name = serializers.CharField(
         required=False,
         allow_blank=True,
+        allow_null=True,
         max_length=30,
     )
     dob = serializers.DateField(
@@ -36,6 +39,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     gender = serializers.ChoiceField(
         required=False,
         allow_blank=True,
+        allow_null=True,
         choices=CustomUser.Gender.choices,
     )
 

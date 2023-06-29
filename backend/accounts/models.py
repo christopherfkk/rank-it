@@ -55,7 +55,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         _("username"),
         max_length=150,
-        default=None,
         unique=True,
         null=True,
         blank=True,
@@ -95,6 +94,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         default=timezone.now
     )
     phone_number = models.CharField(
+        default=None,
+        null=True,
         max_length=20,
         validators=[
             RegexValidator(
@@ -111,6 +112,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     gender = models.CharField(
         _("gender"),
+        default=None,
         blank=True,
         null=True,
         max_length=1,
@@ -132,13 +134,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     matches_played = models.IntegerField(default=0,)
     matches_won = models.IntegerField(default=0,)
-    overall_skill_level_received = models.FloatField(
-        null=True,
+    overall_skill_level = models.FloatField(
+        default=0.0,
         validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],
     )
+    n_skill_level_received = models.IntegerField(
+        default=0
+    )
     overall_sportsmanship_rating = models.FloatField(
-        null=True,
+        default=0.0,
         validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
+    )
+    n_sportsmanship_rating_received = models.IntegerField(
+        default=0
     )
 
     USERNAME_FIELD = "email"

@@ -8,13 +8,14 @@ from communities.models import Community
 
 class MatchOffer(models.Model):
 
-    class MatchOfferType(models.TextChoices):
+    class Type(models.TextChoices):
         BADMINTON_SINGLES = "S", _("Singles")
 
-    class MatchOfferStatus(models.TextChoices):
-        PENDING = "P", _("Pending")
-        DECLINED = "D", _("Declined")
-        ACCEPTED = "A", _("Accepted")
+    class Status(models.TextChoices):
+        RESCINDED = "Rescinded", _("Rescinded")
+        PENDING = "Pending", _("Pending")
+        DECLINED = "Declined", _("Declined")
+        ACCEPTED = "Accepted", _("Accepted")
 
     submitter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -32,9 +33,9 @@ class MatchOffer(models.Model):
     )
     type = models.CharField(
         _("match offer type"),
-        choices=MatchOfferType.choices,
+        choices=Type.choices,
         max_length=20,
-        default=MatchOfferType.BADMINTON_SINGLES,
+        default=Type.BADMINTON_SINGLES,
     )
     start_datetime = models.DateTimeField(
         null=False,
@@ -44,9 +45,9 @@ class MatchOffer(models.Model):
     )
     status = models.CharField(
         _("match offer status"),
-        choices=MatchOfferStatus.choices,
+        choices=Status.choices,
         max_length=20,
-        default=MatchOfferStatus.PENDING,
+        default=Status.PENDING,
     )
     is_counter_offer = models.BooleanField(
         default=False,
@@ -58,7 +59,7 @@ class MatchOffer(models.Model):
         on_delete=models.CASCADE,
     )
     created_at = models.DateTimeField(auto_now_add=True,)
-    update_at = models.DateTimeField(auto_now=True,)
+    updated_at = models.DateTimeField(auto_now=True,)
 
     def __str__(self):
         return \
@@ -71,17 +72,17 @@ class MatchOffer(models.Model):
 
 class Match(models.Model):
 
-    class MatchStatus(models.TextChoices):
-        PENDING = "PE", _("Pending")
-        CANCELLED = "C", _("Cancelled")
-        AWAITING_CONFIRMATION = "A", _("Awaiting confirmation")
-        PLAYED = "PL", _("Played")
+    class Status(models.TextChoices):
+        PENDING = "Pending", _("Pending")
+        CANCELLED = "Cancelled", _("Cancelled")
+        AWAITING_CONFIRMATION = "Awaiting confirmation", _("Awaiting confirmation")
+        CONFIRMED = "Confirmed", _("Confirmed")
 
-    class MatchCancelledReasonPhrase(models.TextChoices):
-        SUBMITTER_CANCELLED = "SC", _("The submitter cancelled the match")
-        OPPONENT_CANCELLED = "OC", _("The opponent cancelled the match")
-        NO_POST_MATCH_FEEDBACK = "NPMF", _("Neither submitter/opponent submitted post match feedback")
-        CONFLICTED_REPORTED_SCORES = "CRS", _("Reported scores in post match feedback don't match after resubmission")
+    class CancelledReasonPhrase(models.TextChoices):
+        SUBMITTER_CANCELLED = "Submitter cancelled", _("The submitter cancelled the match")
+        OPPONENT_CANCELLED = "Opponent cancelled", _("The opponent cancelled the match")
+        NO_POST_MATCH_FEEDBACK = "No post-match feedback", _("Neither submitter/opponent submitted post-match feedback")
+        CONFLICTED_REPORTED_SCORES = "Conflicted reported scores", _("Reported scores in post-match feedback don't match after resubmission")
 
     match_offer = models.ForeignKey(
         MatchOffer,
@@ -107,14 +108,14 @@ class Match(models.Model):
     )
     status = models.CharField(
         _("match status"),
-        choices=MatchStatus.choices,
-        max_length=20,
-        default=MatchStatus.PENDING,
+        choices=Status.choices,
+        max_length=50,
+        default=Status.PENDING,
     )
     cancelled_reason_phrase = models.CharField(
         _("match cancelled reason phrase"),
-        choices=MatchCancelledReasonPhrase.choices,
-        max_length=20,
+        choices=CancelledReasonPhrase.choices,
+        max_length=100,
         null=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -135,11 +136,11 @@ class PostMatchFeedback(models.Model):
         Match,
         on_delete=models.CASCADE,
     )
-    user = models.ForeignKey(
+    reporter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    user_is_submitter = models.BooleanField(
+    reporter_is_submitter = models.BooleanField(
         null=False,
     )
     submitter_score = models.IntegerField(
@@ -153,9 +154,9 @@ class PostMatchFeedback(models.Model):
     match_competitiveness_rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
-    # Perceived skill level of the other person (beginner, intermediate, expert, sliding scale 1-5)
+    # Perceived skill level of the other person (beginner, intermediate, expert, sliding scale 1-10)
     peer_skill_level_given = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
+        validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
     # Overall and sportsmanship of the other person (1-5 Uber stars)
     peer_sportsmanship_rating_given = models.IntegerField(
@@ -169,7 +170,7 @@ class PostMatchFeedback(models.Model):
     def __str__(self):
         return \
             f"""
-            PostMatchFeedback completed by {self.user.username}
+            PostMatchFeedback completed by {self.reporter.username}
             for match between {self.match.submitter.username} & {self.match.opponent.username}
             on {self.match.match_offer.start_datetime}
             """

@@ -1,18 +1,97 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
-from .models import Match
+from .models import MatchOffer, Match, PostMatchFeedback
+from accounts.serializers import AccountSerializer
+from communities.serializers import CommunitySerializer
+from communities.models import Community
+
+
+class MatchOfferSerializer(serializers.ModelSerializer):
+
+    submitter = AccountSerializer(read_only=True)
+    opponent = AccountSerializer(read_only=True)
+    community = CommunitySerializer(read_only=True)
+    submitter_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        source='submitter',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+    opponent_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        source='opponent',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+    community_id = serializers.PrimaryKeyRelatedField(
+        queryset=Community.objects.all(),
+        source='community',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+
+    class Meta:
+        fields = "__all__"
+        model = MatchOffer
 
 
 class MatchSerializer(serializers.ModelSerializer):
+
+    submitter = AccountSerializer(read_only=True)
+    opponent = AccountSerializer(read_only=True)
+    match_offer = MatchOfferSerializer(read_only=True)
+
+    submitter_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        source='submitter',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+    opponent_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        source='opponent',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+    match_offer_id = serializers.PrimaryKeyRelatedField(
+        queryset=MatchOffer.objects.all(),
+        source='match_offer',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+
     class Meta:
-        fields = (
-            "id",
-            "submitter",
-            "opponent",
-            "type",
-            "submitter_score",
-            "opponent_score",
-            "created_at",
-            "updated_at",
-        )
+        fields = "__all__"
         model = Match
+
+
+class PostMatchFeedbackSerializer(serializers.ModelSerializer):
+
+    match = MatchSerializer(read_only=True)
+    reporter = AccountSerializer(read_only=True)
+
+    match_id = serializers.PrimaryKeyRelatedField(
+        queryset=Match.objects.all(),
+        source='match',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+    reporter_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        source='reporter',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+
+    class Meta:
+        fields = "__all__"
+        model = PostMatchFeedback
