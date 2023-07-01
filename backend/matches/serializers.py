@@ -8,10 +8,15 @@ from communities.models import Community
 
 
 class MatchOfferSerializer(serializers.ModelSerializer):
-
+    """
+    Serializer for the MatchOffer model
+    """
+    # Nested serializers to show the full object details when retrieving
     submitter = AccountSerializer(read_only=True)
     opponent = AccountSerializer(read_only=True)
     community = CommunitySerializer(read_only=True)
+
+    # IDs to only specify the object ID when creating/updating
     submitter_id = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(),
         source='submitter',
@@ -40,11 +45,15 @@ class MatchOfferSerializer(serializers.ModelSerializer):
 
 
 class MatchSerializer(serializers.ModelSerializer):
-
+    """
+    Serializer for the Match model
+    """
+    # Nested serializers when retrieving
     submitter = AccountSerializer(read_only=True)
     opponent = AccountSerializer(read_only=True)
     match_offer = MatchOfferSerializer(read_only=True)
 
+    # IDs when creating/updating
     submitter_id = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(),
         source='submitter',
@@ -73,10 +82,14 @@ class MatchSerializer(serializers.ModelSerializer):
 
 
 class PostMatchFeedbackSerializer(serializers.ModelSerializer):
-
+    """
+    Serializer for the PostMatchFeedback model
+    """
+    # Nested serializer when retrieving
     match = MatchSerializer(read_only=True)
     reporter = AccountSerializer(read_only=True)
 
+    # IDs when creating/updating
     match_id = serializers.PrimaryKeyRelatedField(
         queryset=Match.objects.all(),
         source='match',

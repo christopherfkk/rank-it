@@ -7,7 +7,6 @@ import datetime
 
 from matches.models import MatchOffer, Match, PostMatchFeedback
 from communities.models import Community
-from notifications.models import Notification
 
 
 """
@@ -226,7 +225,7 @@ class PostMatchFeedbackTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        """Inherit the submitter, the opponent, the community, the match offer, and the API client"""
+        """Set up the submitter, the opponent, the community, the match offer, the match, and the API client"""
         cls.submitter = get_user_model().objects.create_user(
             email='chris@email.com',
             password='testpass123',
@@ -328,6 +327,8 @@ class PostMatchFeedbackTest(TestCase):
         self.assertEqual(response.data['match']['status'], 'Confirmed')
         self.assertEqual(response.data['match']['submitter_score'], 21)
         self.assertEqual(response.data['match']['opponent_score'], 15)
+        # Add matches played
+
         self.client.logout()
 
     def test_both_submit_feedback_with_different_submitted_scores(self):
@@ -366,7 +367,7 @@ class PostMatchFeedbackTest(TestCase):
         response = self.client.post(f'/api/v1/postmatchfeedback/', submitter_feedback)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data['match']['status'], 'Awaiting confirmation')  # TODO: Possible constant
+        self.assertEqual(response.data['match']['status'], 'Awaiting confirmation')
         self.assertEqual(response.data['match']['submitter_score'], None)
         self.assertEqual(response.data['match']['opponent_score'], None)
         self.client.logout()
@@ -386,12 +387,12 @@ class PostMatchFeedbackTest(TestCase):
         # self.assertEqual(Notification.objects.filter(
         #     user=self.submitter).first().message,
         #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
-        # )  # TODO: Possible constant
+        # )
         # self.assertEqual(Notification.objects.filter(
         #     user=self.opponent).first().message,
         #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
-        # )  # TODO: Possible constant
-
+        # )
+    #
     # def test_only_one_submits_feedback(self):
     #
     #     submitter_feedback = {
