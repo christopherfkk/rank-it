@@ -5,10 +5,15 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
+from django.middleware.csrf import get_token
 
 from .permissions import IsPlayerOrAnyReadOnly, IsOpponent, IsSubmitter, IsReporterOrAnyReadOnly
 from .models import MatchOffer, Match, PostMatchFeedback
 from .serializers import MatchOfferSerializer, MatchSerializer, PostMatchFeedbackSerializer
+
+
+def csrf(request):
+    return Response({'csrfToken': get_token(request)})
 
 
 class MatchOfferViewSet(viewsets.ModelViewSet):

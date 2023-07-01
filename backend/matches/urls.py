@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter
 
-from .views import MatchOfferViewSet, MatchViewSet, PostMatchFeedbackViewSet
+from .views import MatchOfferViewSet, MatchViewSet, PostMatchFeedbackViewSet, csrf
 
 
 router = SimpleRouter()
@@ -11,4 +11,5 @@ router.register("postmatchfeedback", PostMatchFeedbackViewSet, basename='postmat
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('csrf/', csrf)
 ]
