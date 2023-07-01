@@ -21,7 +21,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 urlpatterns = [
 
     # RankIt related
-    path('api/v1/matches/', include('matches.urls')),
+    path('api/v1/', include('matches.urls')),
     path('api/v1/accounts/', include('accounts.urls')),
 
     # Admin and DRF auth interface

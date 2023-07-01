@@ -7,7 +7,8 @@ router = SimpleRouter()
 router.register("", AccountViewSet, basename='accounts')
 
 urlpatterns = [
+    path('', include(router.urls)),
     path('', include('dj_rest_auth.urls')),
     path('registration/', include('dj_rest_auth.registration.urls')),
-    path('google/', GoogleLogin.as_view(), name='google_login')
-] + router.urls
+    path('google/', GoogleLogin.as_view(), name='google_login'),
+]
