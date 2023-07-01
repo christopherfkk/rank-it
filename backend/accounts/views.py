@@ -14,6 +14,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminUserOrSelf, )
     queryset = get_user_model().objects.all()
     serializer_class = AccountSerializer
+    # Expects content type "multipart/form-data" for avatar upload
     parser_classes = (MultiPartParser, FormParser)
 
     def update(self, request, *args, **kwargs):

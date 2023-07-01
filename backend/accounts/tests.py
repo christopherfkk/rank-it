@@ -99,7 +99,9 @@ class UserManagerTests(TestCase):
 
 
 class DefaultRegistrationTest(TestCase):
-    """Test suite for registering with email and password"""
+    """
+    Test suite for registering with email and password
+    """
 
     def setUp(self):
         self.client = APIClient()
@@ -138,7 +140,7 @@ class DefaultRegistrationTest(TestCase):
     def test_registration_with_invalid_email(self):
 
         registration_data = {
-            'email': 'chris',
+            'email': 'chris',  # invalid email without @
             'password1': 'testpass123',
             'password2': 'testpass123',
         }
@@ -156,8 +158,8 @@ class DefaultRegistrationTest(TestCase):
 
         registration_data = {
             'email': 'chris@email.com',
-            'password1': '',
-            'password2': '',
+            'password1': '',  # empty password
+            'password2': '',  # empty password
         }
 
         response = self.client.post('/api/v1/accounts/registration/', registration_data)
@@ -171,8 +173,8 @@ class DefaultRegistrationTest(TestCase):
 
         registration_data = {
             'email': 'chris@email.com',
-            'password1': 'short',
-            'password2': 'short',
+            'password1': 'short',  # password too short
+            'password2': 'short',  # password too short
         }
 
         response = self.client.post('/api/v1/accounts/registration/', registration_data)
@@ -182,12 +184,14 @@ class DefaultRegistrationTest(TestCase):
 
 
 class GoogleSigninTest(TestCase):
-    """Test suite for signing in with Google"""
+    """
+    Test suite for signing in with Google
+    """
 
     def setUp(self):
         self.client = APIClient()
 
-        # Google provides some default values through the social account adaptor
+        # dj-allauth provides some default values through the social account adapter from Google
         self.EXPECTED_RESPONSE = {
             "status_code": status.HTTP_201_CREATED,
             "data": {
@@ -196,9 +200,9 @@ class GoogleSigninTest(TestCase):
                 "user": {
                     "id": 1,
                     "email": "christopherfkk@uni.minerva.edu",
-                    "username": "kar_keung_christopher_fok",  # Google fill
-                    "first_name": "Kar Keung Christopher",  # Google fill
-                    "last_name": "Fok",  # Google fill
+                    "username": "kar_keung_christopher_fok",  # adapter fill
+                    "first_name": "Kar Keung Christopher",  # adapter fill
+                    "last_name": "Fok",  # adapter fill
                     "dob": None,
                     "gender": "",
                 }
