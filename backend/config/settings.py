@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'matches.apps.MatchesConfig',
     'communities.apps.CommunitiesConfig',
+    'notifications.apps.NotificationsConfig',
 
     # Third party
     'rest_framework',
@@ -62,7 +63,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'drf_spectacular',
-    'notifications',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
