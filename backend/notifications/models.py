@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django.apps import apps
 
 
 class NotificationType(models.Model):
@@ -34,32 +35,6 @@ class NotificationType(models.Model):
     def __str__(self):
         return f"<NotificationType> for entity {self.entity}: {self.description}"
 
-    def get_message_template(self, **kwargs):
-
-        try:
-            if self.entity == NotificationType.Entity.MATCH_OFFER:
-                if self.description == NotificationType.Description.MATCH_OFFER_SENT:
-                    return f"{kwargs['actor']} sent you a match offer!"
-                if self.description == NotificationType.Description.MATCH_OFFER_ACCEPTED:
-                    return f"{kwargs['actor']} accepted your match offer!"
-                if self.description == NotificationType.Description.MATCH_OFFER_DECLINED:
-                    return f"{kwargs['actor']} declined your match offer."
-                if self.description == NotificationType.Description.MATCH_OFFER_RESCINDED:
-                    return f"{kwargs['actor']} rescinded their match offer."
-
-            if self.entity == NotificationType.Entity.MATCH:
-                if self.description == NotificationType.Description.MATCH_CREATED:
-                    return f"Your match {kwargs['submitter']} vs {kwargs['opponent']} is scheduled!"
-                if self.description == NotificationType.Description.MATCH_CANCELLED:
-                    return f"Your match {kwargs['submitter']} vs {kwargs['opponent']} is cancelled"
-
-            if self.entity == NotificationType.Entity.POST_MATCH_FEEDBACK:
-                if self.description == NotificationType.Description.POST_MATCH_FEEDBACK_REPORTED:
-                    return f"Your opponent {kwargs['reporter']} just submitted a post-match feedback to you!"
-
-        except Exception:
-            raise ValueError("Invalid NotificationType: wrongly defined entity or kwargs")
-
 
 class NotificationObject(models.Model):
 
@@ -72,6 +47,52 @@ class NotificationObject(models.Model):
 
     def __str__(self):
         return f"<Notification Object> for entity {self.notification_type.entity}: {self.notification_type.description}"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.entity_object = self.get_entity_object(self.notification_type.entity, self.entity_id)
+
+    def get_entity_object(self, model_name, object_id, app_label="matches"):
+        try:
+            model_class = apps.get_model(app_label=app_label, model_name=model_name)
+            object = model_class.objects.get(id=object_id)
+            return object
+        except (LookupError, ValueError):
+            raise ValueError(
+                f"""
+                DoesNotExit: cannot no find the object with the given id 
+                in table {app_label}_{self.model_name}
+                """
+            )
+
+    def get_message_template(self, **kwargs):
+
+        entity = self.notification_type.entity
+        description = self.notification_type.description
+
+        try:
+            if entity == NotificationType.Entity.MATCH_OFFER:
+                if description == NotificationType.Description.MATCH_OFFER_SENT:
+                    return f"{self.entity_object.submitter} sent you a match offer!"
+                if description == NotificationType.Description.MATCH_OFFER_ACCEPTED:
+                    return f"{self.entity_object.opponent} accepted your match offer!"
+                if description == NotificationType.Description.MATCH_OFFER_DECLINED:
+                    return f"{self.entity_object.opponent} declined your match offer."
+                if description == NotificationType.Description.MATCH_OFFER_RESCINDED:
+                    return f"{self.entity_object.submitter} rescinded their match offer."
+
+            if entity == NotificationType.Entity.MATCH:
+                if description == NotificationType.Description.MATCH_CREATED:
+                    return f"Your match {self.entity_object.submitter} vs {self.entity_object.opponent} is scheduled!"
+                if description == NotificationType.Description.MATCH_CANCELLED:
+                    return f"Your match {self.entity_object.submitter} vs {self.entity_object.opponent} is cancelled"
+
+            if entity == NotificationType.Entity.POST_MATCH_FEEDBACK:
+                if description == NotificationType.Description.POST_MATCH_FEEDBACK_REPORTED:
+                    return f"Your opponent {self.entity_object.reporter} just submitted a post-match feedback to you!"
+
+        except Exception:
+            raise ValueError(f"Invalid NotificationType: wrongly defined entity {entity} or kwargs")
 
 
 class NotificationTrigger(models.Model):
@@ -107,6 +128,9 @@ class Notification(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
+    message = models.CharField(
+        max_length=100
+    )
     status = models.CharField(
         choices=Status.choices,
         max_length=20
@@ -119,3 +143,7 @@ class Notification(models.Model):
             regarding {self.notification_object}
             with status {self.status}
             """
+
+    def set_message(self):
+        self.message = self.notification_object.get_message_template()
+        self.save()
