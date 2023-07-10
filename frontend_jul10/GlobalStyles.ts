@@ -1,0 +1,134 @@
+/* fonts */
+export const FontFamily = {
+  manropeMedium: "Manrope_medium",
+  robotoCondensed: "Roboto Condensed",
+  bebasNeueRegular: "Bebas Neue_regular",
+  almaraiLight: "Almarai_light",
+  manropeBold: "Manrope_bold",
+  manropeSemibold: "Manrope_semibold",
+  montserratRegularItalic: "Montserrat_regular_italic",
+  manropeRegular: "Manrope_regular",
+  manropeExtrabold: "Manrope_extrabold",
+  almaraiRegular: "Almarai_regular",
+  almaraiExtrabold: "Almarai_extrabold",
+};
+/* font sizes */
+export const FontSize = {
+  size_xs_6: 12,
+  size_sm_2: 13,
+  size_6xl: 25,
+  size_3xs: 10,
+  size_2xs: 11,
+  size_xl: 20,
+  size_5xl: 24,
+  size_xs: 12,
+  size_base: 16,
+  size_5xs: 8,
+  size_smi: 13,
+  size_11xl: 30,
+  size_9xl_9: 29,
+  size_sm: 14,
+  size_xs_5: 12,
+  size_31xl: 50,
+  size_21xl: 40,
+};
+/* Colors */
+export const Color = {
+  lavenderblush: "#fff2f2",
+  white: "#fff",
+  lightLabelPrimary: "#000",
+  crimson_100: "#d31e28",
+  crimson_200: "rgba(211, 30, 40, 0.91)",
+  whitesmoke_100: "#f5f5f5",
+  whitesmoke_200: "#efecec",
+  whitesmoke_300: "#eaeaea",
+  gray_100: "#171717",
+  gray_200: "#131313",
+  gray_400: "#0c0c0c",
+  gray_300: "rgba(0, 0, 0, 0.91)",
+  orange: "#fbbc05",
+  dimgray_100: "#737373",
+  darkslategray: "#4a4a4a",
+};
+/* Paddings */
+export const Padding = {
+  p_9xl: 28,
+  p_4xs: 9,
+  p_31xl: 50,
+  p_4xs_3: 8,
+  p_0: 0,
+  p_mini: 15,
+  p_3xs: 10,
+  p_xl: 20,
+  p_8xs: 5,
+  p_11xs: 2,
+  p_25xl: 44,
+  p_4xl: 23,
+  p_7xs: 6,
+  p_5xs: 8,
+  p_6xs: 7,
+  p_xs: 12,
+  p_9xs: 4,
+};
+/* border radiuses */
+export const Border = {
+  br_8xs: 5,
+  br_131xl: 150,
+  br_mini: 15,
+  br_192xl_3: 211,
+  br_11xs: 2,
+  br_81xl: 100,
+  br_xl: 20,
+};
+
+/* AuthTitle styles */
+export const Auth = {
+  heading1 : {
+    alignSelf: "stretch",
+    fontSize: FontSize.size_6xl,
+    fontWeight: "500",
+    fontFamily: FontFamily.manropeMedium,
+    color: Color.gray_400,
+    textAlign: "left",
+  },
+  textInput: {
+    fontSize: 12,
+    fontFamily: FontFamily.manropeMedium,
+    fontWeight: "500",
+  },
+  textBoxStyle: {
+    paddingVertical: 8,
+    borderRadius: Border.br_8xs,
+    alignSelf: "stretch",
+    paddingHorizontal: Padding.p_mini,
+    height: 33,
+    borderWidth: 1,
+    borderColor: "#000",
+    borderStyle: "solid",
+    backgroundColor: Color.white,
+    justifyContent: "center",
+    marginTop: 10,
+    fontSize: 12,
+    fontFamily: FontFamily.manropeMedium,
+    fontWeight: "500",
+  },
+  button: {
+    borderRadius: Border.br_8xs,
+    backgroundColor: Color.crimson_100,
+    width: 253,
+    height: 32,
+    paddingHorizontal: Padding.p_mini,
+    paddingVertical: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 21,
+  },
+  buttonText:{
+  fontSize: 12,
+  fontWeight: "500",
+  fontFamily: FontFamily.manropeMedium,
+  color: Color.white,
+  textAlign: "center",}
+}
+
+
