@@ -30,6 +30,14 @@ from communities.models import Community
     """
 
 
+class CSRFTest(TestCase):
+    def test_csrf(self):
+        self.client = APIClient()
+        response = self.client.get("/api/v1/csrf/")
+        assert len(response.data['csrfToken']) == 64
+        assert response.status_code == status.HTTP_200_OK
+
+
 class MatchOfferTest(TestCase):
 
     @classmethod
