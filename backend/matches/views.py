@@ -16,7 +16,6 @@ from .serializers import MatchOfferSerializer, MatchSerializer, PostMatchFeedbac
 
 
 @api_view(('GET',))
-# @renderer_classes((JSONRenderer,))
 @permission_classes((AllowAny,))
 def csrf(request):
     return Response({'csrfToken': get_token(request)})
