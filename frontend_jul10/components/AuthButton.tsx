@@ -1,31 +1,30 @@
 import * as React from "react";
-import { Pressable, Text, StyleSheet } from "react-native";
+import { Pressable, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontFamily, Color, Border, Padding } from "../GlobalStyles";
+import { FontFamily, Color, Border, Padding,Auth } from "../GlobalStyles";
 
-const AuthButton = () => {
-  const navigation = useNavigation();
+interface CustomButtonProps {
+  onPress: () => void;
+  title: string;
+}
 
-  const handlePress = () => {
-    navigation.navigate("Login");
-  };
-  
+const AuthButton: React.FC<CustomButtonProps> = ({ onPress, title }) => {
   return (
-    <Pressable style={styles.submit} onPress={handlePress}>
-      <Text style={styles.getPasswordResetEmail}>Get password reset email</Text>
-    </Pressable>
+    <TouchableOpacity style={Auth.button} onPress={onPress}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  getPasswordResetEmail: {
+  button: {
     fontSize: 12,
     fontWeight: "500",
     fontFamily: FontFamily.manropeMedium,
     color: Color.white,
     textAlign: "center",
   },
-  submit: {
+  buttonText: {
     borderRadius: Border.br_8xs,
     backgroundColor: Color.crimson_100,
     width: 253,

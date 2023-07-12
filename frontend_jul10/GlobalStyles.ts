@@ -83,6 +83,22 @@ export const Border = {
 
 /* AuthTitle styles */
 export const Auth = {
+  background:{ 
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    flex: 1,
+    backgroundColor: Color.lavenderblush,
+  },
+  body: {
+    paddingHorizontal: Padding.p_9xl,
+    paddingVertical: Padding.p_4xs,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    alignSelf: "stretch",
+    flex: 1,
+  },
   heading1 : {
     alignSelf: "stretch",
     fontSize: FontSize.size_6xl,
@@ -91,12 +107,26 @@ export const Auth = {
     color: Color.gray_400,
     textAlign: "left",
   },
+  heading2: { 
+    alignSelf: "stretch",
+    fontSize: FontSize.size_smi,
+    fontWeight: "700",
+    fontFamily: FontFamily.manropeMedium,
+    color: Color.lightLabelPrimary,
+  },
+  heading3: {
+    alignSelf: "stretch",
+    color: Color.gray_200,
+    fontFamily: FontFamily.manropeBold,
+    textDecorationLine: "underline",
+    textAlign: "center",
+  },
   textInput: {
     fontSize: 12,
     fontFamily: FontFamily.manropeMedium,
     fontWeight: "500",
   },
-  textBoxStyle: {
+  textInputBoxStyle: {
     paddingVertical: 8,
     borderRadius: Border.br_8xs,
     alignSelf: "stretch",
@@ -107,7 +137,7 @@ export const Auth = {
     borderStyle: "solid",
     backgroundColor: Color.white,
     justifyContent: "center",
-    marginTop: 10,
+    marginTop: 15,
     fontSize: 12,
     fontFamily: FontFamily.manropeMedium,
     fontWeight: "500",
@@ -128,7 +158,39 @@ export const Auth = {
   fontWeight: "500",
   fontFamily: FontFamily.manropeMedium,
   color: Color.white,
-  textAlign: "center",}
-}
+  textAlign: "center",
+  },
+  memberPhotoIcon:{
+    width: 160,
+    height: 139
+  },
+  underlineText:{
+    textDecorationLine: "underline",
+  },  
+  googleFlexBox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  google: {
+    paddingHorizontal: Padding.p_31xl,
+    paddingVertical: 8,
+    borderRadius: Border.br_8xs,
+    alignSelf: "stretch",
+    height: 33,
+    borderWidth: 1,
+    borderColor: "#000",
+    borderStyle: "solid",
+    backgroundColor: Color.white,
+    flexDirection: "row",
+    marginTop: 21,
+    overflow: "hidden",
+  },  
+  logogoogle: {
+    width: 14,
+    height: 14,
+    overflow: "hidden",
+  },
+  }
 
 

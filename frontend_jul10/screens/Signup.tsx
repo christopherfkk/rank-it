@@ -8,50 +8,96 @@ import {
   Pressable,
   TouchableOpacity,
   Linking,
+  SafeAreaView
 } from "react-native";
 import { Image } from "expo-image";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, Border, FontSize, Padding } from "../GlobalStyles";
+import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../GlobalStyles";
+import BASE_URL from '../apiConfig';
 
 const Signup = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("")
+  const [password1, setPassword1] = useState("")
+  const [password2, setPassword2] = useState("")
+
+const handleRegister = () => {
+  // Perform your API call or network request here to send email and password to the backend
+  // You can use libraries like Axios or the built-in fetch function
+
+  // Example using fetch:
+    const registrationData = {
+      email: email,
+      password1: password1,
+      password2: password2
+    };
+  
+    // Perform your API call or network request here to send email and password to the backend
+    fetch(`${BASE_URL}/accounts/registration/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(registrationData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the backend
+        console.log(data);
+  
+        // Check if the login was successful (adjust this based on your backend response)
+        const loginSuccessful = data.status_code === 201;
+
+        if (loginSuccessful) {
+          navigation.navigate("PfName");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  
 
   return (
-    <View style={styles.signup}>
+    <SafeAreaView style={Auth.background}>
       <View style={styles.signUpBody}>
         <ImageBackground
-          style={styles.memberPhotoIcon}
+          style={Auth.memberPhotoIcon}
           resizeMode="cover"
           source={require("../assets/memberphoto1.png")}
         />
-        <Text style={[styles.createAnAccount, styles.orClr]}>
+        <Text style={[Auth.heading1, styles.orClr]}>
           Create an Account
         </Text>
         <View style={styles.signupForm}>
           <TextInput
-            style={[styles.email, styles.emailTypo]}
+            style={[Auth.textInputBoxStyle]}
             placeholder="Enter your email "
             keyboardType="email-address"
             autoCapitalize="none"
             placeholderTextColor="#737373"
+            onChangeText={(text: string) => setEmail(text)}
           />
           <TextInput
-            style={[styles.password, styles.emailTypo]}
+            style={[Auth.textInputBoxStyle]}
             placeholder="Enter your password"
             keyboardType="default"
             placeholderTextColor="#737373"
+            onChangeText={(text: string) => setPassword1(text)}
           />
           <TextInput
-            style={[styles.password, styles.emailTypo]}
-            placeholder="Enter your password"
+            style={[Auth.textInputBoxStyle]}
+            placeholder="Confirm your password"
             keyboardType="default"
             placeholderTextColor="#737373"
+            onChangeText={(text: string) => setPassword2(text)}
           />
         </View>
         <TouchableOpacity
-          style={[styles.loginButton, styles.emailSpaceBlock]}
+          style={[Auth.button]}
           activeOpacity={0.2}
-          onPress={() => navigation.navigate("Login")}
+          onPress={handleRegister}
         >
           <TouchableOpacity activeOpacity={0.2} onPress={() => {}}>
             <Text style={[styles.signUp, styles.emailTypo]}>Sign-up</Text>
@@ -60,26 +106,10 @@ const Signup = () => {
         <Text style={[styles.or, styles.orClr]}>
           ------------------- or -------------------
         </Text>
-        <Pressable
-          style={[styles.google, styles.googleFlexBox]}
-          onPress={() => Linking.openURL("www.google.com")}
-        >
-          <View style={[styles.logogoogleParent, styles.googleFlexBox]}>
-            <Text style={styles.logogoogle} numberOfLines={logogoogle}>
-              <Image
-                style={styles.logogoogleChild}
-                contentFit="cover"
-                source={require("../assets/group-181.png")}
-              />
-            </Text>
-            <Text
-              style={[styles.continueWithGoogle, styles.emailTypo]}
-              numberOfLines={1}
-            >
-              Continue with Google
-            </Text>
-          </View>
-        </Pressable>
+        <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={() => navigation.navigate("PfName")}>
+          <Image style={Auth.logogoogle} source={require("../assets/group-18.png")} />
+          <Text style={[Auth.heading2, { paddingLeft: 10 }]} numberOfLines={1}>Sign in with Google</Text>
+        </TouchableOpacity>
         <View style={styles.termsAndConditions}>
           <Pressable
             style={styles.byContinuingYouContainer}
@@ -93,7 +123,7 @@ const Signup = () => {
           </Pressable>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -178,7 +208,7 @@ const styles = StyleSheet.create({
   or: {
     fontSize: 13,
     fontWeight: "800",
-    fontFamily: FontFamily.robotoCondensed,
+    fontFamily: FontFamily.manropeMedium,
     marginTop: 21,
     textAlign: "center",
     alignSelf: "stretch",
@@ -251,12 +281,6 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     justifyContent: "center",
     alignItems: "center",
-  },
-  signup: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    flex: 1,
   },
 });
 

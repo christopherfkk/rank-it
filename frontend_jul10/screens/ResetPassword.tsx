@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet, View } from "react-native";
 import AuthTitle from "../components/AuthTitle";
 import AuthText from "../components/AuthText";
-import TextInputBox from "../components/TextInputBox";
+import TextInputBox from "../components/AuthTextInputBox";
 import AuthButton from "../components/AuthButton";
 import { Color, Padding } from "../GlobalStyles";
 
@@ -10,8 +10,12 @@ const ResetPassword = () => {
   return (
     <View style={[styles.resetPassword, styles.signUpBodyFlexBox]}>
       <View style={[styles.signUpBody, styles.signUpBodyFlexBox]}>
-        <AuthTitle />
-        <AuthText />
+      <Text style={Auth.heading1}>
+      Reset Password
+      </Text>
+        <Text style={Auth.heading2}>
+      Enter your email to reset your password
+      </Text>
         <TextInputBox />
         <AuthButton />
       </View>

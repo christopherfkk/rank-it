@@ -8,33 +8,61 @@ import {
   Pressable,
   TouchableOpacity,
   Linking,
+  SafeAreaView
 } from "react-native";
 import { Image } from "expo-image";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../GlobalStyles";
+import BASE_URL from '../apiConfig';
 
 const Login = () => {
   const navigation = useNavigation();
 
+  const [email, setEmail] = useState("")
+  const [password,setPassword] = useState("")
+
+  const handleLogin = () => {
+    // Perform your API call or network request here to send email and password to the backend
+    // You can use libraries like Axios or the built-in fetch function
+
+    // Example using fetch:
+    fetch(`${BASE_URL}/accounts/login/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the backend
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
-    <View style={styles.login}>
-      <View style={styles.signUpBody}>
+    <SafeAreaView style={[Auth.background]}>
+      <View style={Auth.body}>
         <ImageBackground
-          style={styles.memberPhotoIcon}
+          style={Auth.memberPhotoIcon}
           resizeMode="cover"
           source={require("../assets/memberphoto.png")}
         />
         <Text style={[Auth.heading1]}>Log in to Rank-it</Text>
         <View style={styles.signupForm}>
           <TextInput
-            style={[Auth.textBoxStyle]}
+            style={[Auth.textInputBoxStyle]}
             placeholder="Enter your email "
             keyboardType="email-address"
             autoCapitalize="none"
             placeholderTextColor="#737373"
           />
           <TextInput
-            style={[Auth.textBoxStyle]}
+            style={[Auth.textInputBoxStyle]}
             placeholder="Enter your password"
             keyboardType="default"
             placeholderTextColor="#737373"
@@ -47,65 +75,37 @@ const Login = () => {
         >
             <Text style={[Auth.buttonText]}>Login</Text>
         </TouchableOpacity>
-        <Text style={[styles.or]}>
-          ------------------- or -------------------
-        </Text>
-        <Pressable
-          style={[styles.google, styles.googleFlexBox]}
-          onPress={() => Linking.openURL("www.google.com")}
-        >
-          <View style={[styles.logogoogleParent, styles.googleFlexBox]}>
-            <Text style={styles.logogoogle}>
-              <Image
-                style={styles.logogoogleChild}
-                contentFit="cover"
-                source={require("../assets/group-18.png")}
-              />
-            </Text>
-            <Text
-              style={[styles.continueWithGoogle, styles.emailTypo]}
-              numberOfLines={1}
-            >
-              Continue with Google
-            </Text>
-          </View>
-        </Pressable>
-        <TouchableOpacity
-          activeOpacity={0.2}
-          onPress={() => navigation.navigate("Signup")}
-        >
-          <Text
-            style={[styles.dontHaveAnAccountSignUp, styles.enterYourEmailTypo]}
-          >
-            Don’t have an account? Sign up here
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.2}
-          onPress={() => navigation.navigate("ResetPassword")}
-        >
-          <Text
-            style={[styles.dontHaveAnAccountSignUp, styles.enterYourEmailTypo]}
-          >
+
+        <TouchableOpacity activeOpacity={0.2} onPress={() => navigation.navigate("ResetPassword")}>
+          <Text style={[Auth.heading2]}>
             Forgot password?
           </Text>
         </TouchableOpacity>
-        <View style={styles.termsAndConditions}>
+        <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={() => navigation.navigate("PfName")}>
+          <Image style={Auth.logogoogle} source={require("../assets/group-18.png")} />
+          <Text style={[Auth.heading2, { paddingLeft: 10 }]} numberOfLines={1}>Sign in with Google</Text>
+        </TouchableOpacity>
+        
+    <TouchableOpacity activeOpacity={0.2} onPress={() => navigation.navigate("Signup")}>
+        <Text style={[Auth.heading2]}>
+          Don’t have an account? <Text style={Auth.underlineText}>Sign up here</Text>
+        </Text>
+    </TouchableOpacity>
+    
         <Pressable
-          style={styles.byContinuingYouContainer}
           onPress={() =>
             Linking.openURL(
               "https://classy-galette-16d.notion.site/RankIT-Terms-of-Service-17c96ce8b482418c862bcf85e3d08b1a?pvs=25"
             )
           }
         >
-          <Text style={[styles.text2, styles.emailTypo, styles.termsAndConditionsText]}>
+          <Text style={[Auth.heading3]}>
         By continuing, you agree to the Terms and Conditions
       </Text>
         </Pressable>
-</View>
+
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -218,7 +218,6 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     maxHeight: "100%",
     position: "absolute",
-    overflow: "hidden",
   },
   logogoogle: {
     width: 14,
@@ -263,29 +262,18 @@ const styles = StyleSheet.create({
   text2: {
     width: "100%",
   },
-  byContinuingYouContainer: {
-    left: "0%",
-    top: "0%",
-    position: "absolute",
-  },
   termsAndConditions: {
     width: 266,
     height: 12,
     marginTop: 21,
   },
   signUpBody: {
-    backgroundColor: Color.lavenderblush,
     paddingHorizontal: Padding.p_9xl,
     paddingVertical: Padding.p_4xs,
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
     alignSelf: "stretch",
-    flex: 1,
-  },
-  login: {
-    height: 655,
-    width: "100%",
     flex: 1,
   },
   termsAndConditions: {
