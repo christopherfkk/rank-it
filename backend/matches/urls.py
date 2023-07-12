@@ -1,8 +1,15 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import SimpleRouter
 
-from .views import MatchList, MatchDetail
+from .views import MatchOfferViewSet, MatchViewSet, PostMatchFeedbackViewSet, csrf
+
+
+router = SimpleRouter()
+router.register("matchoffer", MatchOfferViewSet, basename='matchoffer')
+router.register("match", MatchViewSet, basename='match')
+router.register("postmatchfeedback", PostMatchFeedbackViewSet, basename='postmatchfeedback')
 
 urlpatterns = [
-    path('<int:pk>/', MatchDetail.as_view(), name='match_detail'),
-    path('', MatchList.as_view(), name='match_list'),
+    path('', include(router.urls)),
+    path('csrf/', csrf)
 ]

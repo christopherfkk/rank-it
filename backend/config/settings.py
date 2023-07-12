@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # Local
     'accounts.apps.AccountsConfig',
     'matches.apps.MatchesConfig',
+    'communities.apps.CommunitiesConfig',
 
     # Third party
     'rest_framework',
@@ -61,7 +62,12 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'drf_spectacular',
+    'notifications',
 ]
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+SITE_ID = 2
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -70,8 +76,6 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
-
-SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -208,8 +212,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "accounts.CustomUser"
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -219,7 +221,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
