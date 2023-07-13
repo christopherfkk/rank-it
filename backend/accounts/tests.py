@@ -129,9 +129,9 @@ class DefaultRegistrationTest(TestCase):
         account_detail = response.data['user']
         self.assertEqual(account_detail['id'], 1)
         self.assertEqual(account_detail['email'], 'chris@email.com')
-        self.assertEqual(account_detail['first_name'], "")
-        self.assertEqual(account_detail['last_name'], "")
-        self.assertEqual(account_detail['gender'], "")
+        self.assertEqual(account_detail['first_name'], None)
+        self.assertEqual(account_detail['last_name'], None)
+        self.assertEqual(account_detail['gender'], None)
         self.assertIsNone(account_detail['dob'])
 
         # Check if user exists in database
@@ -337,4 +337,4 @@ class DefaultAccountSetUp(TestCase):
         self.assertEqual(user.first_name, "Chris")
         self.assertEqual(user.last_name, "Fok")
         self.assertIsNone(user.dob)
-        self.assertEqual(user.gender, "")
+        self.assertEqual(user.gender, None)

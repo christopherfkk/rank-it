@@ -1,0 +1,41 @@
+- model: notifications.NotificationType
+  pk: 1
+  fields:
+    entity: MatchOffer
+    description: Sent a match offer
+
+- model: notifications.NotificationType
+  pk: 2
+  fields:
+    entity: MatchOffer
+    description: Accepted a match offer
+
+- model: notifications.NotificationType
+  pk: 3
+  fields:
+    entity: MatchOffer
+    description: Declined a match offer
+
+- model: notifications.NotificationType
+  pk: 4
+  fields:
+    entity: MatchOffer
+    description: Rescinded a match offer
+
+- model: notifications.NotificationType
+  pk: 5
+  fields:
+    entity: Match
+    description: Created a match
+
+- model: notifications.NotificationType
+  pk: 6
+  fields:
+    entity: Match
+    description: Cancelled a match
+
+- model: notifications.NotificationType
+  pk: 7
+  fields:
+    entity: PostMatchFeedback
+    description: Reported a post-match feedback

@@ -9,14 +9,14 @@ class CustomUserCreationForm(UserCreationForm):
     """User Creation Form in the admin site"""
     class Meta(UserCreationForm):
         model = CustomUser
-        fields = "__all_"
+        fields = "__all__"
 
 
 class CustomUserChangeForm(UserChangeForm):
     """User Change Form in the admin site"""
     class Meta:
         model = CustomUser
-        fields = "__all_"
+        fields = "__all__"
 
 
 class CustomUserAdmin(UserAdmin):
@@ -36,8 +36,8 @@ class CustomUserAdmin(UserAdmin):
         "dob",
         "gender",
     ]
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields": "__all__"}),)
-    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": "__all__"}),)
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("__all__",)}),)
+    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("__all__",)}),)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

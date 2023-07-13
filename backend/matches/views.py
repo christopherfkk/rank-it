@@ -3,15 +3,19 @@ from django.db.models import Q
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.middleware.csrf import get_token
+from rest_framework.decorators import api_view, renderer_classes, permission_classes
+from rest_framework.renderers import JSONRenderer
+
 
 from .permissions import IsPlayerOrAnyReadOnly, IsOpponent, IsSubmitter, IsReporterOrAnyReadOnly
 from .models import MatchOffer, Match, PostMatchFeedback
 from .serializers import MatchOfferSerializer, MatchSerializer, PostMatchFeedbackSerializer
 
-
+@api_view(('GET',))
+@permission_classes((AllowAny,))
 def csrf(request):
     return Response({'csrfToken': get_token(request)})
 
