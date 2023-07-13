@@ -174,7 +174,6 @@ export const Auth = {
   },
   google: {
     paddingHorizontal: Padding.p_31xl,
-    paddingVertical: 8,
     borderRadius: Border.br_8xs,
     alignSelf: "stretch",
     height: 33,
@@ -185,12 +184,21 @@ export const Auth = {
     flexDirection: "row",
     marginTop: 21,
     overflow: "hidden",
+    justifyContent: "center",  // Align content horizontally in the middle
+    alignItems: "center"
   },  
   logogoogle: {
     width: 14,
     height: 14,
     overflow: "hidden",
   },
+  signupForm : {    
+    height: 140,
+    paddingBottom: 0,
+    marginTop: 21,
+    alignSelf: "stretch",
+    alignItems: "center",
+  }
   }
 
 

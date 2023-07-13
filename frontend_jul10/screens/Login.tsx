@@ -60,14 +60,17 @@ const Login = () => {
             keyboardType="email-address"
             autoCapitalize="none"
             placeholderTextColor="#737373"
+            onChangeText={(text: string) => setEmail(text)}
           />
           <TextInput
             style={[Auth.textInputBoxStyle]}
             placeholder="Enter your password"
             keyboardType="default"
             placeholderTextColor="#737373"
+            onChangeText={(text: string) => setPassword(text)}
           />
         </View>
+
         <TouchableOpacity
           style={[Auth.button]}
           activeOpacity={0.2}
@@ -81,6 +84,7 @@ const Login = () => {
             Forgot password?
           </Text>
         </TouchableOpacity>
+        
         <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={() => navigation.navigate("PfName")}>
           <Image style={Auth.logogoogle} source={require("../assets/group-18.png")} />
           <Text style={[Auth.heading2, { paddingLeft: 10 }]} numberOfLines={1}>Sign in with Google</Text>

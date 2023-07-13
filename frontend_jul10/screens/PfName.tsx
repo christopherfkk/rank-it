@@ -88,8 +88,6 @@ const styles = StyleSheet.create({
   },
   pfName: {
     backgroundColor: Color.white,
-    width: "100%",
-    height: 655,
   },
 });
 

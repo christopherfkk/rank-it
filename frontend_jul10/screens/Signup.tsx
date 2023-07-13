@@ -47,9 +47,9 @@ const handleRegister = () => {
         console.log(data);
   
         // Check if the login was successful (adjust this based on your backend response)
-        const loginSuccessful = data.status_code === 201;
+        const registerSuccess = data.status_code === 201;
 
-        if (loginSuccessful) {
+        if (registerSuccess) {
           navigation.navigate("PfName");
         }
       })
@@ -57,20 +57,19 @@ const handleRegister = () => {
         console.error(error);
       });
   };
-  
 
   return (
     <SafeAreaView style={Auth.background}>
-      <View style={styles.signUpBody}>
+      <View style={Auth.body}>
         <ImageBackground
           style={Auth.memberPhotoIcon}
           resizeMode="cover"
           source={require("../assets/memberphoto1.png")}
         />
-        <Text style={[Auth.heading1, styles.orClr]}>
+        <Text style={[Auth.heading1]}>
           Create an Account
         </Text>
-        <View style={styles.signupForm}>
+        <View style={Auth.signupForm}>
           <TextInput
             style={[Auth.textInputBoxStyle]}
             placeholder="Enter your email "
@@ -100,12 +99,9 @@ const handleRegister = () => {
           onPress={handleRegister}
         >
           <TouchableOpacity activeOpacity={0.2} onPress={() => {}}>
-            <Text style={[styles.signUp, styles.emailTypo]}>Sign-up</Text>
+            <Text style={[Auth.buttonText]}>Sign-up</Text>
           </TouchableOpacity>
         </TouchableOpacity>
-        <Text style={[styles.or, styles.orClr]}>
-          ------------------- or -------------------
-        </Text>
         <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={() => navigation.navigate("PfName")}>
           <Image style={Auth.logogoogle} source={require("../assets/group-18.png")} />
           <Text style={[Auth.heading2, { paddingLeft: 10 }]} numberOfLines={1}>Sign in with Google</Text>

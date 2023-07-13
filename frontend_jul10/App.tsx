@@ -29,6 +29,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import BASE_URL from './apiConfig.js';
 
 const Tab = createBottomTabNavigator();
 function BottomTabsRoot({ navigation }: any) {
@@ -103,9 +104,21 @@ const App = () => {
     Montserrat_regular_italic: require("./assets/fonts/Montserrat_regular_italic.ttf"),
   });
 
+  const fetchCSRFToken = async () => {
+      const response = await fetch(`http://127.0.0.1:8000/api/v1/csrf/`);
+      
+      const data = await response.json();
+      const csrfToken = data.csrfToken;
+      // Use the CSRF token in your app as needed
+      console.log(csrfToken)
+      
+      // Perform other operations with the CSRF token
+  };
+
   React.useEffect(() => {
     setTimeout(() => {
       setHideSplashScreen(true);
+      fetchCSRFToken(); // Fetch CSRF token after the splash screen is hidden
     }, 1000);
   }, []);
 
