@@ -35,7 +35,6 @@ const handleRegister = () => {
       password1: password1,
       password2: password2
     };
-    console.log(csrfToken)
     // Perform your API call or network request here to send email and password to the backend
     fetch(`${BASE_URL}/accounts/registration/`, {
       method: "POST",
