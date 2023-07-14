@@ -16,6 +16,7 @@ import { useContext } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../GlobalStyles";
 import BASE_URL from '../apiConfig';
+import BackButton from '../components/BackButton';
 // import CsrfTokenContext from '../CsrfTokenContext';
 
 const Signup = () => {
@@ -68,6 +69,7 @@ const handleRegister = () => {
   return (
     <SafeAreaView style={Auth.background}>
       <View style={Auth.body}>
+      <BackButton onPress={() => navigation.navigate("Login")} />
         <ImageBackground
           style={Auth.memberPhotoIcon}
           resizeMode="cover"
