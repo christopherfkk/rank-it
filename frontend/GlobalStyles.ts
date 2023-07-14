@@ -200,6 +200,11 @@ export const Auth = {
     paddingBottom: 0,
     alignSelf: "stretch",
     alignItems: "center",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    marginTop: 10,
   }
   }
 
