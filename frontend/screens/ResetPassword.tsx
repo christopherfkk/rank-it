@@ -16,12 +16,13 @@ import { useContext } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../GlobalStyles";
 import BASE_URL from '../apiConfig';
+import BackButton from '../components/BackButton';
 
 const ResetPassword = () => {
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [error,setError] = useState("");
 
-  const [email, setEmail] = useState("")
-  const [error,setError] = useState("")
-  
   const handleReset = () => {
     // Perform your API call or network request here to send email and password to the backend
     // You can use libraries like Axios or the built-in fetch function
@@ -50,12 +51,12 @@ const ResetPassword = () => {
             navigation.navigate("Login");
           }
           else {
-            setError(Object.values(data))
+            setError(Object.values(data));
           }
         })
         .catch((error) => {
-          console.error(error)
-          setError(error)
+          console.error(error);
+          setError(error);
         });
     };
 
@@ -63,28 +64,29 @@ const ResetPassword = () => {
   return (
     <SafeAreaView style={[Auth.background]}>
       <View style={Auth.body}>
-      <Text style={Auth.heading1}>
-      Reset Password
-      </Text>
-      <Text style={Auth.heading2}>
-      Enter your email to reset your password
-      </Text>
-      <TextInput
-            style={[Auth.textInputBoxStyle]}
-            placeholder="Enter your email "
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor="#737373"
-            onChangeText={(text: string) => setEmail(text)}
-            contextMenuHidden // Disable context menu (copy-paste actions)
-          />
-      <TouchableOpacity
-        style={[Auth.button]}
-        activeOpacity={0.2}
-        onPress = {handleReset}
-      >
-        <Text style={[Auth.buttonText]}>Reset</Text>
-      </TouchableOpacity>
+        <BackButton onPress={() => navigation.navigate("Login")} />
+        <Text style={Auth.heading1}>
+          Reset Password
+        </Text>
+        <Text style={Auth.heading2}>
+          Enter your email to reset your password
+        </Text>
+        <TextInput
+          style={[Auth.textInputBoxStyle]}
+          placeholder="Enter your email "
+          keyboardType="email-address"
+          autoCapitalize="none"
+          placeholderTextColor="#737373"
+          onChangeText={(text: string) => setEmail(text)}
+          contextMenuHidden // Disable context menu (copy-paste actions)
+        />
+        <TouchableOpacity
+          style={[Auth.button]}
+          activeOpacity={0.2}
+          onPress={handleReset}
+        >
+          <Text style={[Auth.buttonText]}>Reset</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
