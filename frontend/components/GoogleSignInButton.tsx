@@ -21,6 +21,10 @@ const GoogleSignInButton = () => {
   });
   const [signInPressed, setSignInPressed] = useState(false);
 
+  useEffect(() => {
+    fetchUserData();
+  }, [response]);
+
   const handleSignInPress = () => {
     // Set the state to indicate that the button has been pressed
     setSignInPressed(true);
@@ -28,8 +32,7 @@ const GoogleSignInButton = () => {
 
   const fetchUserData = async () => {
     try {
-      if (response && response?.type === "success"&& signInPressed) {
-        console.log(response)
+      if (response?.type === "success"&& signInPressed) {
         const accessToken = response.authentication.accessToken;
         const userInfo = await fetchUserInfo(accessToken);
         console.log(userInfo)
@@ -90,7 +93,7 @@ const GoogleSignInButton = () => {
   }
 
   return (
-    <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={fetchUserData}>
+    <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={handleSignInPress}>
       <Image style={Auth.logogoogle} source={require("../assets/group-18.png")} />
       <Text style={[Auth.buttonText, { color: Color.black, paddingLeft: 10 }]} numberOfLines={1}>
         Sign in with Google
