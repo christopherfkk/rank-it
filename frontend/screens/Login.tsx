@@ -14,7 +14,7 @@ import { Image } from "expo-image";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../GlobalStyles";
-import BASE_URL from '../apiConfig';
+import apiConfig from '../apiConfig';
 import GoogleSignInButton from "../components/GoogleSignInButton";
 
 const Login = () => {
@@ -27,14 +27,17 @@ const Login = () => {
   const handleLogin = () => {
     // Perform your API call or network request here to send email and password to the backend
     // You can use libraries like Axios or the built-in fetch function
-
+    if (!email || !password) {
+      setError("Please provide both email and password.");
+      return;
+    }
     // Example using fetch:
     const loginData = {
       email: email,
       password: password,
     };
     // Perform your API call or network request here to send email and password to the backend
-    fetch(`${BASE_URL}/accounts/login/`, {
+    fetch(`${apiConfig.BASE_URL}/accounts/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +61,7 @@ const Login = () => {
       })
       .catch((error) => {
         console.error(error)
-        setError(error)
+        setError("Network request failed. Please try again later.");
       });
   };
 
