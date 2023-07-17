@@ -24,7 +24,7 @@ import RankingNav from "./components/RankingNav";
 import MatchesNav from "./components/MatchesNav";
 import ChatNav from "./components/ChatNav";
 import ProfileNav from "./components/ProfileNav";
-import CsrfTokenContext from './CsrfTokenContext';
+import { AuthProvider } from './AuthContext';
 
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -128,6 +128,7 @@ const App = () => {
 
 
   return (
+    <AuthProvider>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator
@@ -220,6 +221,7 @@ const App = () => {
           <LoadingPage />
         )}
       </NavigationContainer>
+      </AuthProvider>
   );
 };
 
