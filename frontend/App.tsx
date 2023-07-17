@@ -1,7 +1,12 @@
-const Stack = createNativeStackNavigator();
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View, Text, Pressable } from "react-native";
+import { AuthProvider } from './AuthContext';
+import { RegContextProvider } from './RegContext';
+
 import Login from "./screens/Login";
 import OpponentMenu from "./screens/OpponentMenu";
 import Ranking from "./screens/Ranking";
@@ -24,16 +29,10 @@ import RankingNav from "./components/RankingNav";
 import MatchesNav from "./components/MatchesNav";
 import ChatNav from "./components/ChatNav";
 import ProfileNav from "./components/ProfileNav";
-import { AuthProvider } from './AuthContext';
 
-
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text, Pressable, TouchableOpacity } from "react-native";
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import BASE_URL from './apiConfig.js';
-
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
 function BottomTabsRoot({ navigation }: any) {
   const [bottomTabItemsNormal] = React.useState([
     <RankingNav />,
@@ -106,26 +105,15 @@ const App = () => {
     Montserrat_regular_italic: require("./assets/fonts/Montserrat_regular_italic.ttf"),
   });
 
-  const [csrfToken, setCSRFToken] = React.useState('');
-
-  const fetchCSRFToken = async () => {
-    const response = await fetch(`${BASE_URL}/csrf/`);
-    const data = await response.json();
-    const token = data.csrfToken;
-    setCSRFToken(token);
-  };
-
   React.useEffect(() => {
     setTimeout(() => {
       setHideSplashScreen(true);
-      fetchCSRFToken();
     }, 1000);
   }, []);
 
   if (!fontsLoaded && !error) {
     return null;
   }
-
 
   return (
     <AuthProvider>
