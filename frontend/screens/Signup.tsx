@@ -11,13 +11,14 @@ import {
   SafeAreaView
 } from "react-native";
 import { Image } from "expo-image";
-import { useState } from "react";
-import { useContext } from 'react';
+import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../GlobalStyles";
-import BASE_URL from '../apiConfig';
+import apiConfig from "../apiConfig";
 import BackButton from '../components/BackButton';
-// import CsrfTokenContext from '../CsrfTokenContext';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import GoogleSignInButton from "../components/GoogleSignInButton";
 
 const Signup = () => {
   const navigation = useNavigation();
@@ -25,20 +26,15 @@ const Signup = () => {
   const [password1, setPassword1] = useState("")
   const [password2, setPassword2] = useState("")
   const [error,setError] = useState("")
-  // const csrfToken = useContext(CsrfTokenContext);
 
 const handleRegister = () => {
-  // Perform your API call or network request here to send email and password to the backend
-  // You can use libraries like Axios or the built-in fetch function
-
-  // Example using fetch:
     const registrationData = {
       email: email,
       password1: password1,
       password2: password2
     };
     // Perform your API call or network request here to send email and password to the backend
-    fetch(`${BASE_URL}/accounts/registration/`, {
+    fetch(`${apiConfig.BASE_URL}/accounts/registration/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +69,7 @@ const handleRegister = () => {
         <ImageBackground
           style={Auth.memberPhotoIcon}
           resizeMode="cover"
-          source={require("../assets/memberphoto1.png")}
+          source={require("../assets/companylogo.png")}
         />
         <Text style={[Auth.heading1]}>
           Create an Account
@@ -124,11 +120,8 @@ const handleRegister = () => {
         {error ? (
           <Text style={Auth.errorText}>{error}</Text>
         ) : null}
+        <GoogleSignInButton/>
         
-        <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={() => navigation.navigate("PfName")}>
-          <Image style={Auth.logogoogle} source={require("../assets/group-18.png")} />
-          <Text style={[Auth.buttonText, { color: Color.black ,paddingLeft: 10 }]} numberOfLines={1}>Sign in with Google</Text>
-        </TouchableOpacity>
            
         <Pressable
           onPress={() =>
@@ -141,6 +134,11 @@ const handleRegister = () => {
         By continuing, you agree to the Terms and Conditions
       </Text>
         </Pressable>
+        
+        {/* <View>
+          {user && <Text>user.name</Text>}
+        </View> */}
+        
       </View>
     </SafeAreaView>
   );

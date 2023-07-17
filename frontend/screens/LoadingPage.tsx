@@ -1,18 +1,18 @@
 import * as React from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
-import { Color } from "../GlobalStyles";
+import { ImageBackground, StyleSheet, View,  SafeAreaView } from "react-native";
+import { Color, Auth } from "../GlobalStyles";
 
 const LoadingPage = () => {
   return (
-    <View style={[styles.loadingPage, styles.containerFlexBox]}>
+    <SafeAreaView style={[Auth.background]}>
       <View style={[styles.container, styles.containerFlexBox]}>
         <ImageBackground
-          style={styles.componentlottiehttpsassetIcon}
+          style={styles.Icon}
           resizeMode="cover"
-          source={require("../assets/componentlottiehttpsassets2lottiefilescompackageslf20xxky4kjson.png")}
+          source={require("../assets/companylogo.png")}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     flex: 1,
   },
-  componentlottiehttpsassetIcon: {
+  Icon: {
     borderRadius: 30,
     width: 249,
     height: 240,
@@ -33,11 +33,6 @@ const styles = StyleSheet.create({
     paddingVertical: 178,
     alignItems: "center",
     justifyContent: "center",
-  },
-  loadingPage: {
-    width: "100%",
-    height: 630,
-    flexDirection: "row",
   },
 });
 

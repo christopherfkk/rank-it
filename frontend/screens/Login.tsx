@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../GlobalStyles";
 import BASE_URL from '../apiConfig';
-import BackButton from '/components';
+import GoogleSignInButton from "../components/GoogleSignInButton";
 
 const Login = () => {
   const navigation = useNavigation();
@@ -68,7 +68,7 @@ const Login = () => {
         <ImageBackground
           style={Auth.memberPhotoIcon}
           resizeMode="cover"
-          source={require("../assets/memberphoto.png")}
+          source={require("../assets/companylogo.png")}
         />
         <Text style={[Auth.heading1]}>Log in to Rank-it</Text>
         <View style={Auth.signupForm}>
@@ -110,10 +110,7 @@ const Login = () => {
           </Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={() => navigation.navigate("PfName")}>
-          <Image style={Auth.logogoogle} source={require("../assets/group-18.png")} />
-          <Text style={[Auth.buttonText, { color: Color.black ,paddingLeft: 10 }]} numberOfLines={1}>Sign in with Google</Text>
-        </TouchableOpacity>
+        <GoogleSignInButton/>
         
     <TouchableOpacity activeOpacity={0.2} onPress={() => navigation.navigate("Signup")}>
         <Text style={[Auth.heading2]}>
