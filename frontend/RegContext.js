@@ -3,11 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
     profilePhoto: null,
-    birthday: {
-      year: null,
-      month: null,
-      day: null,
-    },
     gender: null,
     skill: null,
     phoneNumber: null,
@@ -20,7 +15,6 @@ const initialState = {
 
   const ACTIONS = {
     SET_PROFILE_PHOTO: 'SET_PROFILE_PHOTO',
-    SET_BIRTHDAY: 'SET_BIRTHDAY',
     SET_GENDER: 'SET_GENDER',
     SET_SKILL: 'SET_SKILL',
     SET_PHONE_NUMBER: 'SET_PHONE_NUMBER',
@@ -37,8 +31,6 @@ const reducer = (state, action) => {
     switch (action.type) {
       case 'SET_PROFILE_PHOTO':
         return { ...state, profilePhoto: action.payload };
-      case 'SET_BIRTHDAY':
-        return { ...state, birthday: action.payload };
       case 'SET_GENDER':
         return { ...state, gender: action.payload };
       case 'SET_SKILL':
