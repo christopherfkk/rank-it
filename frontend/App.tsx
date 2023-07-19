@@ -4,7 +4,8 @@ import { useFonts } from "expo-font";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, Text, Pressable } from "react-native";
-import { RegContextProvider } from './RegContext';
+import { useRegContext, RegContextProvider } from './RegContext';
+
 
 import Login from "./screens/Login";
 import OpponentMenu from "./screens/OpponentMenu";
@@ -28,6 +29,7 @@ import RankingNav from "./components/RankingNav";
 import MatchesNav from "./components/MatchesNav";
 import ChatNav from "./components/ChatNav";
 import ProfileNav from "./components/ProfileNav";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -116,6 +118,38 @@ const App = () => {
 
   return (
     <RegContextProvider>
+      <InnerApp hideSplashScreen={hideSplashScreen}/>
+    </RegContextProvider>
+  );
+};
+
+const InnerApp = ({hideSplashScreen}) => {
+  // const { state } = useRegContext();
+  // const [isRegistered, setIsRegistered] = useState(false);
+
+  // useEffect(() => {
+  //   const checkLoginStatus = async () +. {
+  //     try  {
+  //       const accessToken = await AsyncStorage.getItem("accessToken")
+
+  //       if (accessToken)  {
+  //         const isRegistered = state.gender !== undefined;
+  //       }
+  //     }
+  //   }
+
+
+  //   // Check if the user has completed registration based on RegContext state
+  //   const checkRegistrationStatus = () => {
+  //     // You can adjust the condition based on your registration criteria
+  //     const isCompletedRegistration = state.firstName !== null && state.gender !== null;
+  //     setIsRegistered(isCompletedRegistration);
+  //   };
+
+  //   checkRegistrationStatus();
+  // }, [state]);
+
+  return (
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator
@@ -208,7 +242,6 @@ const App = () => {
           <LoadingPage />
         )}
       </NavigationContainer>
-      </RegContextProvider>
   );
 };
 

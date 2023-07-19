@@ -77,8 +77,8 @@ const GoogleSignInButton = () => {
       if (result?.type === "success" && result.authentication) {
         setAccessToken(result.authentication.accessToken);
         const data = await fetchUserInfo(result.authentication.accessToken);
-        console.log(data)
         await storeUserInfo(data, dispatch);
+        navigation.navigate("PfStart")
       }
     } catch (error) {
       console.error("Error during Google sign-in:", error);
