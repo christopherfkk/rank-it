@@ -92,7 +92,6 @@ const ResetPassword = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   signUpBodyFlexBox: {
     justifyContent: "center",
