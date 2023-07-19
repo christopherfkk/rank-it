@@ -195,11 +195,16 @@ export const Auth = {
     height: 14,
     overflow: "hidden",
   },
-  signupForm : {    
-    height: 140,
-    paddingBottom: 0,
-    alignSelf: "stretch",
-    alignItems: "center",
+  signupForm: {
+  paddingBottom: 0,
+  alignSelf: "stretch",
+  alignItems: "center",
+  justifyContent: "center",
+},
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    marginTop: 10,
   }
   }
 
