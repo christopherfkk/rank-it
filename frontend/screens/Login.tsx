@@ -1,66 +1,55 @@
-import * as React from "react";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Pressable,
-  TouchableOpacity,
-  Linking,
-  SafeAreaView
-} from "react-native";
-import { Image } from "expo-image";
-import { useState } from "react";
+import React, { useState } from "react";
+import { View, Text, TextInput, Pressable, StyleSheet, SafeAreaView, ImageBackground, TouchableOpacity} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../GlobalStyles";
-import BASE_URL from '../apiConfig';
+import apiConfig from '../apiConfig';
+import { Color, FontFamily, FontSize, Auth } from "../GlobalStyles";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 
 const Login = () => {
   const navigation = useNavigation();
 
-  const [email, setEmail] = useState("")
-  const [password,setPassword] = useState("")
-  const [error,setError] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = () => {
-    // Perform your API call or network request here to send email and password to the backend
-    // You can use libraries like Axios or the built-in fetch function
+    setError(""); // Reset the error state before attempting login
+    if (email && password) {
+      const loginData = {
+        email: email,
+        password: password,
+      };
 
-    // Example using fetch:
-    const loginData = {
-      email: email,
-      password: password,
-    };
-    // Perform your API call or network request here to send email and password to the backend
-    fetch(`${BASE_URL}/accounts/login/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response from the backend
-        console.log(data);
-  
-        // Check if the login was successful (adjust this based on your backend response)
-        const registerSuccess = data.access !== undefined;
-
-        if (registerSuccess) {
-          navigation.navigate("PfName");
-        }
-        else {
-          setError(Object.values(data))
-        }
+      fetch(`${apiConfig.BASE_URL}/accounts/login/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
       })
-      .catch((error) => {
-        console.error(error)
-        setError(error)
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response from the backend
+          console.log(data);
+          // Check if the login was successful (adjust this based on your backend response)
+          const registerSuccess = data.access !== undefined;
+
+          if (registerSuccess) {
+            navigation.navigate("PfName");
+          } else {
+            // Set the error state based on the response data from the backend
+            setError(Object.values(data).join(', '));
+          }
+        })
+        .catch((error) => {
+          // Handle network or other fetch-related errors
+          setError("Network Request Failed");
+        });
+    } else {
+      setError("Please enter email and password");
+    }
   };
+
 
   return (
     <SafeAreaView style={[Auth.background]}>

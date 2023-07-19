@@ -4,7 +4,6 @@ import { useFonts } from "expo-font";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, Text, Pressable } from "react-native";
-import { AuthProvider } from './AuthContext';
 import { RegContextProvider } from './RegContext';
 
 import Login from "./screens/Login";
@@ -116,7 +115,7 @@ const App = () => {
   }
 
   return (
-    <AuthProvider>
+    <RegContextProvider>
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator
@@ -209,7 +208,7 @@ const App = () => {
           <LoadingPage />
         )}
       </NavigationContainer>
-      </AuthProvider>
+      </RegContextProvider>
   );
 };
 

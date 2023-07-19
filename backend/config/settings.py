@@ -115,8 +115,8 @@ REST_AUTH = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1000),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1000),
 }
 
 ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'

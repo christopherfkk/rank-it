@@ -5,95 +5,76 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import apiConfig from "../apiConfig";
 import { Color, Auth } from "../GlobalStyles";
-import RegContext from "../RegContext";
-import { ACTIONS } from "../RegContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRegContext, ACTIONS } from '../RegContext';
 
 WebBrowser.maybeCompleteAuthSession();
+
+
+const storeUserInfo = async (data, dispatch) => {
+  try {
+    await AsyncStorage.setItem('accessToken', JSON.stringify(data.access));
+    await AsyncStorage.setItem('refreshToken', JSON.stringify(data.refresh));
+
+    dispatch({ type: ACTIONS.SET_PROFILE_PHOTO, payload: data.user.avatar });
+    dispatch({ type: ACTIONS.SET_BLURB, payload: data.blurb });
+    dispatch({ type: ACTIONS.SET_FIRST_NAME, payload: data.user.first_name });
+    dispatch({ type: ACTIONS.SET_LAST_NAME, payload: data.user.last_name });
+    dispatch({ type: ACTIONS.SET_GENDER, payload: data.user.gender });
+    dispatch({ type: ACTIONS.SET_PHONE_NUMBER, payload: data.user.phone_number });
+  } catch (error) {
+    console.error("Error storing user info in AsyncStorage:", error);
+  }
+};
 
 const GoogleSignInButton = () => {
   const navigation = useNavigation();
   const { clientId, iosClientId, androidClientId } = apiConfig.google;
+  const [accessToken, setAccessToken] =  useState("")
+  const { dispatch } = useRegContext();
   const [request, response, promptAsync] = Google.useAuthRequest({
     clientId: clientId,
     iosClientId: iosClientId,
     androidClientId: androidClientId,
   });
-  const [signInPressed, setSignInPressed] = useState(false);
 
   useEffect(() => {
-    fetchUserData();
-  }, [response]);
-
-  const handleSignInPress = () => {
-    // Set the state to indicate that the button has been pressed
-    setSignInPressed(true);
-  };
-
-  const fetchUserData = async () => {
-    try {
-      if (response?.type === "success"&& signInPressed) {
-        const accessToken = response.authentication.accessToken;
-        const userInfo = await fetchUserInfo(accessToken);
-        console.log(userInfo)
-        await handleEmailCheck(accessToken,userInfo);
-        
-        // let backendresponse = await fetch(`${apiConfig.BASE_URL}/accounts/google/`, {
-        //   headers: {
-        //     Authorization: `Bearer ${accessToken}`,
-        //   },
-
-      } else {
-        console.error('Access token is null');
-      }
-    } catch (error) {
-      console.error('Error occurred:', error);
-      // Handle any errors that occurred during the asynchronous operations
+    if (response?.type === "success" && response.authentication) {
+      setAccessToken(response.authentication.accessToken)
+      fetchUserInfo()
     }
-  };
+  }, [response,accessToken]);
 
-  const handleEmailCheck = async (accessToken: string,userInfo: dict) => {
+  async function fetchUserInfo() {
     try {
-      const apiResponse = await fetch(`${apiConfig.BASE_URL}/accounts/user/${userInfo.email}`, {
-        method: "GET",
+      const response = await fetch(`${apiConfig.BASE_URL}/accounts/google/`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({'access_token': accessToken}),
       });
-        console.log(apiResponse)
-        if (apiResponse.ok) {
-        // Email exists, navigate to the ranking page for registered users
-        navigation.navigate("Ranking") 
-      } else {
-        // Email does not exist, store the user info and access token in AsyncStorage and navigate to "PfName" screen
-        await AsyncStorage.setItem('authToken', JSON.stringify(accessToken));
-        await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-        const { dispatch } = useContext(RegContext);
-        console.log('hi')
-        dispatch({ type: ACTIONS.SET_LAST_NAME, payload: userInfo.family_name });
-        dispatch({ type: ACTIONS.SET_FIRST_NAME, payload: userInfo.given_name });
-
-        navigation.navigate("PfName");
+      if (!response.ok) {
+        // Handle the error response here if the API request was not successful
+        console.error('Error: API request not successful');
+        // Throw an error to trigger the catch block
+        throw new Error('API request failed');
       }
-        } catch (error) {
-          console.error("Error checking email:", error);
-          // Handle any errors that occurred during the API call
-        }
-      };
+  
+      const data = await response.json();
 
-  async function fetchUserInfo(accessToken: string) {
-    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    const userInfo = await response.json();
-
-    return userInfo;
-  }
+      storeUserInfo(data,dispatch)
+      // Return the data so it can be used outside the function if needed
+      return data;
+    } catch (error) {
+      // Handle any errors that occurred during the API call
+      console.error("Error fetching user info:", error);
+      // You can also re-throw the error here if needed.
+      // throw error;
+    }}
 
   return (
-    <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={handleSignInPress}>
+    <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={() => promptAsync()}>
       <Image style={Auth.logogoogle} source={require("../assets/group-18.png")} />
       <Text style={[Auth.buttonText, { color: Color.black, paddingLeft: 10 }]} numberOfLines={1}>
         Sign in with Google
