@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from ranking.rating import MU, SIGMA
+from service.rating import MU, SIGMA
 
 
 class Skill(models.Model):

@@ -1,14 +1,11 @@
 from django.db import transaction
 from django.db.models import Q
-from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.middleware.csrf import get_token
-from rest_framework.decorators import api_view, renderer_classes, permission_classes
-from rest_framework.renderers import JSONRenderer
-
+from rest_framework.decorators import api_view, permission_classes
 
 from .permissions import IsPlayerOrAnyReadOnly, IsOpponent, IsSubmitter, IsReporterOrAnyReadOnly
 from .models import MatchOffer, Match, PostMatchFeedback
@@ -227,6 +224,8 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
                             user.n_sportsmanship_rating_received
                     )
                     user.save()
+
+                    # Update skill
 
             # If reported scores conflict
             else:
