@@ -33,5 +33,5 @@ urlpatterns = [
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
 ]
 
-# Added now
+# Added now words
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
