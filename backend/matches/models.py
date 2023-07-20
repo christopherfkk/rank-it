@@ -127,7 +127,6 @@ class Match(models.Model):
             f"""
             Match {self.id} with status {self.status} between
             submitter {self.submitter.username} and opponent {self.opponent.username}
-            on {self.match_offer.start_datetime}
             """
 
 
@@ -153,15 +152,18 @@ class PostMatchFeedback(models.Model):
 
     # Perceived competitiveness of the match (easy, moderate, hard sliding scale 1-10)
     match_competitiveness_rating = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)]
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
     )
     # Perceived skill level of the other person (beginner, intermediate, expert, sliding scale 1-10)
     peer_skill_level_given = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)]
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
     )
     # Overall and sportsmanship of the other person (1-5 Uber stars)
     peer_sportsmanship_rating_given = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)]
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        null=True,
     )
     # Airbnb review
     peer_feedback_blurb_given = models.TextField(
