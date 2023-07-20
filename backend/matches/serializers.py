@@ -88,6 +88,7 @@ class PostMatchFeedbackSerializer(serializers.ModelSerializer):
     # Nested serializer when retrieving
     match = MatchSerializer(read_only=True)
     reporter = AccountSerializer(read_only=True)
+    opponent = AccountSerializer(read_only=True)
 
     # IDs when creating/updating
     match_id = serializers.PrimaryKeyRelatedField(
@@ -100,6 +101,13 @@ class PostMatchFeedbackSerializer(serializers.ModelSerializer):
     reporter_id = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(),
         source='reporter',
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
+    opponent_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(),
+        source='opponent',
         write_only=True,
         required=False,
         allow_null=True,

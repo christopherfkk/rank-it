@@ -17,7 +17,6 @@ class SkillViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        rank = Skill.objects.filter(skill__gt=instance.skill).count() + 1
+        instance = self.get_queryset()[int(kwargs.get('pk'))-1]
         serializer = self.get_serializer(instance)
-        return Response({**serializer.data, "rank": rank})
+        return Response({**serializer.data, "rank": int(kwargs.get('pk'))})

@@ -6,6 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db import models
 
+from ranks.models import Skill
+
 
 class CustomUserManager(BaseUserManager):
     """
@@ -21,6 +23,12 @@ class CustomUserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save()
+
+        # Initialize skill object for the new user
+        Skill.objects.create(
+            user=user,
+        )
+
         return user
 
     def create_superuser(self, email, password, **extra_fields):

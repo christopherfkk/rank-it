@@ -7,7 +7,7 @@ class AccountSerializer(serializers.ModelSerializer):
     """Serializer for UserViewSet and for dj-rest-auth UserDetailSerializer"""
     class Meta:
         model = get_user_model()
-        fields = "__all__"
+        fields = ('id', 'email', 'username', 'matches_played', 'matches_won')
 
 
 class CustomRegisterSerializer(RegisterSerializer):
