@@ -18,6 +18,12 @@ pipenv shell
 (backend) python manage.py runserver
 (backend) exit # deactivate virtual environment
 ```
+## Frontend 
+```bash
+cd frontend
+npm install
+npx expo start
+```
 
 ## Run the backend server in Docker with PostgreSQL
 
