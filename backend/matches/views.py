@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.middleware.csrf import get_token
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.parsers import JSONParser
 
 from .permissions import IsPlayerOrAnyReadOnly, IsOpponent, IsSubmitter, IsReporterOrAnyReadOnly
 from .models import MatchOffer, Match, PostMatchFeedback
@@ -175,9 +176,20 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
         """
 
         curr_feedback = request.data
-        match_id = curr_feedback.get('match_id')
+
+        if 'match_id' in curr_feedback:
+            match_id = curr_feedback.get('match_id')
+            match = Match.objects.filter(id=match_id).first()
+        else:
+            match = Match.objects.create(
+                submitter_id=curr_feedback.get('reporter_id'),
+                opponent_id=curr_feedback.get('opponent_id'),
+                status=Match.Status.AWAITING_CONFIRMATION,
+            )
+            request.data['match_id'] = match.id
+            return super().create(request, *args, **kwargs)
+
         other_feedback = PostMatchFeedback.objects.filter(match_id=match_id).first()
-        match = Match.objects.filter(id=match_id).first()
 
         # If this is the second post-match feedback of this match
         if other_feedback:

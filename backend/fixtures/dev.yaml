@@ -1,0 +1,84 @@
+- model: notifications.NotificationType
+  pk: 1
+  fields:
+    entity: MatchOffer
+    description: Sent a match offer
+
+- model: notifications.NotificationType
+  pk: 2
+  fields:
+    entity: MatchOffer
+    description: Accepted a match offer
+
+- model: notifications.NotificationType
+  pk: 3
+  fields:
+    entity: MatchOffer
+    description: Declined a match offer
+
+- model: notifications.NotificationType
+  pk: 4
+  fields:
+    entity: MatchOffer
+    description: Rescinded a match offer
+
+- model: notifications.NotificationType
+  pk: 5
+  fields:
+    entity: Match
+    description: Created a match
+
+- model: notifications.NotificationType
+  pk: 6
+  fields:
+    entity: Match
+    description: Cancelled a match
+
+- model: notifications.NotificationType
+  pk: 7
+  fields:
+    entity: PostMatchFeedback
+    description: Reported a post-match feedback
+
+- model: accounts.CustomUser
+  pk: 1
+  fields:
+    email: admin@email.com
+    username: admin
+    password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
+    is_staff: True
+
+- model: accounts.CustomUser
+  pk: 2
+  fields:
+    email: chris@email.com
+    username: chris
+    password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
+
+- model: accounts.CustomUser
+  pk: 3
+  fields:
+    email: jin@email.com
+    username: jin
+    password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
+
+- model: accounts.CustomUser
+  pk: 4
+  fields:
+    email: hiro@email.com
+    username: hiro
+    password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
+
+- model: communities.Community
+  pk: 1
+  fields:
+    country: Japan
+    city: Tokyo
+    name: Shibuya
+
+- model: communities.Community
+  pk: 2
+  fields:
+    country: India
+    city: Hyderabad
+    name: Hi-tech City

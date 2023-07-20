@@ -17,7 +17,7 @@ class NotificationServiceTests(TestCase):
     def setUpTestData(cls):
         """Set up the submitter, the opponent, the community, the match offer, the match, and the API client"""
 
-        fixture_path = os.path.join(settings.BASE_DIR, 'fixtures/notification_type.yaml')
+        fixture_path = os.path.join(settings.BASE_DIR, 'fixtures/prod.yaml')
         call_command('loaddata', fixture_path)
 
         cls.admin = get_user_model().objects.create_superuser(
