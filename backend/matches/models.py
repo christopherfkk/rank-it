@@ -87,6 +87,7 @@ class Match(models.Model):
     match_offer = models.ForeignKey(
         MatchOffer,
         on_delete=models.CASCADE,
+        null=True,
     )
     submitter = models.ForeignKey(
         settings.AUTH_USER_MODEL,

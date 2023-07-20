@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'matches.apps.MatchesConfig',
     'communities.apps.CommunitiesConfig',
     'notifications.apps.NotificationsConfig',
-    'ranks.app.RanksConfig',
+    'ranks.apps.RanksConfig',
 
     # Third party
     'rest_framework',
