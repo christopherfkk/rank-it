@@ -124,31 +124,33 @@ const App = () => {
 };
 
 const InnerApp = ({hideSplashScreen}) => {
-  // const { state } = useRegContext();
-  // const [isRegistered, setIsRegistered] = useState(false);
+  const { state } = useRegContext();
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isLogIn, setIsLogIn] = useState(false);
 
-  // useEffect(() => {
-  //   const checkLoginStatus = async () +. {
-  //     try  {
-  //       const accessToken = await AsyncStorage.getItem("accessToken")
+  //check if someone is logged in after entering app 
+  useEffect(() => {
+    const checkLoginStatus = async () +. {
+      try  {
+        const accessToken = await AsyncStorage.getItem("accessToken")
 
-  //       if (accessToken)  {
-  //         const isRegistered = state.gender !== undefined;
-  //       }
-  //     }
-  //   }
+        if (accessToken)  {
+          setIsLogIn(true)
+        }
+      }
+    }
 
+    // Check if the user has completed registration based on RegContext state
+    const checkRegistrationStatus = () => {
+      // You can adjust the condition based on your registration criteria
+      const isCompletedRegistration = state.firstName !== null && state.gender !== null;
+      setIsRegistered(isCompletedRegistration);
+    };
 
-  //   // Check if the user has completed registration based on RegContext state
-  //   const checkRegistrationStatus = () => {
-  //     // You can adjust the condition based on your registration criteria
-  //     const isCompletedRegistration = state.firstName !== null && state.gender !== null;
-  //     setIsRegistered(isCompletedRegistration);
-  //   };
+    checkRegistrationStatus();
+  }, [state]);
 
-  //   checkRegistrationStatus();
-  // }, [state]);
-
+  //ask chatgbt
   return (
       <NavigationContainer>
         {hideSplashScreen ? (

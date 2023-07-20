@@ -6,6 +6,7 @@ import RegText from "../components/RegText";
 import RegButton from "../components/RegButton";
 import { Padding, Border, Color } from "../GlobalStyles";
 
+// add asyncstorage registered = true
 const PfStart = () => {
   const navigation = useNavigation();
 
@@ -16,7 +17,7 @@ const PfStart = () => {
         resizeMode="cover"
         source={require("../assets/signupbody2.png")}
       >
-        <RegTitle regtitle="welcome Bentley" />
+        <RegTitle regtitle="Welcome" />
         <RegText youWontBeAbleToChangeThis="We're thrilled to welcome you aboard and play badminton with you! " />
         <TextInput
           style={[styles.textbox, styles.textboxShadowBox]}

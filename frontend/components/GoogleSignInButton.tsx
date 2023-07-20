@@ -66,11 +66,6 @@ const GoogleSignInButton = () => {
     androidClientId: androidClientId,
   });
 
-  useEffect(() => {
-    checkcontext(dispatch);
-  }, [dispatch]);
-
-
   const handleGoogleSignIn = async () => {
     try {
       const result = await promptAsync();
@@ -85,17 +80,19 @@ const GoogleSignInButton = () => {
     }
   };
 
-
-  const checkcontext = (dispatch) => {
-    // Check if 'firstName' value exists in the state object.
-    if (state.firstName !== null) {
-      // Do something if the 'firstName' value exists in the state.
-      console.log('firstName:', state.profilePhoto);
-    } else {
-      // Do something else if the 'firstName' value doesn't exist in the state.
-      console.log('firstName not set.');
-    }
-  }
+  // useEffect(() => {
+  //   checkcontext(dispatch);
+  // }, [dispatch]);
+  // const checkcontext = (dispatch) => {
+  //   // Check if 'firstName' value exists in the state object.
+  //   if (state.firstName !== null) {
+  //     // Do something if the 'firstName' value exists in the state.
+  //     console.log('firstName:', state.profilePhoto);
+  //   } else {
+  //     // Do something else if the 'firstName' value doesn't exist in the state.
+  //     console.log('firstName not set.');
+  //   }
+  // }
 
   return (
     <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={handleGoogleSignIn}>
