@@ -25,6 +25,7 @@ urlpatterns = [
     # RankIt related
     path('api/v1/', include('matches.urls')),
     path('api/v1/accounts/', include('accounts.urls')),
+    path('api/v1/ranks/', include('ranks.urls')),
 
     # Admin and DRF auth interface
     path('admin/', admin.site.urls),

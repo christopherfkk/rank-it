@@ -1,18 +1,17 @@
 from django.db import transaction
 from django.db.models import Q
-from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.middleware.csrf import get_token
-from rest_framework.decorators import api_view, renderer_classes, permission_classes
-from rest_framework.renderers import JSONRenderer
-
+from rest_framework.decorators import api_view, permission_classes
 
 from .permissions import IsPlayerOrAnyReadOnly, IsOpponent, IsSubmitter, IsReporterOrAnyReadOnly
 from .models import MatchOffer, Match, PostMatchFeedback
 from .serializers import MatchOfferSerializer, MatchSerializer, PostMatchFeedbackSerializer
+from service.rating import update_rating
+from ranks.models import Skill
 
 
 @api_view(('GET',))
@@ -157,7 +156,7 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_superuser:
             return PostMatchFeedback.objects.all()
-        return PostMatchFeedback.objects.filter(Q(user=user) | Q(match__submitter=user) | Q(match__opponent=user))
+        return PostMatchFeedback.objects.filter(Q(reporter=user) | Q(match__submitter=user) | Q(match__opponent=user))
 
     def get_permissions(self):
         # Only admin can destroy a PostMatchFeedback
@@ -178,9 +177,27 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
         """
 
         curr_feedback = request.data
+
+        # case 4: First feedback without offer
+        if curr_feedback.get('match_id') is None or curr_feedback.get('match_id') == "":
+            with transaction.atomic():
+                match = Match.objects.create(
+                    submitter_id=curr_feedback.get('reporter_id'),
+                    opponent_id=curr_feedback.get('opponent_id'),
+                    status=Match.Status.AWAITING_CONFIRMATION,
+                )
+                request.data._mutable = True
+                request.data['match_id'] = match.id
+                request.data.pop('opponent_id')
+                return super().create(request, *args, **kwargs)
+
+        # case 1: First feedback with offer
+        # case 2: Second feedback with offer
+        # case 3: Second feedback without offer
         match_id = curr_feedback.get('match_id')
-        other_feedback = PostMatchFeedback.objects.filter(match_id=match_id).first()
         match = Match.objects.filter(id=match_id).first()
+
+        other_feedback = PostMatchFeedback.objects.filter(match_id=match_id).first()
 
         # If this is the second post-match feedback of this match
         if other_feedback:
@@ -198,35 +215,74 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
                     match.opponent_score = curr_feedback.get('opponent_score')
                     match.save()
 
+                    # Update
+                    if match.submitter_score > match.opponent_score:
+                        match.submitter.matches_won += 1
+                        match.submitter.matches_played += 1
+                        match.submitter.save()
+                        match.opponent.matches_played += 1
+                        match.opponent.save()
+                    else:
+                        match.opponent.matches_won += 1
+                        match.opponent.matches_played += 1
+                        match.opponent.save()
+                        match.submitter.matches_played += 1
+                        match.submitter.save()
+
                     # Update user object with the current feedback
                     user = match.opponent if curr_feedback.get('reporter_is_submitter') else match.submitter
 
-                    user.n_skill_level_received += 1
-                    user.overall_skill_level = (
-                        (user.overall_skill_level + int(curr_feedback.get('peer_skill_level_given'))) /
-                        user.n_skill_level_received
-                    )
-                    user.n_sportsmanship_rating_received += 1
-                    user.overall_sportsmanship_rating = (
-                        (user.overall_sportsmanship_rating + int(curr_feedback.get('peer_sportsmanship_rating_given'))) /
-                        user.n_sportsmanship_rating_received
-                    )
+                    if curr_feedback.get('peer_skill_level_given') or len(curr_feedback.get('peer_skill_level_given')) > 0:
+                        user.n_skill_level_received += 1
+                        user.overall_skill_level = (
+                            (user.overall_skill_level + int(curr_feedback.get('peer_skill_level_given'))) /
+                            user.n_skill_level_received
+                        )
+
+                    if curr_feedback.get('peer_sportsmanship_rating_given') or len(curr_feedback.get(
+                            'peer_sportsmanship_rating_given')) > 0:
+                        user.n_sportsmanship_rating_received += 1
+                        user.overall_sportsmanship_rating = (
+                            (user.overall_sportsmanship_rating + int(curr_feedback.get('peer_sportsmanship_rating_given'))) /
+                            user.n_sportsmanship_rating_received
+                        )
                     user.save()
 
                     # Update user with other feedback
                     user = match.submitter if curr_feedback.get('reporter_is_submitter') else match.opponent
 
-                    user.n_skill_level_received += 1
-                    user.overall_skill_level = (
-                            (user.overall_skill_level + other_feedback.peer_skill_level_given) /
-                            user.n_skill_level_received
-                    )
-                    user.n_sportsmanship_rating_received += 1
-                    user.overall_sportsmanship_rating = (
-                            (user.overall_sportsmanship_rating + other_feedback.peer_sportsmanship_rating_given) /
-                            user.n_sportsmanship_rating_received
-                    )
+                    if curr_feedback.get('peer_skill_level_given') or len(curr_feedback.get('peer_skill_level_given')) > 0:
+                        user.n_skill_level_received += 1
+                        user.overall_skill_level = (
+                                (user.overall_skill_level + other_feedback.peer_skill_level_given) /
+                                user.n_skill_level_received
+                        )
+                    if curr_feedback.get('peer_sportsmanship_rating_given') or len(curr_feedback.get(
+                            'peer_sportsmanship_rating_given')) > 0:
+                        user.n_sportsmanship_rating_received += 1
+                        user.overall_sportsmanship_rating = (
+                                (user.overall_sportsmanship_rating + other_feedback.peer_sportsmanship_rating_given) /
+                                user.n_sportsmanship_rating_received
+                        )
                     user.save()
+
+                    # Update skill
+                    skill1 = Skill.objects.filter(user=match.submitter).first()
+                    mu1, sigma1, score1 = skill1.mu, skill1.sigma, match.submitter_score
+
+                    skill2 = Skill.objects.filter(user=match.opponent).first()
+                    mu2, sigma2, score2 = skill2.mu, skill2.sigma, match.opponent_score
+
+                    new_mu1, new_sigma1, new_mu2, new_sigma2 = update_rating(mu1, sigma1, score1, mu2, sigma2, score2)
+                    skill1.mu = new_mu1
+                    skill1.sigma = new_sigma1
+                    skill1.skill = new_mu1 - 3 * new_sigma1
+                    skill1.save()
+
+                    skill2.mu = new_mu2
+                    skill2.sigma = new_sigma2
+                    skill2.skill = new_mu2 - 3 * new_sigma2
+                    skill2.save()
 
             # If reported scores conflict
             else:
@@ -241,4 +297,6 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
             match.status = Match.Status.AWAITING_CONFIRMATION
             match.save()
 
+        request.data._mutable = True
+        request.data.pop('opponent_id')
         return super().create(request, *args, **kwargs)
