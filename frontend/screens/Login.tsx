@@ -35,6 +35,8 @@ const Login = () => {
           const registerSuccess = data.access !== undefined;
 
           if (registerSuccess) {
+            // ** add access and refresh token to asyncstorage
+
             navigation.navigate("PfName");
           } else {
             // Set the error state based on the response data from the backend
