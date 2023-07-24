@@ -8,12 +8,11 @@ import {useRegContext, RegContextProvider} from './RegContext';
 
 
 import Login from "./screens/auth/Login";
-import OpponentMenu from "./screens/home/OpponentMenu";
 import Ranking from "./screens/home/Ranking";
 import Signup from "./screens/auth/Signup";
 import ResetPassword from "./screens/auth/ResetPassword";
 import LoadingPage from "./screens/LoadingPage";
-import PersonalMenu from "./screens/home/PersonalMenu";
+import Profile from "./screens/home/Profile";
 import PfStart from "./screens/setup/PfStart";
 import PfAvailability from "./screens/setup/PfAvailability";
 import PfBirthday from "./screens/setup/PfBirthday";
@@ -123,8 +122,8 @@ const InnerApp = ({hideSplashScreen}) => {
                         options={{headerShown: false}}
                     />
                     <Stack.Screen
-                        name="OpponentMenu"
-                        component={OpponentMenu}
+                        name="Profile"
+                        component={Profile}
                         options={{headerShown: false}}
                     />
                     <Stack.Screen

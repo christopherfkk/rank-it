@@ -3,7 +3,7 @@ import { Text, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { Color, FontFamily, Padding, FontSize } from "../../GlobalStyles";
 
-type BioContainerType = {
+type ProfileDetailsType = {
   bioText?: string;
   matchLoggedText?: string;
   rankingText?: string;
@@ -22,7 +22,7 @@ const getStyleValue = (key: string, value: string | number | undefined) => {
   if (value === undefined) return;
   return { [key]: value === "unset" ? undefined : value };
 };
-const BioContainer = memo(
+const ProfileDetails = memo(
   ({
     bioText,
     matchLoggedText,
@@ -34,7 +34,7 @@ const BioContainer = memo(
     availability = "Monday 16-17, 18-19Tuesday 15-16Wednesday 11-12Thursday 13-14Friday 18-19Saturday 19-20Sunday 11-12, 13-14",
     strength = "Agility, Cardio, Reaction Time",
     competitiveness = "High",
-  }: BioContainerType) => {
+  }: ProfileDetailsType) => {
     const personalStyle = useMemo(() => {
       return {
         ...getStyleValue("height", frame8652Height),
@@ -50,10 +50,14 @@ const BioContainer = memo(
 
     return (
       <View style={[styles.personal, personalStyle]}>
+
+        {/* BIO */}
         <View style={styles.question}>
           <Text style={[styles.bio, styles.bioFlexBox]}>Bio</Text>
           <Text style={[styles.editBio, styles.editBioTypo]}>{bioText}</Text>
         </View>
+
+        {/* Sportsmanship */}
         <View style={[styles.analytics, styles.analyticsBorder]}>
           <Image
             style={styles.iconLayout}
@@ -69,6 +73,8 @@ const BioContainer = memo(
             </Text>
           </View>
         </View>
+
+
         <View style={[styles.analytics, styles.analyticsBorder]}>
           <Image
             style={styles.iconLayout}
@@ -84,6 +90,7 @@ const BioContainer = memo(
             </Text>
           </View>
         </View>
+
         <View style={[styles.analytics, styles.analyticsBorder]}>
           <Image
             style={styles.iconLayout}
@@ -99,6 +106,7 @@ const BioContainer = memo(
             </Text>
           </View>
         </View>
+
         <View style={[styles.analytics, styles.analyticsBorder]}>
           <Image
             style={styles.iconLayout}
@@ -114,6 +122,7 @@ const BioContainer = memo(
             </Text>
           </View>
         </View>
+
         <View style={[styles.analytics, styles.analyticsBorder]}>
           <Image
             style={[styles.iconParkOutlinemuscle, styles.iconLayout]}
@@ -127,6 +136,7 @@ const BioContainer = memo(
             </Text>
           </View>
         </View>
+
         <View
           style={[styles.analytics5, styles.analyticsBorder, analyticsStyle]}
         >
@@ -144,6 +154,7 @@ const BioContainer = memo(
             </Text>
           </View>
         </View>
+
       </View>
     );
   }
@@ -242,4 +253,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BioContainer;
+export default ProfileDetails;
