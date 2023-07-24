@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, ImageBackground, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RegSelectButton from "../../components/RegSelectButton";
-import RegButton from "../../components/RegButton";
+import RegSelectButton from "../../components/setup/RegSelectButton";
 import { FontFamily, Color, Padding, Reg } from "../../GlobalStyles";
-import RegBackground from "../../components/RegBackground";
+import RegBackground from "../../components/setup/RegBackground";
+import RegButton from "../../components/setup/RegButton"
+
 
 const PfSkill = () => {
   const navigation = useNavigation();

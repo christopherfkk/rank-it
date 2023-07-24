@@ -7,10 +7,11 @@ import {
   View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RegButton from "../../components/RegButton";
-import { Padding, Border, FontFamily, Color, FontSize, Reg} from "../../GlobalStyles";
-import RegBackground from "../../components/RegBackground";
-import RegTextInput from "../../components/RegTextInput";
+import {Reg} from "../../GlobalStyles";
+
+import RegBackground from "../../components/setup/RegBackground";
+import RegButton from "../../components/setup/RegButton"
+import RegTextInput from "../../components/setup/RegTextInput";
 
 const PfName = () => {
   const navigation = useNavigation();
