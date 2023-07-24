@@ -69,7 +69,7 @@ const handleRegister = () => {
         <ImageBackground
           style={Auth.memberPhotoIcon}
           resizeMode="cover"
-          source={require("../../assets/companylogo.png")}
+          source={require("../assets/companylogo.png")}
         />
         <Text style={[Auth.heading1]}>
           Create an Account
