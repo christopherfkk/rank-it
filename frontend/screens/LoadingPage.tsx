@@ -4,7 +4,7 @@ import { Color, Auth } from "../GlobalStyles";
 
 const LoadingPage = () => {
   return (
-    <SafeAreaView style={[Auth.background]}>
+    <View style={[Auth.background]}>
       <View style={[styles.container, styles.containerFlexBox]}>
         <ImageBackground
           style={styles.Icon}
@@ -12,7 +12,7 @@ const LoadingPage = () => {
           source={require("../assets/companylogo.png")}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
   container: {
     alignSelf: "stretch",
     backgroundColor: Color.white,
-    paddingHorizontal: 76,
-    paddingVertical: 178,
+    width: "100%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
   },
