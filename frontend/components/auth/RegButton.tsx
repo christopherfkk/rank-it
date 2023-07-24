@@ -59,11 +59,11 @@ const RegButton = ({
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     fontSize: FontSize.size_2xs,
     fontFamily: FontFamily.bebasNeueRegular,
     color: Color.crimson_200,
     textAlign: "center",
+    width: "100%",
   },
   pfButton: {
     borderRadius: Border.br_11xs,
@@ -74,15 +74,10 @@ const styles = StyleSheet.create({
       height: 4,
     },
     shadowRadius: 4,
-    elevation: 4,
     shadowOpacity: 1,
-    width: 125,
-    height: 29,
     flexDirection: "row",
-    padding: Padding.p_mini,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 18,
   },
 });
 
