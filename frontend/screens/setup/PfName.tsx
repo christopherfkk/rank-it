@@ -23,9 +23,11 @@ const PfName = () => {
   const storeUserInfo = async (firstName: string, lastName: string) => {
     try {
 
+      console.log('hi')
       // backend data of user is inserted
       dispatch({ type: ACTIONS.SET_FIRST_NAME, payload: firstName });
       dispatch({ type: ACTIONS.SET_LAST_NAME, payload: lastName });
+      console.log('hi')
     } catch (error) {
       console.error("Error storing user info in AsyncStorage:", error);
     }
