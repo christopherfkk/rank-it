@@ -1,60 +1,46 @@
-import * as React from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { Text, StyleSheet, ImageBackground, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RegTitle from "../../components/auth/RegTitle";
-import RegSelectButton from "../../components/auth/RegSelectButton";
-import RegButton from "../../components/auth/RegButton";
-import { Padding } from "../../GlobalStyles";
+import RegSelectButton from "../../components/RegSelectButton";
+import RegButton from "../../components/RegButton";
+import { FontFamily, Color, Padding, Reg } from "../../GlobalStyles";
 
 const PfGender1 = () => {
   const navigation = useNavigation();
+  const [selectedGender, setSelectedGender] = useState("");
 
   return (
-    <View style={styles.pfGender}>
+    <View style={Reg.background}>
       <ImageBackground
         style={styles.signUpBody}
         resizeMode="cover"
-        source={require("../../assets/signupbody1.png")}
+        source={require("../assets/signupbody1.png")}
       >
-        <RegTitle
-          regtitle="Pick which best describes you"
-          whatsYourFirstAndLastNameMarginTop="unset"
-          whatsYourFirstAndLastNameAlignSelf="stretch"
-          whatsYourFirstAndLastNameDisplay="unset"
-          whatsYourFirstAndLastNameAlignItems="unset"
-          whatsYourFirstAndLastNameJustifyContent="unset"
-          whatsYourFirstAndLastNameWidth="unset"
+        <Text style={Reg.heading1}>Pick which best describes you</Text>
+        <RegSelectButton
+          onGenderPress={(gender) => setSelectedGender(gender)}
+          selectedGender={selectedGender}
+          gender="Male"
         />
         <RegSelectButton
-          onGenderPress={() => {}}
-          onEnterYourFirstnameContainPress={() => {}}
-          male="Male"
+          onGenderPress={(gender) => setSelectedGender(gender)}
+          selectedGender={selectedGender}
+          gender="Female"
         />
         <RegSelectButton
-          onGenderPress={() => {}}
-          genderOpacity={0}
-          onEnterYourFirstnameContainPress={() => {}}
-          male="Female"
+          onGenderPress={(gender) => setSelectedGender(gender)}
+          selectedGender={selectedGender}
+          gender="Non-binary"
         />
         <RegSelectButton
-          onGenderPress={() => {}}
-          genderOpacity={0}
-          onEnterYourFirstnameContainPress={() => {}}
-          male="Non-binary"
-        />
-        <RegSelectButton
-          onGenderPress={() => {}}
-          genderOpacity={0}
-          onEnterYourFirstnameContainPress={() => {}}
-          male="Prefer not to say"
+          onGenderPress={(gender) => setSelectedGender(gender)}
+          selectedGender={selectedGender}
+          gender="Prefer not to say"
         />
         <RegButton
-          onPfButtonPress={() => navigation.navigate("PfPhone")}
-          pfButtonWidth={176}
-          pfButtonHeight={41}
-          button="Next"
-          pfButtonMarginTop={18}
-          pfButtonMarginLeft="unset"
+          navigation={navigation}
+          screenName="Phone"
+          disabled={selectedGender === ""}
         />
       </ImageBackground>
     </View>
@@ -63,17 +49,12 @@ const PfGender1 = () => {
 
 const styles = StyleSheet.create({
   signUpBody: {
-    alignSelf: "stretch",
     overflow: "hidden",
     paddingHorizontal: Padding.p_9xl,
     paddingVertical: Padding.p_4xs,
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
-  },
-  pfGender: {
-    width: "100%",
-    height: 655,
+    alignSelf: "stretch",
     flex: 1,
   },
 });
