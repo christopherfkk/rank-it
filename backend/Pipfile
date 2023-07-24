@@ -14,7 +14,8 @@ django-allauth = "==0.50.0"
 drf-spectacular = "~=0.26.2"
 python-dotenv = "~=1.0.0"
 pillow = "*"
-requests = "*"
+requests = "==2.31.0"
+charset-normalizer = "==3.1.0"
 
 [dev-packages]
 
