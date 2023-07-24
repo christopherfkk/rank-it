@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput } from "react-native";
-import { Reg } from "../GlobalStyles";
+import { Reg } from "../../GlobalStyles";
 
 const RegTextInput = ({ placeholder, value, onChangeText }) => {
   return (

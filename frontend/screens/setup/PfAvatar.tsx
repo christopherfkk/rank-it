@@ -1,10 +1,10 @@
 import React, { useState, useEffect} from "react";
 import { Text, StyleSheet, TouchableOpacity, ImageBackground, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RegSkipButton from "../../components/RegSkipButton";
-import RegButton from "../../components/RegButton";
+import RegSkipButton from "../../components/auth/RegSkipButton";
+import RegButton from "../../components/setup/RegButton"
 import { Reg, FontFamily, Color, FontSize, Border, Padding } from "../../GlobalStyles";
-import RegBackground from "../../components/RegBackground";
+import RegBackground from "../../components/setup/RegBackground";
 import * as ImagePicker from 'expo-image-picker';
 
 const PfAvatar = () => {

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, ImageBackground, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RegSelectButton from "../../components/RegSelectButton";
-import RegButton from "../../components/RegButton";
 import { FontFamily, Color, Padding, Reg } from "../../GlobalStyles";
+
+import RegBackground from "../../components/setup/RegBackground";
+import RegSelectButton from "../../components/setup/RegSelectButton";
+import RegButton from "../../components/setup/RegButton"
 
 const PfGender1 = () => {
   const navigation = useNavigation();
@@ -11,11 +13,7 @@ const PfGender1 = () => {
 
   return (
     <View style={Reg.background}>
-      <ImageBackground
-        style={styles.signUpBody}
-        resizeMode="cover"
-        source={require("../assets/signupbody1.png")}
-      >
+      <RegBackground>
         <Text style={Reg.heading1}>Pick which best describes you</Text>
         <RegSelectButton
           onGenderPress={(gender) => setSelectedGender(gender)}
@@ -42,7 +40,7 @@ const PfGender1 = () => {
           screenName="Phone"
           disabled={selectedGender === ""}
         />
-      </ImageBackground>
+      </RegBackground>
     </View>
   );
 };

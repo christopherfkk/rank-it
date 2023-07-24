@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Color, FontFamily, Reg } from "../GlobalStyles";
+import { Color, FontFamily, Reg } from "../../GlobalStyles";
 
 const RegSelectButton = ({ onPress, selectedOption, optionLabel }) => {
   const isActive = selectedOption === optionLabel;

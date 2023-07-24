@@ -3,9 +3,9 @@ import { Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
 import { Reg } from "../../GlobalStyles";
-import RegBackground from "../../components/RegBackground";
-import RegButton from "../../components/RegButton";
-import RegTextInput from "../../components/RegTextInput"
+import RegBackground from "../../components/setup/RegBackground";
+import RegButton from "../../components/setup/RegButton"
+import RegTextInput from "../../components/setup/RegTextInput"
 
 const PfLocation = () => {
   const navigation = useNavigation();
