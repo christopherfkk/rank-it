@@ -1,256 +1,165 @@
-import React, { useMemo, memo } from "react";
-import { Text, StyleSheet, View } from "react-native";
-import { Image } from "expo-image";
-import { Color, FontFamily, Padding, FontSize } from "../../GlobalStyles";
+import React, {useMemo, memo} from "react";
+import {Text, StyleSheet, View} from "react-native";
+import {Image} from "expo-image";
+import {Color, FontFamily, Padding, FontSize} from "../../GlobalStyles";
 
 type ProfileDetailsType = {
-  bioText?: string;
-  matchLoggedText?: string;
-  rankingText?: string;
-  sportsmanshiprating?: string;
-  availability?: string;
-  strength?: string;
-  competitiveness?: string;
-
-  /** Style props */
-  frame8652Height?: number | string;
-  propWidth?: number | string;
-  propAlignSelf?: string;
+    bioText?: string;
+    nMatchesLogged?: number;
+    highestRankAttained?: number;
+    sportsmanshipRating?: number;
+    strength?: string;
+    competitiveness?: string;
 };
 
-const getStyleValue = (key: string, value: string | number | undefined) => {
-  if (value === undefined) return;
-  return { [key]: value === "unset" ? undefined : value };
+type AnalyticType = {
+    iconPath: string;
+    name: string;
+    analytic: string;
 };
-const ProfileDetails = memo(
-  ({
-    bioText,
-    matchLoggedText,
-    rankingText,
-    frame8652Height,
-    propWidth,
-    propAlignSelf,
-    sportsmanshiprating = "Star Rating: 4.5 ",
-    availability = "Monday 16-17, 18-19Tuesday 15-16Wednesday 11-12Thursday 13-14Friday 18-19Saturday 19-20Sunday 11-12, 13-14",
-    strength = "Agility, Cardio, Reaction Time",
-    competitiveness = "High",
-  }: ProfileDetailsType) => {
-    const personalStyle = useMemo(() => {
-      return {
-        ...getStyleValue("height", frame8652Height),
-      };
-    }, [frame8652Height]);
 
-    const analyticsStyle = useMemo(() => {
-      return {
-        ...getStyleValue("width", propWidth),
-        ...getStyleValue("alignSelf", propAlignSelf),
-      };
-    }, [propWidth, propAlignSelf]);
-
+const Analytic = ({iconPath, name, analytic}: AnalyticType) => {
     return (
-      <View style={[styles.personal, personalStyle]}>
-
-        {/* BIO */}
-        <View style={styles.question}>
-          <Text style={[styles.bio, styles.bioFlexBox]}>Bio</Text>
-          <Text style={[styles.editBio, styles.editBioTypo]}>{bioText}</Text>
+        <View style={styles.analytics}>
+            <Image
+                style={styles.icon}
+                contentFit="cover"
+                source={iconPath}
+            />
+            <View style={styles.analyticGroup}>
+                <Text style={styles.analyticName}>
+                    {name}
+                </Text>
+                <Text style={styles.analyticPhrase}>
+                    {analytic}
+                </Text>
+            </View>
         </View>
+    )
+}
 
-        {/* Sportsmanship */}
-        <View style={[styles.analytics, styles.analyticsBorder]}>
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../../assets/star.png")}
-          />
-          <View style={styles.locationParent}>
-            <Text style={[styles.location, styles.bioFlexBox]}>
-              Sportsmanship
-            </Text>
-            <Text style={[styles.location1, styles.editBioTypo]}>
-              {sportsmanshiprating}
-            </Text>
-          </View>
-        </View>
+const ProfileDetails = memo(
+    ({
+         bioText,
+         nMatchesLogged,
+         highestRankAttained,
+         sportsmanshipRating,
+         strength,
+         competitiveness,
+     }:
+         ProfileDetailsType) => {
 
+        return (
+            <View style={[styles.profileDetails]}>
 
-        <View style={[styles.analytics, styles.analyticsBorder]}>
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../../assets/star1.png")}
-          />
-          <View style={styles.locationParent}>
-            <Text style={[styles.location, styles.bioFlexBox]}>
-              Matches Played
-            </Text>
-            <Text style={[styles.location1, styles.editBioTypo]}>
-              {matchLoggedText}
-            </Text>
-          </View>
-        </View>
+                {/* BIO */}
+                <View style={styles.bio}>
+                    <Text style={styles.bioHeader}>
+                        Bio
+                    </Text>
+                    <Text style={styles.bioText}>
+                        {bioText}
+                    </Text>
+                </View>
 
-        <View style={[styles.analytics, styles.analyticsBorder]}>
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../../assets/star2.png")}
-          />
-          <View style={styles.locationParent}>
-            <Text style={[styles.location, styles.bioFlexBox]}>
-              Highest Rank Attained (City)
-            </Text>
-            <Text style={[styles.location1, styles.editBioTypo]}>
-              {rankingText}
-            </Text>
-          </View>
-        </View>
+                <Analytic
+                    iconPath={require("../../assets/pf-sportsmanship-rating.png")}
+                    name="Sportsmanship"
+                    analytic={`Star Rating: ${sportsmanshipRating}`}
+                />
 
-        <View style={[styles.analytics, styles.analyticsBorder]}>
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../../assets/star3.png")}
-          />
-          <View style={styles.locationParent}>
-            <Text style={[styles.location, styles.bioFlexBox]}>
-              Match Competitiveness
-            </Text>
-            <Text style={[styles.location1, styles.editBioTypo]}>
-              {competitiveness}
-            </Text>
-          </View>
-        </View>
+                <Analytic
+                    iconPath={require("../../assets/pf-matches-played.png")}
+                    name="Matches Played"
+                    analytic={`${nMatchesLogged} logged matches`}
+                />
 
-        <View style={[styles.analytics, styles.analyticsBorder]}>
-          <Image
-            style={[styles.iconParkOutlinemuscle, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../../assets/star4.png")}
-          />
-          <View style={styles.locationParent}>
-            <Text style={[styles.location, styles.bioFlexBox]}>Strength</Text>
-            <Text style={[styles.location1, styles.editBioTypo]}>
-              {strength}
-            </Text>
-          </View>
-        </View>
+                <Analytic
+                    iconPath={require("../../assets/pf-highest-rank.png")}
+                    name="Highest Rank Attained"
+                    analytic={`${highestRankAttained}th in Tokyo`}
+                />
 
-        <View
-          style={[styles.analytics5, styles.analyticsBorder, analyticsStyle]}
-        >
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../../assets/star5.png")}
-          />
-          <View style={styles.locationParent}>
-            <Text style={[styles.location, styles.bioFlexBox]}>
-              Availability
-            </Text>
-            <Text style={[styles.location1, styles.editBioTypo]}>
-              {availability}
-            </Text>
-          </View>
-        </View>
+                <Analytic
+                    iconPath={require("../../assets/pf-match-competitiveness.png")}
+                    name="Match Competitiveness"
+                    analytic={competitiveness}
+                />
 
-      </View>
-    );
-  }
+                <Analytic
+                    iconPath={require("../../assets/pf-strength.png")}
+                    name="Strengths"
+                    analytic={strength}
+                />
+
+            </View>
+        );
+    }
 );
 
 const styles = StyleSheet.create({
-  bioFlexBox: {
-    textAlign: "left",
-    color: Color.gray_300,
-  },
-  editBioTypo: {
-    fontFamily: FontFamily.manropeRegular,
-    textAlign: "left",
-    color: Color.gray_300,
-  },
-  analyticsBorder: {
-    paddingVertical: Padding.p_3xs,
-    flexDirection: "row",
-    paddingHorizontal: Padding.p_8xs,
-    justifyContent: "center",
-    overflow: "hidden",
-    borderBottomWidth: 0.5,
-    borderTopWidth: 0.5,
-    borderColor: "#bababa",
-    borderStyle: "solid",
-    alignItems: "center",
-    backgroundColor: Color.white,
-  },
-  iconLayout: {
-    height: 20,
-    width: 20,
-  },
-  bio: {
-    fontSize: FontSize.size_xl,
-    lineHeight: 26,
-    fontWeight: "700",
-    fontFamily: FontFamily.manropeBold,
-    alignSelf: "stretch",
-  },
-  editBio: {
-    fontSize: FontSize.size_smi,
-    lineHeight: 17,
-    display: "flex",
-    flex: 1,
-    fontFamily: FontFamily.manropeRegular,
-    alignItems: "center",
-    alignSelf: "stretch",
-  },
-  question: {
-    height: 125,
-    padding: Padding.p_3xs,
-    justifyContent: "center",
-    borderBottomWidth: 0.5,
-    borderTopWidth: 0.5,
-    borderColor: "#bababa",
-    borderStyle: "solid",
-    overflow: "hidden",
-    alignItems: "center",
-    backgroundColor: Color.white,
-    alignSelf: "stretch",
-  },
-  location: {
-    fontSize: FontSize.size_2xs,
-    lineHeight: 14,
-    fontWeight: "600",
-    fontFamily: FontFamily.manropeSemibold,
-  },
-  location1: {
-    fontSize: FontSize.size_5xs,
-    lineHeight: 10,
-  },
-  locationParent: {
-    paddingVertical: Padding.p_0,
-    marginLeft: 3,
-    paddingHorizontal: Padding.p_8xs,
-    flex: 1,
-    justifyContent: "center",
-    overflow: "hidden",
-    alignSelf: "stretch",
-  },
-  analytics: {
-    alignSelf: "stretch",
-  },
-  iconParkOutlinemuscle: {
-    overflow: "hidden",
-    height: 20,
-    width: 20,
-  },
-  analytics5: {
-    width: 332,
-  },
-  personal: {
-    alignItems: "center",
-    backgroundColor: Color.white,
-    alignSelf: "stretch",
-  },
+    profileDetails: {
+        backgroundColor: Color.white,
+        flexDirection: "column",
+        overflow: "scroll"
+    },
+    bio: {
+        padding: Padding.p_3xs,
+        justifyContent: "center",
+        borderBottomWidth: 0.5,
+        borderTopWidth: 1,
+        borderColor: "#bababa",
+        borderStyle: "solid",
+        overflow: "scroll",
+        alignItems: "center",
+        backgroundColor: Color.white,
+    },
+    bioHeader: {
+        fontSize: FontSize.size_xl,
+        fontFamily: FontFamily.manropeBold,
+        alignSelf: "stretch",
+        textAlign: "left",
+        color: Color.gray_300,
+    },
+    bioText: {
+        fontFamily: FontFamily.manropeRegular,
+        textAlign: "left",
+        color: Color.gray_300,
+        fontSize: FontSize.size_smi,
+        display: "flex",
+        flex: 1,
+        alignItems: "center",
+        alignSelf: "stretch",
+    },
+    analytics: {
+        flexDirection: "row",
+        backgroundColor: Color.white,
+        paddingVertical: Padding.p_3xs,
+        paddingHorizontal: Padding.p_8xs,
+        borderBottomWidth: 0.5,
+        borderTopWidth: 0.5,
+        borderColor: "#bababa",
+        borderStyle: "solid",
+        overflow: "scroll",
+    },
+    icon: {
+        height: 25,
+        width: 25,
+    },
+    analyticGroup: {
+        justifyContent: "center",
+        paddingVertical: Padding.p_0,
+        paddingHorizontal: Padding.p_8xs,
+        overflow: "scroll",
+    },
+    analyticName: {
+        fontSize: 12,
+        fontWeight: "600",
+        fontFamily: FontFamily.manropeSemibold,
+    },
+    analyticPhrase: {
+        fontSize: 10,
+    },
 });
 
 export default ProfileDetails;
