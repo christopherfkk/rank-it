@@ -10,6 +10,7 @@ import RegButton from '../../components/auth/RegButton';
 const Profile = () => {
     return (
         <ScrollView
+            style={styles.profile}
             showsVerticalScrollIndicator={true}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.profileScrollViewContent}
@@ -34,34 +35,24 @@ const Profile = () => {
                 </Text>
             </Pressable>
 
+            {/* CHALLENGE BUTTON */}
+            <RegButton
+                pfButtonWidth={100}
+                pfButtonHeight={30}
+                button="challenge"
+                pfButtonMarginTop="unset"
+                pfButtonFlex="unset"
+                pfButtonMarginLeft={10}
+            />
+
             {/* MORE PROFILE DETAILS */}
             <ProfileDetails
                 bioText="Experienced badminton player with 5+ years of competitive play. Available on weekends for intense matches. Prefer playing at indoor courts in central Tokyo."
-                matchLoggedText="43 logged matches"
-                rankingText="444th in Tokyo"
-                frame8652Height={448}
-                propWidth="unset"
-                propAlignSelf="stretch"
-                sportsmanshiprating="Star Rating: 4.5 "
-                availability={`Monday 16-17, 18-19
-                      Tuesday 15-16
-                      Wednesday 11-12
-                      Thursday 13-14
-                      Friday 18-19
-                      Saturday 19-20
-                      Sunday 11-12, 13-14`}
+                nMatchesLogged={43}
+                highestRankAttained={7}
+                sportsmanshipRating={4.5}
                 strength="Agility, Cardio, Reaction Time"
                 competitiveness="High"
-            />
-
-            {/* CHALLENGE BUTTON */}
-            <RegButton
-                pfButtonWidth={10}
-                pfButtonHeight={29}
-                button="challenge"
-                pfButtonMarginTop="unset"
-                pfButtonFlex={1}
-                pfButtonMarginLeft={10}
             />
 
         </ScrollView>
@@ -69,13 +60,20 @@ const Profile = () => {
 };
 
 const styles = StyleSheet.create({
-    profileScrollViewContent: {
-        width: "100%",
-        alignItems: "center",
-        flex: 1,
-        backgroundColor: Color.white,
+    profile: {
         alignSelf: "stretch",
         overflow: "scroll",
+    },
+    profileScrollViewContent: {
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        alignSelf: "stretch",
+        overflow: "scroll",
+        width: "100%",
+        backgroundColor: Color.white,
+
+
     },
     editProfileButton: {
         flexDirection: "row",
