@@ -1,73 +1,89 @@
-import * as React from "react";
-import {
-  Pressable,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  View,
-} from "react-native";
+import React, { useState, useEffect} from "react";
+import { Text, StyleSheet, TouchableOpacity, ImageBackground, View, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RegSkipButton from "../../components/auth/RegSkipButton";
-import RegTitle from "../../components/auth/RegTitle";
-import RegText from "../../components/auth/RegText";
-import RegButton from "../../components/auth/RegButton";
-import { FontFamily, Border, Color, Padding } from "../../GlobalStyles";
+import RegSkipButton from "../../components/RegSkipButton";
+import RegButton from "../../components/RegButton";
+import { Reg, FontFamily, Color, FontSize, Border, Padding } from "../../GlobalStyles";
+import RegBackground from "../../components/RegBackground";
+import * as ImagePicker from 'expo-image-picker';
 
 const PfAvatar = () => {
   const navigation = useNavigation();
+  const [selectedImage, setselectedImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setselectedImage(result.assets[0].uri);
+    }
+  };
+
 
   return (
-    <View style={styles.pfAvatar}>
-      <ImageBackground
-        style={styles.signUpBody}
-        resizeMode="cover"
-        source={require("../../assets/signupbody.png")}
-      >
+    <View style={Reg.background}>
+      <RegBackground>
         <RegSkipButton />
-        <RegTitle
-          regtitle={`
-Add your first photo`}
-          whatsYourFirstAndLastNameMarginTop={18}
-          whatsYourFirstAndLastNameAlignSelf="stretch"
-          whatsYourFirstAndLastNameDisplay="unset"
-          whatsYourFirstAndLastNameAlignItems="unset"
-          whatsYourFirstAndLastNameJustifyContent="unset"
-          whatsYourFirstAndLastNameWidth="unset"
-        />
-        <RegText
-          youWontBeAbleToChangeThis="You’ll be able to see opponents’ age before matching. You won’t be able to change this later. "
-          youWontBeAbleToChangeThisFontSize={10}
-          youWontBeAbleToChangeThisFontFamily="Manrope_bold"
-          youWontBeAbleToChangeThisColor="#fff"
-          youWontBeAbleToChangeThisTextAlign="left"
-          youWontBeAbleToChangeThisLineHeight={12}
-          youWontBeAbleToChangeThisFontWeight="700"
-          youWontBeAbleToChangeThisAlignSelf="stretch"
-          youWontBeAbleToChangeThisWidth="unset"
-        />
-        <Pressable style={styles.textbox}>
-          <Text style={styles.beginner}>+</Text>
-        </Pressable>
+        <Text style={Reg.heading1}>
+          {`Add your first photo`}
+        </Text>
+
+        <Text
+          style={Reg.heading2}
+        >{`You’ll be able to see opponents’ age before matching. You won’t be able to change this later. `}</Text>
+
+        {/* Display the selected image if available */}
+        {selectedImage && <Image source={{ uri: selectedImage }} style={{width:200, height:200}} />}
+
+        {/* TouchableOpacity to open image picker */}
+        <TouchableOpacity style={styles.textbox} onPress={pickImage}>
+          <Text style={[styles.beginner, styles.beginnerFlexBox]}>+</Text>
+        </TouchableOpacity>
+
         <RegButton
-          onPfButtonPress={() => navigation.navigate("PfBirthday")}
-          pfButtonWidth={176}
-          pfButtonHeight={41}
-          button="Next"
-          pfButtonMarginTop={18}
-          pfButtonMarginLeft="unset"
+          navigation={navigation}
+          screenName="PfAvatar" // Replace "OtherScreen" with the next screen name
+          disabled={selectedImage === null} // Disable the button if no image is selected
         />
-      </ImageBackground>
+      </RegBackground>
     </View>
   );
 };
 
+
 const styles = StyleSheet.create({
+  beginnerFlexBox: {
+    textAlign: "center",
+    alignSelf: "stretch",
+  },
+  addYourFirst: {
+    fontSize: 29,
+    fontFamily: FontFamily.bebasNeueRegular,
+    color: Color.lavenderblush,
+    marginTop: 18,
+  },
+  youllBeAble: {
+    fontSize: FontSize.size_3xs,
+    lineHeight: 12,
+    fontWeight: "700",
+    fontFamily: FontFamily.manropeBold,
+    color: Color.white,
+    textAlign: "left",
+    marginTop: 18,
+    alignSelf: "stretch",
+  },
   beginner: {
     fontSize: 32,
     fontFamily: FontFamily.almaraiRegular,
     color: "rgba(26, 18, 18, 0.33)",
-    textAlign: "center",
-    alignSelf: "stretch",
   },
   textbox: {
     borderRadius: Border.br_8xs,
