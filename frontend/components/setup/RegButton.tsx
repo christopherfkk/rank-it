@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Reg } from "../../GlobalStyles";
 
-const RegButton = ({ navigation, screenName, disabled }) => {
+const RegButton = ({ navigation, screenName, disabled, }) => {
   return (
     <TouchableOpacity
       style={[Reg.button, disabled && styles.disabledButton]} // Apply the disabledButton style when the button is disabled

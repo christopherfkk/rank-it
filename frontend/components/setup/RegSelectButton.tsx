@@ -7,7 +7,7 @@ const RegSelectButton = ({ onPress, selectedOption, optionLabel }) => {
 
   return (
     <TouchableOpacity
-      style={[, Reg.textboxShadowBox, isActive && Reg.activeButton]}
+      style={[Reg.textboxShadowBox, isActive && Reg.activeButton]}
       onPress={() => onPress(optionLabel)}
     >
       <Text style={[Reg.textboxText,isActive && Reg.activeText]}>
