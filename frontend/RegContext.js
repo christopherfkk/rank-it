@@ -68,6 +68,7 @@ const RegContextProvider = ({ children }) => {
     };
 
     saveData();
+    console.log(state); // Log the state whenever it changes
   }, [state]);
 
   return (

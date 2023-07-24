@@ -2,13 +2,18 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Reg } from "../../GlobalStyles";
 
-const RegButton = ({ navigation, screenName, disabled, }) => {
+const RegButton = ({ navigation, screenName, disabled, onPress }) => {
   return (
     <TouchableOpacity
-      style={[Reg.button, disabled && styles.disabledButton]} // Apply the disabledButton style when the button is disabled
-      onPress={() => !disabled && navigation.navigate(screenName)} // Only navigate if the button is not disabled
+      style={[Reg.button, disabled && styles.disabledButton]}
+      onPress={() => {
+        if (!disabled) {
+          navigation.navigate(screenName);
+          onPress && onPress();
+        }
+      }}
       activeOpacity={0.2}
-      disabled={disabled} // Disable the TouchableOpacity component based on the disabled prop
+      disabled={disabled}
     >
       <Text style={Reg.buttonText} numberOfLines={3}>
         Next
@@ -19,7 +24,7 @@ const RegButton = ({ navigation, screenName, disabled, }) => {
 
 const styles = StyleSheet.create({
   disabledButton: {
-    opacity: 0.5, // Reduce the opacity of the button when it's disabled
+    opacity: 0.5,
   },
 });
 
