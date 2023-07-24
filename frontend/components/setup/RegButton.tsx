@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import { Reg } from "../GlobalStyles";
+import { Reg } from "../../GlobalStyles";
 
 const RegButton = ({ navigation, screenName, disabled }) => {
   return (

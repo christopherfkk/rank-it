@@ -95,8 +95,6 @@ const InnerApp = ({hideSplashScreen}) => {
 
         checkLoginStatus();
         checkRegistrationStatus();
-        setIsLogIn(true)
-        setIsRegistered(true)
     }, [state]);
 
     //ask chatgpt
@@ -108,7 +106,7 @@ const InnerApp = ({hideSplashScreen}) => {
                         !isLogIn
                             ? 'Login'
                             : !isRegistered
-                                ? 'Signup'
+                                ? 'PfStart'
                                 : 'BottomTabs'
                     }
                     screenOptions={{headerShown: false}}

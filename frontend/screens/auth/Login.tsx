@@ -3,7 +3,7 @@ import { View, Text, TextInput, Pressable, StyleSheet, SafeAreaView, ImageBackgr
 import { useNavigation } from "@react-navigation/native";
 import apiConfig from '../../apiConfig';
 import { Color, FontFamily, FontSize, Auth } from "../../GlobalStyles";
-import GoogleSignInButton from "../../components/GoogleSignInButton";
+import GoogleSignInButton from "../../components/auth/GoogleSignInButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRegContext, ACTIONS } from '../../RegContext';
 
@@ -90,7 +90,7 @@ const Login = () => {
         <ImageBackground
           style={Auth.memberPhotoIcon}
           resizeMode="cover"
-          source={require("../assets/companylogo.png")}
+          source={require("../../assets/companylogo.png")}
         />
         <Text style={[Auth.heading1]}>Log in to Rank-it</Text>
         <View style={Auth.signupForm}>

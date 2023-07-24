@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Reg } from "../../GlobalStyles";
-import RegBackground from "../../components/RegBackground";
-import RegButton from "../../components/RegButton"
+import RegBackground from "../../components/setup/RegBackground";
+import RegButton from "../../components/setup/RegButton"
 
 const PfStart = () => {
   const navigation = useNavigation();
@@ -24,7 +24,7 @@ const PfStart = () => {
         <Text style={Reg.heading2}>
           {`We're thrilled to welcome you aboard and play badminton with you! `}
         </Text>
-    <RegButton navigation={navigation} screenName="PfLocation" />
+    <RegButton navigation={navigation} screenName="PfName" />
       </RegBackground>
     </View>
   );
