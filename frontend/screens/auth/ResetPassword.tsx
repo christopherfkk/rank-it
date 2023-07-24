@@ -92,23 +92,4 @@ const ResetPassword = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  signUpBodyFlexBox: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-  signUpBody: {
-    alignSelf: "stretch",
-    backgroundColor: Color.lavenderblush,
-    overflow: "hidden",
-    paddingHorizontal: Padding.p_9xl,
-    paddingVertical: Padding.p_4xs,
-  },
-  resetPassword: {
-    width: "100%",
-    height: "100%",
-  },
-});
-
 export default ResetPassword;
