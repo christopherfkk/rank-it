@@ -9,6 +9,8 @@ const RegTextInput = ({ placeholder, value, onChangeText }) => {
       placeholder={placeholder}
       placeholderTextColor="#737373" // Set placeholder text color here
       value={value}
+      autoCorrect={false}
+      contextMenuHidden={true}
       onChangeText={onChangeText}
     />
   );

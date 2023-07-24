@@ -32,7 +32,7 @@ const PfSkill = () => {
         />
         <RegButton
           navigation={navigation}
-          screenName="PfAvatar" // Replace "OtherScreen" with the next screen name
+          screenName="BottomTabs" // Replace "OtherScreen" with the next screen name
           disabled={selectedSkill === ""}
         />
       </RegBackground>

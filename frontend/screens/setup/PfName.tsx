@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {Reg} from "../../GlobalStyles";
+import { useRegContext, ACTIONS } from '../../RegContext';
 
 import RegBackground from "../../components/setup/RegBackground";
 import RegButton from "../../components/setup/RegButton"
@@ -17,6 +18,18 @@ const PfName = () => {
   const navigation = useNavigation();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const { state, dispatch } = useRegContext();
+
+  const storeUserInfo = async (firstName: string, lastName: string) => {
+    try {
+
+      // backend data of user is inserted
+      dispatch({ type: ACTIONS.SET_FIRST_NAME, payload: firstName });
+      dispatch({ type: ACTIONS.SET_LAST_NAME, payload: lastName });
+    } catch (error) {
+      console.error("Error storing user info in AsyncStorage:", error);
+    }
+  };
 
   return (
     <View style={Reg.background}>
@@ -39,6 +52,7 @@ const PfName = () => {
         <RegButton
           navigation={navigation}
           screenName="PfSkill"
+          onPress={() => storeUserInfo(firstName, lastName)} 
           disabled={(firstName.trim() === "" || lastName.trim() === "")}
         />
         </RegBackground>

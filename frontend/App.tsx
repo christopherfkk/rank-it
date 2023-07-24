@@ -9,7 +9,6 @@ import {useRegContext, RegContextProvider} from './RegContext';
 
 import Login from "./screens/auth/Login";
 import OpponentMenu from "./screens/home/OpponentMenu";
-import Ranking from "./screens/home/Ranking";
 import Signup from "./screens/auth/Signup";
 import ResetPassword from "./screens/auth/ResetPassword";
 import LoadingPage from "./screens/LoadingPage";
@@ -25,10 +24,6 @@ import PfBlurb from "./screens/setup/PfBlurb";
 import PfName from "./screens/setup/PfName";
 import PfSkill from "./screens/setup/PfSkill";
 import ProfileEdit from "./screens/home/ProfileEdit";
-import RankingNav from "./components/nav/RankingNav";
-import MatchesNav from "./components/nav/MatchesNav";
-import ChatNav from "./components/nav/ChatNav";
-import ProfileNav from "./components/nav/ProfileNav";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs"
 
@@ -74,17 +69,16 @@ const InnerApp = ({hideSplashScreen}) => {
 
     //check if someone is logged in after entering app
     useEffect(() => {
-        const checkLoginStatus = async () => {
-            try {
-                const accessToken = await AsyncStorage.getItem("accessToken")
-
-                if (accessToken) {
-                    setIsLogIn(true)
-                }
-            } catch {
-                console.log("Not Logged In: no access token found")
-            }
+      const checkLoginStatus = async () => {
+        try {
+          const accessToken = await AsyncStorage.getItem("accessToken");
+          if (accessToken) {
+            setIsLogIn(true);
+          }
+        } catch {
+          console.log("Not Logged In: no access token found");
         }
+      };
 
         // Check if the user has completed registration based on RegContext state
         const checkRegistrationStatus = () => {
