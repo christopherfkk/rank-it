@@ -101,12 +101,13 @@ const styles = StyleSheet.create({
     profileDetails: {
         backgroundColor: Color.white,
         flexDirection: "column",
-        overflow: "scroll"
+        overflow: "scroll",
+        paddingVertical: "3%",
     },
     bio: {
         padding: Padding.p_3xs,
         justifyContent: "center",
-        borderBottomWidth: 0.5,
+        borderBottomWidth: 1,
         borderTopWidth: 1,
         borderColor: "#bababa",
         borderStyle: "solid",
@@ -136,8 +137,7 @@ const styles = StyleSheet.create({
         backgroundColor: Color.white,
         paddingVertical: Padding.p_3xs,
         paddingHorizontal: Padding.p_8xs,
-        borderBottomWidth: 0.5,
-        borderTopWidth: 0.5,
+        borderBottomWidth: 1,
         borderColor: "#bababa",
         borderStyle: "solid",
         overflow: "scroll",

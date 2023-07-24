@@ -7,7 +7,10 @@ import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import RegButton from '../../components/auth/RegButton';
 
-const Profile = () => {
+type ProfileType = {
+    self: Boolean;
+};
+const Profile = ({self=true}: ProfileType) => {
     return (
         <ScrollView
             style={styles.profile}
@@ -23,27 +26,27 @@ const Profile = () => {
                 skill="Beginner"
             />
 
-            {/* EDIT PROFILE BUTTON */}
-            <Pressable style={styles.editProfileButton}>
-                <Image
-                    style={styles.editProfileIcon}
-                    contentFit="contain"
-                    source={require("../../assets/edit-profile-icon.png")}
-                />
-                <Text style={styles.editProfileText}>
-                    Edit Profile
-                </Text>
-            </Pressable>
-
-            {/* CHALLENGE BUTTON */}
-            <RegButton
-                pfButtonWidth={100}
-                pfButtonHeight={30}
-                button="challenge"
-                pfButtonMarginTop="unset"
-                pfButtonFlex="unset"
-                pfButtonMarginLeft={10}
-            />
+            {self ?
+                // Edit Profile Button
+                <Pressable style={styles.editProfileButton}>
+                    <Image
+                        style={styles.editProfileIcon}
+                        contentFit="contain"
+                        source={require("../../assets/edit-profile-icon.png")}
+                    />
+                    <Text style={styles.editProfileText}>
+                        Edit Profile
+                    </Text>
+                </Pressable> :
+                // Challenge Button
+                <RegButton
+                    pfButtonWidth={100}
+                    pfButtonHeight={30}
+                    button="challenge"
+                    pfButtonMarginTop="unset"
+                    pfButtonFlex="unset"
+                    pfButtonMarginLeft={10}
+                />}
 
             {/* MORE PROFILE DETAILS */}
             <ProfileDetails
@@ -72,8 +75,6 @@ const styles = StyleSheet.create({
         overflow: "scroll",
         width: "100%",
         backgroundColor: Color.white,
-
-
     },
     editProfileButton: {
         flexDirection: "row",
