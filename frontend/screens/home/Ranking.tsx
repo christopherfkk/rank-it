@@ -54,7 +54,7 @@ const Ranking = () => {
                         avatar={item.avatar}
                         skill={item.skill}
                         onFrameTouchableOpacityPress={() =>
-                            navigation.navigate("OpponentMenu")
+                            navigation.navigate("Profile")
                         }
                     />
                 ))}

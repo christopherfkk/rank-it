@@ -6,7 +6,7 @@ import ChatNav from './components/nav/ChatNav';
 import ProfileNav from './components/nav/ProfileNav';
 import {Pressable, View} from 'react-native';
 import Ranking from './screens/home/Ranking';
-import PersonalMenu from './screens/home/PersonalMenu';
+import Profile from './screens/home/Profile';
 import ModalPostmatchfeedback from './components/home/ModalPostmatchfeedback';
 
 const Tab = createBottomTabNavigator();
@@ -39,8 +39,8 @@ function BottomTabs({navigation}: any) {
             }}
             />
             <Tab.Screen
-                name="PersonalMenu"
-                component={PersonalMenu}
+                name="Profile"
+                component={Profile}
                 options={{
                     headerShown: false,
                     tabBarIcon: ProfileNav.type,
