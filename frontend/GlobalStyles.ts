@@ -208,4 +208,97 @@ export const Auth = {
   }
   }
 
+export const Reg = {
+  background: {
+    backgroundColor: Color.white,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  signUpBody: {
+    overflow: "hidden",
+    paddingHorizontal: Padding.p_9xl,
+    paddingVertical: Padding.p_4xs,
+    alignSelf: "stretch",
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    resizeMode: "cover",
+  },
+  heading1: {
+    fontSize: 50,
+    fontFamily: FontFamily.bebasNeueRegular,
+    textAlign: "center",
+    color: Color.lavenderblush,
+    alignSelf: "stretch",
+  },
+  heading2 : {
+    fontSize: 15,
+    fontFamily: FontFamily.manropeSemibold,
+    marginTop: 18,
+    textAlign: "center",
+    color: Color.lavenderblush,
+    alignSelf: "stretch",
+    },
+    buttonText: {
+      fontSize: FontSize.size_base,
+      fontFamily: FontFamily.bebasNeueRegular,
+      color: Color.crimson_200,
+      textAlign: "center",
+    },
+    button: { 
+      borderRadius: Border.br_8xs,
+      backgroundColor: Color.white,
+      width: 130,
+      height: 32,
+      paddingHorizontal: Padding.p_mini,
+      paddingVertical: 8,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 28,
+    },
+    textboxText: {
+      fontWeight: "600", // Semibold
+      fontFamily: FontFamily.manropeMedium,
+      fontSize: 12,
+      color: "#fff2ff", // Light pink color
+    },
+
+    textboxShadowBox: {
+      height: 33,
+      paddingVertical: 8,
+      paddingHorizontal: Padding.p_mini,
+      borderWidth: 1,
+      borderColor: "#fff2f2",
+      borderStyle: "solid",
+      shadowOpacity: 1,
+      elevation: 4,
+      shadowRadius: 4,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowColor: "rgba(0, 0, 0, 0.25)",
+      borderRadius: Border.br_11xs,
+      marginTop: 18,
+      alignSelf: "stretch",
+      justifyContent: "center",
+  },
+  errorBox: {
+    borderColor: "red", // Show a red border for the input when there's an error
+  },
+  errorText: {
+    color: "red",
+    fontSize: 12,
+    marginTop: 5,
+    alignSelf: "flex-start",
+  },
+  activeText: {
+    color: Color.crimson_200,},
+  activeButton: {
+    backgroundColor: Color.lavenderblush,
+    borderColor: Color.lavenderblush,
+  },
+
+};
 
