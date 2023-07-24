@@ -1,12 +1,17 @@
 import * as React from "react";
-import {Text, StyleSheet, View, Pressable, ScrollView} from "react-native";
-import {useNavigation} from "@react-navigation/native";
-import OpponentContainer from "../../components/home/OpponentContainer";
-import ProfileContainer from "../../components/home/ProfileContainer";
-import {Padding, Border, FontFamily, FontSize, Color} from "../../GlobalStyles";
+import { Text, StyleSheet, View, Pressable, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import RankingContainer from "../../components/home/RankingContainer";
+import { Padding, Border, FontFamily, FontSize, Color } from "../../GlobalStyles";
 
 const Ranking = () => {
+
     const navigation = useNavigation();
+    const data = [
+        {"name": "Chris Fok", "avatar": "", "skill": 420},
+        {"name": "Jin Tanaka", "avatar": "", "skill": 420},
+        {"name": "Peter Wang", "avatar": "", "skill": 420},
+    ]
 
     return (
         <View style={styles.rankingPage}>
@@ -42,62 +47,17 @@ const Ranking = () => {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.rankingScrollViewContent}
             >
-
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
-                <OpponentContainer
-                    onFrameTouchableOpacityPress={() =>
-                        navigation.navigate("OpponentMenu")
-                    }
-                />
+                {data.map((item, index) => (
+                    <RankingContainer
+                        rank={index+1}
+                        name={item.name}
+                        avatar={item.avatar}
+                        skill={item.skill}
+                        onFrameTouchableOpacityPress={() =>
+                            navigation.navigate("OpponentMenu")
+                        }
+                    />
+                ))}
             </ScrollView>
         </View>
     );
