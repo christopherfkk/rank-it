@@ -26,6 +26,7 @@ import PfSkill from "./screens/setup/PfSkill";
 import ProfileEdit from "./screens/home/ProfileEdit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs"
+import apiConfig from './apiConfig';
 
 const Stack = createNativeStackNavigator();
 
@@ -80,12 +81,31 @@ const InnerApp = ({hideSplashScreen}) => {
         }
       };
 
-        // Check if the user has completed registration based on RegContext state
-        const checkRegistrationStatus = () => {
-            // You can adjust the condition based on your registration criteria
-            const isCompletedRegistration = state.firstName !== null && state.gender !== null;
-            setIsRegistered(isCompletedRegistration);
-        };
+      const checkRegistrationStatus = async () => {
+        try {
+          const accountId = await AsyncStorage.getItem('id');
+          const accessToken = await AsyncStorage.getItem('accessToken');
+
+          if (accountId) {
+            const url = `${apiConfig.BASE_URL}/accounts/`;
+            const headers = {
+              'Authorization': `Token ${accessToken}`,
+              'Content-Type': 'application/json',
+            };
+            const response = await fetch(url, { headers });
+            console.log(response);
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log(data);
+          } else {
+            console.log('Account ID not found in AsyncStorage');
+          }
+        } catch (error) {
+          console.error('Fetch error:', error);
+        }
+      };
 
         checkLoginStatus();
         checkRegistrationStatus();
@@ -100,8 +120,8 @@ const InnerApp = ({hideSplashScreen}) => {
                         !isLogIn
                             ? 'Login'
                             : !isRegistered
-                                ? 'PfStart'
-                                : 'BottomTabs'
+                                ? 'Login' //PfStart
+                                : 'Login'
                     }
                     screenOptions={{headerShown: false}}
                 >

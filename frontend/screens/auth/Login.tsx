@@ -18,9 +18,9 @@ const Login = () => {
 
   const storeUserInfo = async (userData: any, dispatch: any) => {
     try {
-      console.log(userData.access);
       AsyncStorage.setItem('accessToken', JSON.stringify(userData.access));
       AsyncStorage.setItem('refreshToken', JSON.stringify(userData.refresh));
+      AsyncStorage.setItem('id', JSON.stringify(userData.user.id));
 
       // backend data of user is inserted
       dispatch({ type: ACTIONS.SET_PROFILE_PHOTO, payload: userData.user.avatar });
@@ -140,7 +140,7 @@ const Login = () => {
         </Text>
     </TouchableOpacity>
     
-        <Pressable
+        {/* <Pressable
           onPress={() =>
             Linking.openURL(
               "https://classy-galette-16d.notion.site/RankIT-Terms-of-Service-17c96ce8b482418c862bcf85e3d08b1a?pvs=25"
@@ -150,7 +150,7 @@ const Login = () => {
           <Text style={[Auth.heading3]}>
         By continuing, you agree to the Terms and Conditions
       </Text>
-        </Pressable>
+        </Pressable> */}
 
       </View>
     </SafeAreaView>
