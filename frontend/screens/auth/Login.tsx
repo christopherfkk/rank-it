@@ -16,6 +16,19 @@ import GoogleSignInButton from "../../components/auth/GoogleSignInButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRegContext, ACTIONS} from '../../RegContext';
 
+
+function getCookie(name) {
+    const cookieString = document.cookie;
+    const cookies = cookieString.split(';');
+    for (const cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
+        }
+    }
+    return null; // Return null if cookie not found
+}
+
 const Login = () => {
     const navigation = useNavigation();
 
@@ -27,9 +40,9 @@ const Login = () => {
 
     const storeUserInfo = async (userData: any, dispatch: any) => {
         try {
-            AsyncStorage.setItem('accessToken', userData.access);
-            AsyncStorage.setItem('refreshToken', JSON.stringify(userData.refresh));
-            AsyncStorage.setItem('id', JSON.stringify(userData.user.id));
+            AsyncStorage.setItem('accessToken', userData.key);
+            // AsyncStorage.setItem('refreshToken', JSON.stringify(userData.refresh));
+            // AsyncStorage.setItem('id', JSON.stringify(userData.user.id));
 
             // backend data of user is inserted
             dispatch({type: ACTIONS.SET_PROFILE_PHOTO, payload: userData.user.avatar});
@@ -59,27 +72,12 @@ const Login = () => {
                 },
                 body: JSON.stringify(loginData),
             })
-                .then((response) => {
-                    // Get the 'Set-Cookie' header from the response
-                    const setCookieHeader = response.headers['set-cookie'];
-
-                    // If the 'Set-Cookie' header exists, set the cookies using the document.cookie API
-                    if (setCookieHeader) {
-                        setCookieHeader.forEach((cookie) => {
-                            console.log(`COOKIE ${cookie}`)
-                            document.cookie = cookie;
-                        });
-                    } else {
-                        console.log('COOKIE NONE')
-                    }
-
-                    return response.json();
-                })
+                .then((response) => response.json())
                 .then((data) => {
                     // Handle the response from the backend
                     console.log(data);
                     // Check if the login was successful (adjust this based on your backend response)
-                    const loginSuccess = data.access !== undefined;
+                    const loginSuccess = data.key !== undefined;
 
                     if (loginSuccess) {
                         // ** add access and refresh token to asyncstorage

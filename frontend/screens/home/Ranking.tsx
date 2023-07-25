@@ -25,27 +25,15 @@ const Ranking = () => {
     useEffect(() => {
         const fetchData = async () => {
 
-            const r = await fetch(`${apiConfig.BASE_URL}/csrf/`, {
-                method: "GET",
-            })
-            const d = await r.json();
-            console.log(r)
-            console.log(d)
-
-
             const access = await AsyncStorage.getItem('accessToken')
-            console.log(`ACCESS TOKEN ${access}`)
+            console.log(`Authorization: Token ${access}`)
 
-            const sessionid = getCookie('sessionid')
-            console.log(sessionid)
-
-            const response = await fetch(`${apiConfig.BASE_URL}/ranks/skill/`, {
+            const response = await fetch(`http://localhost:8000/api/v1/ranks/skill/`, {
+                credentials: "include",
                 method: "GET",
-                credentials: 'include',
                 headers: {
                     "Authorization": `Token ${access}`
-                    "X-CSRFToken": d['csrfToken'],
-                },
+                }
             })
             const data = await response.json();
             console.log(response)

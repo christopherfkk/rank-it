@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
+from rest_framework import authentication
 
 
 load_dotenv()
@@ -31,7 +32,7 @@ SECRET_KEY = 'django-insecure-@yuv)v1@%m3scgfx3zjk#gq0#wke1um$@&kmek803z82$e3iih
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','10.112.21.152','104.28.123.167']
+ALLOWED_HOSTS = ['127.0.0.1','10.112.21.152','104.28.123.167', 'localhost']
 
 
 # Application definition
@@ -96,29 +97,34 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
+REST_USE_JWT = True
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'accounts.authentication.CsrfExemptSessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
+        'accounts.authentication.CsrfExemptSessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-REST_AUTH = {
-    'USE_JWT': True,
-    'JWT_AUTH_RETURN_EXPIRATION': True,
-    'JWT_AUTH_HTTPONLY': False,
-    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
-    'USER_DETAILS_SERIALIZER': 'accounts.serializers.AccountSerializer',
-}
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1000),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1000),
-}
+# REST_AUTH = {
+#     'USE_JWT': True,
+#     'JWT_AUTH_RETURN_EXPIRATION': True,
+#     'JWT_AUTH_HTTPONLY': False,
+#     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+#     'USER_DETAILS_SERIALIZER': 'accounts.serializers.AccountSerializer',
+#     'JWT_AUTH_COOKIE': 'access',
+#     'JWT_AUTH_REFRESH_COOKIE': 'refresh',
+# }
+#
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(days=1000),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1000),
+# }
 
 ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'accounts.adapter.CustomSocialAccountAdapter'
@@ -134,7 +140,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -148,7 +154,9 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 CORS_ALLOW_CREDENTIALS = True  # Allow credentials to be sent with requests
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = 'None'
 
 
 CSRF_TRUSTED_ORIGINS = [
