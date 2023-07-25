@@ -4,6 +4,10 @@ from django.utils import timezone
 from rest_framework.test import APIClient
 from rest_framework import status
 import datetime
+from django.core.management import call_command
+from django.conf import settings
+import os
+
 
 from matches.models import MatchOffer, Match, PostMatchFeedback
 from communities.models import Community
@@ -391,15 +395,115 @@ class PostMatchFeedbackTest(TestCase):
         self.assertEqual(response.data['match']['cancelled_reason_phrase'], 'Conflicted reported scores')
         self.client.logout()
 
-        # # Check if a match score resubmission notification is sent out to both
-        # self.assertEqual(Notification.objects.filter(
-        #     user=self.submitter).first().message,
-        #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
-        # )
-        # self.assertEqual(Notification.objects.filter(
-        #     user=self.opponent).first().message,
-        #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
-        # )
+
+class PostMatchFeedbackWithoutOfferTest(TestCase):
+    """
+    When no MatchOffer is made and game is simply recorded on the spot
+    """
+
+    @classmethod
+    def setUpTestData(cls):
+        """Set up users and the API client"""
+        fixture_path = os.path.join(settings.BASE_DIR, 'fixtures/dev.yaml')
+        call_command('loaddata', fixture_path)
+        cls.client = APIClient()
+        cls.submitter = get_user_model().objects.filter(email='chris@email.com').first()
+
+    def test_flow(self):
+        """
+        When game is recorded by the first person
+        - POST to /api/v1/postmatchfeedback/ to CREATE
+        """
+        self.client.login(email='chris@email.com', password='testpass123')
+
+        frontend_data_first_feedback = {
+            'identifier': {
+                'type': 'Without MatchOffer',
+            },
+            'opponent_id': 3,
+            'reporter_id': str(self.submitter.id),
+            'reporter_is_submitter': True,
+            'submitter_score': 21,
+            'opponent_score': 15,
+            'match_competitiveness_rating': 8,
+            'peer_skill_level_given': 8,
+            'peer_sportsmanship_rating_given': 4,
+            'peer_feedback_blurb_given': 'Definitely play Jin again. Great player.',
+        }
+
+        response = self.client.post(
+            f'/api/v1/postmatchfeedback/',
+            frontend_data_first_feedback,
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        data = response.data
+
+        # Should create a Match object previously not created
+        self.assertEqual(data['match']['id'], 1)
+        self.assertEqual(data['match']['match_offer'], None)
+        self.assertEqual(data['match']['opponent']['username'], 'jin')
+        self.assertEqual(data['match']['submitter_score'], None)
+        self.assertEqual(data['match']['opponent_score'], None)
+        self.assertEqual(data['match']['status'], Match.Status.AWAITING_CONFIRMATION)
+
+        # PostMatchFeedback data
+        self.assertEqual(data['reporter']['id'], 2)
+        self.assertEqual(data['submitter_score'], 21)
+        self.assertEqual(data['opponent_score'], 15)
+
+        self.client.logout()
+
+        # Second user
+        self.client.login(email='jin@email.com', password='testpass123')
+
+        # Get match_id from Notifications
+
+        frontend_data_second_feedback = {
+            'identifier': {
+                'type': 'Without MatchOffer',
+            },
+            'match_id': 1,  # how to get this
+            'reporter_id': 3,
+            'reporter_is_submitter': False,
+            'submitter_score': 21,
+            'opponent_score': 15,
+            'match_competitiveness_rating': 8,
+            'peer_skill_level_given': 8,
+            'peer_sportsmanship_rating_given': 4,
+            'peer_feedback_blurb_given': 'Definitely play Jin again. Great player.',
+        }
+
+        response = self.client.post(f'/api/v1/postmatchfeedback/', frontend_data_second_feedback)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        data = response.data
+
+        # Should create a Match object previously not created
+        self.assertEqual(data['match']['id'], 1)
+        self.assertEqual(data['match']['match_offer'], None)
+        self.assertEqual(data['match']['opponent']['username'], 'jin')
+        self.assertEqual(data['match']['submitter_score'], 21)
+        self.assertEqual(data['match']['opponent_score'], 15)
+        self.assertEqual(data['match']['status'], Match.Status.CONFIRMED)
+
+        # PostMatchFeedback data
+        self.assertEqual(data['reporter']['id'], 3)
+        self.assertEqual(data['submitter_score'], 21)
+        self.assertEqual(data['opponent_score'], 15)
+
+        self.client.logout()
+
+    # # Check if a match score resubmission notification is sent out to both
+    # self.assertEqual(Notification.objects.filter(
+    #     user=self.submitter).first().message,
+    #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
+    # )
+    # self.assertEqual(Notification.objects.filter(
+    #     user=self.opponent).first().message,
+    #     'Match scores conflicted. Which one is it? 21-15 or 20-21?'
+    # )
     #
     # def test_only_one_submits_feedback(self):
     #

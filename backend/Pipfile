@@ -16,6 +16,7 @@ python-dotenv = "~=1.0.0"
 pillow = "*"
 requests = "==2.31.0"
 charset-normalizer = "==3.1.0"
+trueskill = "*"
 
 [dev-packages]
 
