@@ -87,13 +87,12 @@ const InnerApp = ({hideSplashScreen}) => {
           const accessToken = await AsyncStorage.getItem('accessToken');
 
           if (accountId) {
-            const url = `${apiConfig.BASE_URL}/postmatchfeedback/`;
+            const url = `${apiConfig.BASE_URL}/accounts/3`;
             const headers = {
-              'Authorization': `sdfasfsd ${accessToken}`,
+              'Authorization': `sdfasfsd`,
               'Content-Type': 'application/json',
             };
             const response = await fetch(url, { headers });
-            console.log(response);
             console.log('sadfsdf');
             if (!response.ok) {
               throw new Error('Network response was not ok');
