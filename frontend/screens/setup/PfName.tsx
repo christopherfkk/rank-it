@@ -1,94 +1,65 @@
-import * as React from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Text,
+  StyleSheet,
+  TextInput,
+  ImageBackground,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RegTitle from "../../components/auth/RegTitle";
-import RegText from "../../components/auth/RegText";
-import RegTextInput from "../../components/auth/RegTextInput";
-import RegButton from "../../components/auth/RegButton";
-import { Padding, Color } from "../../GlobalStyles";
+import {Reg} from "../../GlobalStyles";
+import { useRegContext, ACTIONS } from '../../RegContext';
+
+import RegBackground from "../../components/setup/RegBackground";
+import RegButton from "../../components/setup/RegButton"
+import RegTextInput from "../../components/setup/RegTextInput";
 
 const PfName = () => {
   const navigation = useNavigation();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const { state, dispatch } = useRegContext();
+
+  const storeUserInfo = async (firstName: string, lastName: string) => {
+    try {
+
+      console.log('hi')
+      // backend data of user is inserted
+      dispatch({ type: ACTIONS.SET_FIRST_NAME, payload: firstName });
+      dispatch({ type: ACTIONS.SET_LAST_NAME, payload: lastName });
+      console.log('hi')
+    } catch (error) {
+      console.error("Error storing user info in AsyncStorage:", error);
+    }
+  };
 
   return (
-    <View style={[styles.pfName, styles.pfNameFlexBox]}>
-      <ImageBackground
-        style={[styles.signUpBody, styles.pfNameFlexBox]}
-        resizeMode="cover"
-        source={require("../../assets/signupbody4.png")}
-      >
-        <RegTitle
-          regtitle={`
-What’s your first and last name?`}
-          whatsYourFirstAndLastNameMarginTop="unset"
-          whatsYourFirstAndLastNameAlignSelf="stretch"
-          whatsYourFirstAndLastNameDisplay="unset"
-          whatsYourFirstAndLastNameAlignItems="unset"
-          whatsYourFirstAndLastNameJustifyContent="unset"
-          whatsYourFirstAndLastNameWidth="unset"
-        />
-        <RegText
-          youWontBeAbleToChangeThis="You won’t be able to change this later"
-          youWontBeAbleToChangeThisFontSize={13}
-          youWontBeAbleToChangeThisFontFamily="Manrope_bold"
-          youWontBeAbleToChangeThisColor="#fff2f2"
-          youWontBeAbleToChangeThisTextAlign="left"
-          youWontBeAbleToChangeThisFontWeight="700"
-          youWontBeAbleToChangeThisAlignSelf="stretch"
-          youWontBeAbleToChangeThisWidth="unset"
-        />
+    <View style={Reg.background}>
+      <RegBackground>
+      <Text style={Reg.heading1}>What's your first and last name</Text>
+        <Text style={Reg.heading2}>
+          {`You won’t be able to change this later`}
+        </Text>
         <RegTextInput
-          locationFlexDirection="column"
-          locationAlignItems="flex-start"
-          locationJustifyContent="center"
-          locationFontFamily="Almarai_regular"
-          locationBorderStyle="solid"
-          locationBorderColor="#fff2f2"
-          locationBorderWidth={1}
-          locationFontWeight="unset"
-          locationHeight={33}
-          locationBackgroundColor="unset"
-        />
-        <RegTextInput
-          locationFlexDirection="column"
-          locationAlignItems="flex-start"
-          locationJustifyContent="center"
-          locationFontFamily="Manrope_medium"
-          locationBorderStyle="solid"
-          locationBorderColor="#fff2f2"
-          locationBorderWidth={1}
-          locationFontWeight="500"
-          locationHeight="unset"
-          locationBackgroundColor="unset"
-        />
+        placeholder="First Name"
+        value={firstName}
+        onChangeText={setFirstName}
+      />        
+      <RegTextInput
+      placeholder="Last Name"
+      value={lastName}
+      onChangeText={setLastName}
+    />
+        {/* {showError && <Text style={Reg.errorText}>{ERROR_MESSAGE}</Text>} */}
         <RegButton
-          onPfButtonPress={() => navigation.navigate("PfStart")}
-          pfButtonWidth={125}
-          pfButtonHeight={29}
-          button="Next"
-          pfButtonMarginTop={18}
-          pfButtonMarginLeft="unset"
+          navigation={navigation}
+          screenName="PfSkill"
+          onPress={() => storeUserInfo(firstName, lastName)} 
+          disabled={(firstName.trim() === "" || lastName.trim() === "")}
         />
-      </ImageBackground>
+        </RegBackground>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  pfNameFlexBox: {
-    alignItems: "center",
-    flex: 1,
-  },
-  signUpBody: {
-    alignSelf: "stretch",
-    overflow: "hidden",
-    paddingHorizontal: Padding.p_9xl,
-    paddingVertical: Padding.p_4xs,
-    justifyContent: "center",
-  },
-  pfName: {
-    backgroundColor: Color.white,
-  },
-});
-
+ 
 export default PfName;

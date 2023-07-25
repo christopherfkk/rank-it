@@ -1,111 +1,47 @@
-import * as React from "react";
-import { TextInput, StyleSheet, ImageBackground, View } from "react-native";
+import React, { useState } from "react";
+import { Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import RegTitle from "../../components/auth/RegTitle";
-import RegText from "../../components/auth/RegText";
-import RegTextInput from "../../components/auth/RegTextInput";
-import RegButton from "../../components/auth/RegButton";
-import { Border, Padding, Color } from "../../GlobalStyles";
+import PropTypes from "prop-types";
+import { Reg } from "../../GlobalStyles";
+import RegBackground from "../../components/setup/RegBackground";
+import RegButton from "../../components/setup/RegButton"
+import RegTextInput from "../../components/setup/RegTextInput"
 
 const PfLocation = () => {
   const navigation = useNavigation();
+  const [location, setLocation] = useState("");
+  // const [showError, setShowError] = useState(false);
 
   return (
-    <View style={styles.pfLocation}>
-      <ImageBackground
-        style={[styles.signUpBody, styles.textboxFlexBox]}
-        resizeMode="cover"
-        source={require("../../assets/signupbody1.png")}
-      >
-        <RegTitle
-          regtitle={`
+    <View style={Reg.background}>
+      <RegBackground>
+        <Text style={Reg.heading1}>
+          {`
 What’s your Location?`}
-          whatsYourFirstAndLastNameMarginTop="unset"
-          whatsYourFirstAndLastNameAlignSelf="stretch"
-          whatsYourFirstAndLastNameDisplay="unset"
-          whatsYourFirstAndLastNameAlignItems="unset"
-          whatsYourFirstAndLastNameJustifyContent="unset"
-          whatsYourFirstAndLastNameWidth="unset"
-        />
-        <RegText
-          youWontBeAbleToChangeThis="E.g. Shibuya, Tokyo or Taito, Tokyo"
-          youWontBeAbleToChangeThisFontSize={13}
-          youWontBeAbleToChangeThisFontFamily="Manrope_bold"
-          youWontBeAbleToChangeThisColor="#fff2f2"
-          youWontBeAbleToChangeThisTextAlign="left"
-          youWontBeAbleToChangeThisFontWeight="700"
-          youWontBeAbleToChangeThisAlignSelf="stretch"
-          youWontBeAbleToChangeThisWidth="unset"
-        />
+        </Text>
+        <Text style={Reg.heading2}>
+          {`E.g. Shibuya, Tokyo or Taito, Tokyo `}
+        </Text>
         <RegTextInput
-          locationFlexDirection="column"
-          locationAlignItems="flex-start"
-          locationJustifyContent="center"
-          locationFontFamily="Manrope_medium"
-          locationBorderStyle="solid"
-          locationBorderColor="#fff2f2"
-          locationBorderWidth={1}
-          locationFontWeight="500"
-          locationHeight={33}
-          locationBackgroundColor="unset"
-        />
-        <TextInput
-          style={[styles.textbox, styles.textboxFlexBox]}
-          placeholder="Enter your first name"
-          placeholderTextColor="#737373"
-        />
+        placeholder="Enter your location"
+        value={location}
+        onChangeText={setLocation}
+      />
+        {/* {showError && <Text style={Reg.errorText}>{ERROR_MESSAGE}</Text>} */}
         <RegButton
-          onPfButtonPress={() => navigation.navigate("PfGender")}
-          pfButtonWidth={125}
-          pfButtonHeight={29}
-          button="Next"
-          pfButtonMarginTop={18}
-          pfButtonMarginLeft="unset"
+          navigation={navigation}
+          screenName="PfName"
+          disabled={location.trim() === ""}
         />
-      </ImageBackground>
+      </RegBackground>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  textboxFlexBox: {
-    alignSelf: "stretch",
-    justifyContent: "center",
-  },
-  textbox: {
-    borderRadius: Border.br_11xs,
-    shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowRadius: 4,
-    elevation: 4,
-    shadowOpacity: 1,
-    borderStyle: "solid",
-    borderColor: "#fff2f2",
-    borderWidth: 1,
-    paddingHorizontal: Padding.p_mini,
-    paddingVertical: 8,
-    display: "none",
-    marginTop: 18,
-  },
-  signUpBody: {
-    overflow: "hidden",
-    paddingHorizontal: Padding.p_9xl,
-    paddingVertical: Padding.p_4xs,
-    alignItems: "center",
-    flex: 1,
-    alignSelf: "stretch",
-  },
-  pfLocation: {
-    backgroundColor: Color.white,
-    width: "100%",
-    height: 655,
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-});
+PfLocation.propTypes = {
+  // Add any required prop types here if needed
+};
+
+const ERROR_MESSAGE = "Location is required";
 
 export default PfLocation;

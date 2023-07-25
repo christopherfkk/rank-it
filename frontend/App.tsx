@@ -8,6 +8,7 @@ import {useRegContext, RegContextProvider} from './RegContext';
 
 
 import Login from "./screens/auth/Login";
+import OpponentMenu from "./screens/home/OpponentMenu";
 import Ranking from "./screens/home/Ranking";
 import Signup from "./screens/auth/Signup";
 import ResetPassword from "./screens/auth/ResetPassword";
@@ -24,12 +25,9 @@ import PfBlurb from "./screens/setup/PfBlurb";
 import PfName from "./screens/setup/PfName";
 import PfSkill from "./screens/setup/PfSkill";
 import ProfileEdit from "./screens/home/ProfileEdit";
-import RankingNav from "./components/nav/RankingNav";
-import MatchesNav from "./components/nav/MatchesNav";
-import ChatNav from "./components/nav/ChatNav";
-import ProfileNav from "./components/nav/ProfileNav";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs"
+import apiConfig from './apiConfig';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,29 +71,47 @@ const InnerApp = ({hideSplashScreen}) => {
 
     //check if someone is logged in after entering app
     useEffect(() => {
-        const checkLoginStatus = async () => {
-            try {
-                const accessToken = await AsyncStorage.getItem("accessToken")
-
-                if (accessToken) {
-                    setIsLogIn(true)
-                }
-            } catch {
-                console.log("Not Logged In: no access token found")
-            }
+      const checkLoginStatus = async () => {
+        try {
+          const accessToken = await AsyncStorage.getItem("accessToken");
+          if (accessToken) {
+            setIsLogIn(true);
+          }
+        } catch {
+          console.log("Not Logged In: no access token found");
         }
+      };
 
-        // Check if the user has completed registration based on RegContext state
-        const checkRegistrationStatus = () => {
-            // You can adjust the condition based on your registration criteria
-            const isCompletedRegistration = state.firstName !== null && state.gender !== null;
-            setIsRegistered(isCompletedRegistration);
-        };
+      const checkRegistrationStatus = async () => {
+        try {
+          const accountId = await AsyncStorage.getItem('id');
+          const accessToken = await AsyncStorage.getItem('accessToken');
+
+          if (accountId) {
+            const url = `${apiConfig.BASE_URL}/postmatchfeedback/`;
+            const headers = {
+              'Authorization': `sdfasfsd ${accessToken}`,
+              'Content-Type': 'application/json',
+            };
+            const response = await fetch(url, { headers });
+            console.log(response);
+            console.log('sadfsdf');
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log(response)
+            console.log(data);
+          } else {
+            console.log('Account ID not found in AsyncStorage');
+          }
+        } catch (error) {
+          console.error('Fetch error:', error);
+        }
+      };
 
         checkLoginStatus();
         checkRegistrationStatus();
-        setIsLogIn(true)
-        setIsRegistered(true)
     }, [state]);
 
     //ask chatgpt
@@ -107,8 +123,8 @@ const InnerApp = ({hideSplashScreen}) => {
                         !isLogIn
                             ? 'Login'
                             : !isRegistered
-                                ? 'Signup'
-                                : 'BottomTabs'
+                                ? 'Login' //PfStart
+                                : 'Login'
                     }
                     screenOptions={{headerShown: false}}
                 >

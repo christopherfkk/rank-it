@@ -39,9 +39,9 @@ const fetchUserInfo = async (accessToken: string) => {
 
 const storeUserInfo = async (data, dispatch) => {
   try {
-    console.log(data.access);
     AsyncStorage.setItem('accessToken', JSON.stringify(data.access));
     AsyncStorage.setItem('refreshToken', JSON.stringify(data.refresh));
+    AsyncStorage.setItem('id', JSON.stringify(data.user.id));
 
     dispatch({ type: ACTIONS.SET_PROFILE_PHOTO, payload: data.user.avatar });
     dispatch({ type: ACTIONS.SET_BLURB, payload: data.blurb });
@@ -49,7 +49,6 @@ const storeUserInfo = async (data, dispatch) => {
     dispatch({ type: ACTIONS.SET_LAST_NAME, payload: data.user.last_name });
     dispatch({ type: ACTIONS.SET_GENDER, payload: data.user.gender });
     dispatch({ type: ACTIONS.SET_PHONE_NUMBER, payload: data.user.phone_number });
-    console.log('hi3');
   } catch (error) {
     console.error("Error storing user info in AsyncStorage:", error);
   }

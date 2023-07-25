@@ -92,8 +92,6 @@ const handleRegister = () => {
             onChangeText={(text: string) => setPassword1(text)}
             secureTextEntry // Redact the password input
             contextMenuHidden // Disable context menu (copy-paste actions)
-            selectionColor={Color.black} // Set the selection color to black
-            underlineColorAndroid={Color.transparent} // Hide the default underline
           />
           <TextInput
             style={[Auth.textInputBoxStyle]}
@@ -103,8 +101,6 @@ const handleRegister = () => {
             onChangeText={(text: string) => setPassword2(text)}
             secureTextEntry // Redact the password input
             contextMenuHidden // Disable context menu (copy-paste actions)
-            selectionColor={Color.black} // Set the selection color to black
-            underlineColorAndroid={Color.transparent} // Hide the default underline
           />
         </View>
         <TouchableOpacity
