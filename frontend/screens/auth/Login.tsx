@@ -36,7 +36,9 @@ const Login = () => {
   };
 
   const handleLogin = () => {
+    console.log('hi')
     setError(""); // Reset the error state before attempting login
+    console.log('hi')
     if (email && password) {
       const loginData = {
         email: email,
@@ -140,7 +142,7 @@ const Login = () => {
         </Text>
     </TouchableOpacity>
     
-        {/* <Pressable
+        <Pressable
           onPress={() =>
             Linking.openURL(
               "https://classy-galette-16d.notion.site/RankIT-Terms-of-Service-17c96ce8b482418c862bcf85e3d08b1a?pvs=25"
@@ -150,7 +152,7 @@ const Login = () => {
           <Text style={[Auth.heading3]}>
         By continuing, you agree to the Terms and Conditions
       </Text>
-        </Pressable> */}
+        </Pressable>
 
       </View>
     </SafeAreaView>

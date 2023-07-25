@@ -16,8 +16,6 @@ import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../../GlobalStyles";
 import apiConfig from "../../apiConfig";
 import BackButton from '../../components/home/BackButton';
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
 import GoogleSignInButton from "../../components/auth/GoogleSignInButton";
 
 const Signup = () => {
@@ -90,7 +88,6 @@ const handleRegister = () => {
             keyboardType="default"
             placeholderTextColor="#737373"
             onChangeText={(text: string) => setPassword1(text)}
-            secureTextEntry // Redact the password input
             contextMenuHidden // Disable context menu (copy-paste actions)
           />
           <TextInput
@@ -99,7 +96,6 @@ const handleRegister = () => {
             keyboardType="default"
             placeholderTextColor="#737373"
             onChangeText={(text: string) => setPassword2(text)}
-            secureTextEntry // Redact the password input
             contextMenuHidden // Disable context menu (copy-paste actions)
           />
         </View>
