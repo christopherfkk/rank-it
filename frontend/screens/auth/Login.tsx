@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet, SafeAreaView, ImageBackground, TouchableOpacity} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import apiConfig from '../../apiConfig';
-import { Color, FontFamily, FontSize, Auth } from "../../GlobalStyles";
+import { Auth } from "../../GlobalStyles";
 import GoogleSignInButton from "../../components/auth/GoogleSignInButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRegContext, ACTIONS } from '../../RegContext';
+import axios from 'axios';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -36,55 +37,59 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    console.log('hi')
     setError(""); // Reset the error state before attempting login
-    console.log('hi')
     if (email && password) {
       const loginData = {
         email: email,
         password: password,
       };
 
-      fetch(`${apiConfig.BASE_URL}/accounts/login/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response from the backend
-          console.log(data);
-          // Check if the login was successful (adjust this based on your backend response)
-          const loginSuccess = data.access !== undefined;
-
-          if (loginSuccess) {
-            // ** add access and refresh token to asyncstorage
-            console.log(data)
-            storeUserInfo(data, dispatch)
-
-            if (state.gender === null) {
-              navigation.navigate("PfStart");
-            }
-            else {
-              navigation.navigate("Ranking")
-            }
-          } else {
-            // Set the error state based on the response data from the backend
-            setError(Object.values(data).join(', '));
+      axios.post(`${apiConfig.BASE_URL}/accounts/login/`, loginData, {
+          headers: {
+              "Content-Type": "application/json",
           }
-        })
-        .catch((error) => {
-          // Handle network or other fetch-related errors
-          setError("Network Request Failed");
-        });
-    } else {
-      setError("Please enter email and password");
-    }
-  };
-
-
+      })
+      .then((response) => {
+          const data = response.data;
+          console.log(data);
+          
+          const loginSuccess = data.access !== undefined;
+      
+          if (loginSuccess) {
+              console.log(data)
+              storeUserInfo(data, dispatch)
+      
+              if (state.gender === null) {
+                  navigation.navigate("PfStart");
+              }
+              else {
+                  navigation.navigate("Ranking")
+              }
+          } else {
+              setError(Object.values(data).join(', '));
+          }
+      })
+      .catch((error) => {
+          if (error.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+              setError(Object.values(error.response.data).join(', '));
+          } else if (error.request) {
+              // The request was made but no response was received
+              // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+              // http.ClientRequest in node.js
+              console.log(error.request);
+              setError("Network Request Failed");
+          } else {
+              // Something happened in setting up the request that triggered an Error
+              console.log('Error', error.message);
+              setError("Error", error.message);
+          }
+      })
+  }};
 
   return (
     <SafeAreaView style={[Auth.background]}>

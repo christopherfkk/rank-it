@@ -10,10 +10,9 @@ import {
   Linking,
   SafeAreaView
 } from "react-native";
-import { Image } from "expo-image";
 import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../../GlobalStyles";
+import { Auth } from "../../GlobalStyles";
 import apiConfig from "../../apiConfig";
 import BackButton from '../../components/home/BackButton';
 import GoogleSignInButton from "../../components/auth/GoogleSignInButton";

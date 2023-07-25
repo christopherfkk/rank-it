@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useContext } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, Border, FontSize, Padding, Auth } from "../../GlobalStyles";
-import BASE_URL from '../../apiConfig';
+import apiConfig from '../../apiConfig';
 import BackButton from '../../components/home/BackButton';
 
 const ResetPassword = () => {
@@ -31,34 +31,40 @@ const ResetPassword = () => {
       const resetData = {
         email: email,
       };
+       console.log(resetData)
       // Perform your API call or network request here to send email and password to the backend
-      fetch(`${BASE_URL}/accounts/password/reset/`, {
+      fetch(`${apiConfig.BASE_URL}/accounts/password/reset/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(resetData),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response from the backend
-          console.log(data);
-    
-          // Check if the login was successful (adjust this based on your backend response)
-          const registerSuccess = data.access !== undefined;
-  
-          if (registerSuccess) {
-            navigation.navigate("Login");
+      .then((response) => {
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error("Email not registered.");
+          } else {
+            throw new Error("Something went wrong.");
           }
-          else {
-            setError(Object.values(data));
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          setError(error);
-        });
-    };
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Handle the response from the server
+        console.log(data);
+      
+        // Assuming a successful reset sends a "detail" property with a success message.
+        if (data.detail === "Reset password email has been sent.") {
+          navigation.navigate("Login");
+        } else {
+          setError(Object.values(data));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+      });}
 
 
   return (
@@ -87,6 +93,10 @@ const ResetPassword = () => {
         >
           <Text style={[Auth.buttonText]}>Reset</Text>
         </TouchableOpacity>
+        {error ? (
+          <Text style={Auth.errorText}>{error}</Text>
+        ) : null}
+
       </View>
     </SafeAreaView>
   );

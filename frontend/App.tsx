@@ -86,15 +86,16 @@ const InnerApp = ({hideSplashScreen}) => {
           const accountId = await AsyncStorage.getItem('id');
           const accessToken = await AsyncStorage.getItem('accessToken');
 
-          if (accountId) {
-            const url = `${apiConfig.BASE_URL}/accounts/3`;
+          if (accountId && accessToken) {
+            const url = `${apiConfig.BASE_URL}/accounts/${accountId}`;
             const headers = {
-              'Authorization': `sdfasfsd`,
+              'Authorization': `Token ${accessToken}`,
               'Content-Type': 'application/json',
             };
             const response = await fetch(url, { headers });
-            console.log('sadfsdf');
             if (!response.ok) {
+              console.log(accountId, accessToken)
+              console.log(response)
               throw new Error('Network response was not ok');
             }
             const data = await response.json();
@@ -122,7 +123,7 @@ const InnerApp = ({hideSplashScreen}) => {
                             ? 'Login'
                             : !isRegistered
                                 ? 'Login' //PfStart
-                                : 'Login'
+                                : 'BottomTabs'
                     }
                     screenOptions={{headerShown: false}}
                 >
