@@ -87,17 +87,19 @@ const InnerApp = ({hideSplashScreen}) => {
           const accessToken = await AsyncStorage.getItem('accessToken');
 
           if (accountId) {
-            const url = `${apiConfig.BASE_URL}/accounts/`;
+            const url = `${apiConfig.BASE_URL}/postmatchfeedback/`;
             const headers = {
-              'Authorization': `Token ${accessToken}`,
+              'Authorization': `sdfasfsd ${accessToken}`,
               'Content-Type': 'application/json',
             };
             const response = await fetch(url, { headers });
             console.log(response);
+            console.log('sadfsdf');
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }
             const data = await response.json();
+            console.log(response)
             console.log(data);
           } else {
             console.log('Account ID not found in AsyncStorage');
