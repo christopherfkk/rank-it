@@ -110,7 +110,7 @@ const InnerApp = ({hideSplashScreen}) => {
                 <Stack.Navigator
                     initialRouteName={
                         !isLogIn
-                            ? 'BottomTabs'
+                            ? 'Login'
                             : !isRegistered
                                 ? 'PfStart'
                                 : 'BottomTabs'
