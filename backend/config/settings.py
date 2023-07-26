@@ -144,10 +144,6 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:19006',
 )
 
-CORS_ALLOW_CREDENTIALS = True  # Allow credentials to be sent with requests
-SESSION_COOKIE_SECURE = False
-
-
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:19000',
     'http://127.0.0.1:19000',
