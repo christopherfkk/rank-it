@@ -1,12 +1,56 @@
-import * as React from "react";
-import { Text, StyleSheet, View, Pressable, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import {React, useEffect} from 'react';
+import {Text, StyleSheet, View, Pressable, ScrollView} from "react-native";
+import {useNavigation} from "@react-navigation/native";
 import RankingContainer from "../../components/home/RankingContainer";
-import { Padding, Border, FontFamily, FontSize, Color } from "../../GlobalStyles";
+import {Padding, Border, FontFamily, FontSize, Color} from "../../GlobalStyles";
+import apiConfig from '../../apiConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
+
+// Function to get the value of a specific cookie
+function getCookie(name) {
+  const cookieString = document.cookie;
+  const cookies = cookieString.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.trim().split('=');
+    if (cookieName === name) {
+      return decodeURIComponent(cookieValue);
+    }
+  }
+  return null; // Return null if cookie not found
+}
 const Ranking = () => {
 
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const access = await AsyncStorage.getItem('accessToken')
+                if(!access) {
+                    throw new Error('Access token not found');
+                }
+                console.log(access, typeof access)
+                
+                const response = await axios.get(`${apiConfig.BASE_URL}/ranks/skill/`, {
+                    headers: {
+                        "Authorization": `Token ${access}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+    
+                console.log(response);
+                console.log(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchData();
+    }, []);
+    
+
     const data = [
         {"name": "Chris Fok", "avatar": "", "skill": 420},
         {"name": "Jin Tanaka", "avatar": "", "skill": 420},
@@ -49,7 +93,7 @@ const Ranking = () => {
             >
                 {data.map((item, index) => (
                     <RankingContainer
-                        rank={index+1}
+                        rank={index + 1}
                         name={item.name}
                         avatar={item.avatar}
                         skill={item.skill}
@@ -86,7 +130,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal:"15%",
+        paddingHorizontal: "15%",
         paddingVertical: "2%",
     },
     locationTab: {

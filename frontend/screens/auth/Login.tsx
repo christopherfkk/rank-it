@@ -19,7 +19,7 @@ const Login = () => {
 
   const storeUserInfo = async (userData: any, dispatch: any) => {
     try {
-      AsyncStorage.setItem('accessToken', JSON.stringify(userData.access));
+      AsyncStorage.setItem('accessToken', userData.access);
       AsyncStorage.setItem('refreshToken', JSON.stringify(userData.refresh));
       AsyncStorage.setItem('id', JSON.stringify(userData.user.id));
 

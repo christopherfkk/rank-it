@@ -19,7 +19,7 @@ const InsertMatchScores = () => {
     return rows.map((row, index) => (
       <View key={row.id} style={[styles.insertMatchScores, styles.profileFlexBox]}>
         <View style={styles.inputContainer}>
-          <Text style={styles.subheading}>You</Text>
+          {index === 0 ? <Text style={styles.subheading}>You</Text> : null}
           <TextInput
             style={styles.timeBorder}
             placeholder="Score"
@@ -29,7 +29,7 @@ const InsertMatchScores = () => {
           />
         </View>
         <View style={styles.inputContainer}>
-          <Text style={styles.subheading}>Opponent</Text>
+          {index === 0 ? <Text style={styles.subheading}>Opponent</Text> : null}
           <TextInput
             style={[styles.timeBorder]}
             placeholder="Score"
@@ -39,20 +39,22 @@ const InsertMatchScores = () => {
             rejectResponderTermination
           />
         </View>
-        <View style={styles.deleteIconContainer}>
-          <View style={{ flex: 1 }} />
-          <Pressable onPress={() => handleDeleteRow(row.id)}>
-            <Image
-              style={styles.deleteRingIcon} 
-              source={require("../../assets/minus_icon.png")} 
-            />
-          </Pressable>
-          <View style={{ flex: 1 }} />
-        </View>
+        {index > 0 ? (
+          <View style={styles.deleteIconContainer}>
+            <View style={{ flex: 1 }} />
+            <Pressable onPress={() => handleDeleteRow(row.id)}>
+              <Image
+                style={styles.deleteRingIcon}
+                source={require("../../assets/minus_icon.png")}
+              />
+            </Pressable>
+            <View style={{ flex: 1 }} />
+          </View>
+        ) : null}
       </View>
     ));
   };
-  
+
 
 
   return (
@@ -78,31 +80,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   heading: {
-    fontSize: 20,
-    color: Color.lightLabelPrimary,     
+    fontSize: 16, // Smaller font size
+    color: Color.lightLabelPrimary,
     fontFamily: FontFamily.manropeBold,
     textAlign: "center",
     alignSelf: "stretch",
   },
-  // profileFlexBox: {
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   justifyContent: "space-between",
-  // },
   subheading: {
     color: Color.crimson_100,
     fontFamily: FontFamily.manropeMedium,
-    fontSize: 12,
+    fontSize: 9, // Smaller font size
     textAlign: "center",
-    marginBottom: 5,
+    marginBottom: 2, // Smaller margin
   },
   addRingIcon: {
-    width: 15,
-    height: 15,
+    width: 10, // Smaller icon size
+    height: 10, // Smaller icon size
   },
   addButtonContainer: {
     alignItems: 'center',
-    marginTop: 15,
+    marginTop: 5,
   },
   rowContainer: {
     flexDirection: "column",
@@ -136,33 +133,20 @@ const styles = StyleSheet.create({
   },
   deleteIconContainer: {
     position: 'absolute',
-    top: '70%',
-    right: 0,
-    transform: [{ translateY: -7.5 }], // Adjust translateY to center the icon
+    top: '50%',
+    right: 15,
+    transform: [{ translateY: -3 }], // Adjust translateY to center the icon
   },
-  
-
-  // insertMatchScores: {
-  //   flexDirection: "row",
-  //   paddingVertical: Padding.p_11xs,
-  //   paddingHorizontal: Padding.p_xl,
-  //   justifyContent: 'space-between', 
-  //   alignSelf: "stretch",
-  // },
-  // inputContainer: {
-  //   flex: 1,
-  //   alignItems: "center",
-  // },
   timeBorder: {
-    paddingVertical: 8,
+    paddingVertical: 5, // Smaller padding
     borderRadius: Border.br_8xs,
     fontFamily: FontFamily.manropeMedium,
     fontWeight: "500",
-    fontSize: 12,
+    fontSize: 9, // Smaller font size
     borderWidth: 1,
     alignSelf: "stretch",
     alignItems: "center",
-    paddingHorizontal: Padding.p_mini,
+    paddingHorizontal: 4, // Smaller padding
     borderColor: "#000",
     borderStyle: "solid",
     backgroundColor: Color.white,
@@ -170,12 +154,9 @@ const styles = StyleSheet.create({
   startTime: {
     marginLeft: 20, // adjust as needed
   },
-  // deleteIconContainer: {
-  //   justifyContent: 'center',
-  // },
-  deleteRingIcon: { 
-    width: 15,
-    height: 15,
+  deleteRingIcon: {
+    width: 8,
+    height: 8,
   },
 });
 

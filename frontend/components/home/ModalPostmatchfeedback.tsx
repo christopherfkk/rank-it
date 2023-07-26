@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { Slider as RNESlider } from "@rneui/themed";
-import IndividualStrength from "../setup/IndividualStrength";
+import StrengthGrid from "./IndividualStrength"
 import PfButton1 from "../setup/PfButton1";
 import { Padding, Color, Border, FontFamily, FontSize } from "../../GlobalStyles";
 import InsertMatchScores from "./InsertMatchScores";
@@ -28,9 +28,9 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
           showsVerticalScrollIndicator={true}
           showsHorizontalScrollIndicator={false}
         >
-        <Text style={[styles.heading1, styles.heading1box]}>
-          Your Match with Bentley
-        </Text>
+        <View style={styles.heading1box}>
+          <Text style={styles.heading1}>Your Match with</Text>
+        </View>
           <View style={[styles.profile]}>
             <Image
               style={styles.memberPhotoIcon}
@@ -64,13 +64,15 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
               </View>
               </View>
               <InsertMatchScores/>
-          <View style={[styles.strengthWeakness, styles.gameSpaceBlock]}>
-            <Text style={[styles.gameCompleted, styles.fullNameTypo]}>
+              <Text style={[styles.fullName, {textAlign: "center"}]}>
               Opponent Strength
             </Text>
-            <View style={styles.matchScores3}>
-              <Pressable style={styles.frameFlexBox}>
-                <IndividualStrength
+              <StrengthGrid/>
+          {/* <View style={[styles.strengthWeakness, styles.gameSpaceBlock]}> */}
+
+           {/*  <View style={styles.matchScores3}>
+              <Pressable style={styles.frameFlexBox}> */}
+                {/* <IndividualStrength
                   image13={require("../../assets/image-13.png")}
                   agility="Agility"
                 />
@@ -152,7 +154,7 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
             minimumTrackTintColor="#3f3f3f"
             maximumTrackTintColor="#b3b3b3"
           />
-          <PfButton1 /> */}
+          <PfButton1 /> */} */}
         </ScrollView>
       </SafeAreaView>
     );
@@ -161,21 +163,19 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
 const styles = StyleSheet.create({
   modalPostmatchfeedback: {
     backgroundColor: Color.white,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "center", // Center items horizontally
+    justifyContent: "center", // Center items vertically
+    flex: 1,
   },
   heading1box: {
-    display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 100,
   },
   heading1: {
     fontSize: 50,
     letterSpacing: 1.2,
     fontFamily: FontFamily.bebasNeueRegular,
-    marginTop: 100, 
-    alignItems: "center",
-    justifyContent: "center",
   },
   profile: {
     flexDirection: "row",
