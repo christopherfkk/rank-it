@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Reg } from "../../GlobalStyles";
 
-const RegButton = ({ navigation, screenName, disabled, onPress }) => {
+const RegButton = ({ navigation, screenName, disabled, onPress, buttonText='Next' }) => {
   return (
     <TouchableOpacity
       style={[Reg.button, disabled && styles.disabledButton]}
@@ -16,7 +16,7 @@ const RegButton = ({ navigation, screenName, disabled, onPress }) => {
       disabled={disabled}
     >
       <Text style={Reg.buttonText} numberOfLines={3}>
-        Next
+          {buttonText}
       </Text>
     </TouchableOpacity>
   );
