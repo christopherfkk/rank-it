@@ -9,7 +9,7 @@ class IsAdminUserOrSelf(BasePermission):
     """
     # POST is performed by the adapter or user manager
     # DELETE is not allowed, change user.is_active to False instead
-    USER_MODEL_ALLOWED_METHODS = ('PUT', 'GET', 'OPTIONS', 'HEAD')
+    USER_MODEL_ALLOWED_METHODS = ('PUT', 'GET')
 
     def has_permission(self, request, view):
         """Only allow PUT or GET requests for authenticated users"""
