@@ -1,42 +1,40 @@
-import {React, useEffect} from 'react';
-import {Text, StyleSheet, View, Pressable, ScrollView} from "react-native";
-import {useNavigation} from "@react-navigation/native";
+import React, { useState, useEffect } from 'react';
+import { Text, StyleSheet, View, Pressable, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RankingContainer from "../../components/home/RankingContainer";
-import {Padding, Border, FontFamily, FontSize, Color} from "../../GlobalStyles";
+import { Padding, Border, FontFamily, FontSize, Color } from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
-
-
 const Ranking = () => {
 
     const navigation = useNavigation();
+    const [ ranking, setRanking ] = useState([])
+    const [ userId, setUserId ] = useState()
 
     useEffect(() => {
         const fetchData = async () => {
 
-            const access = await AsyncStorage.getItem('accessToken')
+            try {
+                const user = JSON.parse(await AsyncStorage.getItem('userInfo'))
+                setUserId(user.id)
 
-            const response = await fetch(`${apiConfig.BASE_URL}/api/v1/ranks/skill/`, {
-                credentials: "include",
-                method: "GET",
-                headers: {
-                    "Authorization": `Token ${access}`
-                }
-            })
-            const data = await response.json();
-            console.log(response)
-            console.log(data)
+                const access = await AsyncStorage.getItem('accessToken')
+                const response = await fetch(`${apiConfig.BASE_URL}/ranks/skill/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Token ${access}`
+                    }
+                })
+                const data = await response.json();
+                setRanking(data)
+                console.log(data)
+            } catch {
+                console.error("NO RANKING: Can't fetch ranking")
+            }
         };
-
         fetchData();
     }, []);
-
-    const data = [
-        {"name": "Chris Fok", "avatar": "", "skill": 420},
-        {"name": "Jin Tanaka", "avatar": "", "skill": 420},
-        {"name": "Peter Wang", "avatar": "", "skill": 420},
-    ]
 
     return (
         <View style={styles.rankingPage}>
@@ -72,15 +70,18 @@ const Ranking = () => {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.rankingScrollViewContent}
             >
-                {data.map((item, index) => (
+                {ranking.map((rank, index) => (
                     <RankingContainer
                         key={index + 1}
                         rank={index + 1}
-                        name={item.name}
-                        avatar={item.avatar}
-                        skill={item.skill}
+                        name={rank.user.first_name + " " + rank.user.last_name}
+                        // avatar={rank.avatar}
+                        skill={rank.skill}
+                        self={ rank.user.id == userId }
                         onFrameTouchableOpacityPress={() =>
-                            navigation.navigate("Profile")
+                            navigation.navigate("Profile",
+                                { otherUserId: rank.user.id, self: rank.user.id == userId }
+                            )
                         }
                     />
                 ))}

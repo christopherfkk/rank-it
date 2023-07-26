@@ -55,6 +55,9 @@
     email: chris@email.com
     username: chris
     password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
+    first_name: Chris
+    last_name: Fok
+    blurb: Experienced badminton player with 5+ years of competitive play. Available on weekends for intense matches. Prefer playing at indoor courts in central Tokyo.
 
 - model: accounts.CustomUser
   pk: 3
@@ -62,6 +65,9 @@
     email: jin@email.com
     username: jin
     password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
+    first_name: Jin
+    last_name: Tanaka
+    blurb: Imma beat you no chill.
 
 - model: accounts.CustomUser
   pk: 4
@@ -69,6 +75,9 @@
     email: hiro@email.com
     username: hiro
     password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
+    first_name: Hiro
+    last_name: San
+    blurb: Alright blooda.
 
 - model: ranks.Skill
   pk: 1

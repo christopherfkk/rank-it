@@ -47,7 +47,7 @@ export const Color = {
     gray_400: "#0c0c0c",
     gray_300: "rgba(0, 0, 0, 0.91)",
     orange: "#fbbc05",
-    dimgray_100: "#737373",
+    dimgray_100: "#e1e1e1",
     darkslategray: "#4a4a4a",
 };
 /* Paddings */

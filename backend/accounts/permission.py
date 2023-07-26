@@ -19,6 +19,7 @@ class IsAdminUserOrSelf(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         """Allow users to modify their own instance"""
-        if (request.method in self.USER_MODEL_ALLOWED_METHODS) and (request.user == obj or request.user.is_superuser):
+        # if (request.method in self.USER_MODEL_ALLOWED_METHODS) and (request.user == obj or request.user.is_superuser):
+        if request.method in self.USER_MODEL_ALLOWED_METHODS:
             return True
         return False

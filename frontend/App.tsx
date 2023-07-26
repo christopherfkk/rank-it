@@ -71,6 +71,7 @@ const InnerApp = ({hideSplashScreen}) => {
     const [isRegistered, setIsRegistered] = useState(false);
     const [isLogIn, setIsLogIn] = useState(false);
 
+
     useEffect(() => {
 
         // Check if logged in
