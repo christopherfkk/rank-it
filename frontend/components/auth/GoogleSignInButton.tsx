@@ -76,7 +76,7 @@ const GoogleSignInButton = () => {
     return (
         <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={handleGoogleSignIn}>
             <Image style={Auth.logogoogle} source={require("../../assets/iconGoogle.png")}/>
-            <Text style={Auth.buttonText}>
+            <Text style={Auth.googleButtonText}>
                 Sign in with Google
             </Text>
         </TouchableOpacity>

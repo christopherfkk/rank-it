@@ -160,6 +160,13 @@ export const Auth = {
         fontSize: 12,
         fontWeight: "500",
         fontFamily: FontFamily.manropeMedium,
+        color: Color.white,
+        textAlign: "center",
+    },
+    googleButtonText: {
+        fontSize: 12,
+        fontWeight: "500",
+        fontFamily: FontFamily.manropeMedium,
         color: Color.gray_100,
         textAlign: "center",
         paddingLeft: "5%"
