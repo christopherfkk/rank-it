@@ -22,14 +22,11 @@ const PfName = () => {
 
   const storeUserInfo = async (firstName: string, lastName: string) => {
     try {
-
-      console.log('hi')
       // backend data of user is inserted
       dispatch({ type: ACTIONS.SET_FIRST_NAME, payload: firstName });
       dispatch({ type: ACTIONS.SET_LAST_NAME, payload: lastName });
-      console.log('hi')
     } catch (error) {
-      console.error("Error storing user info in AsyncStorage:", error);
+      console.error("Error storing user info in context:", error);
     }
   };
 
@@ -53,7 +50,7 @@ const PfName = () => {
         {/* {showError && <Text style={Reg.errorText}>{ERROR_MESSAGE}</Text>} */}
         <RegButton
           navigation={navigation}
-          screenName="PfSkill"
+          screenName="PfLevel"
           onPress={() => storeUserInfo(firstName, lastName)} 
           disabled={(firstName.trim() === "" || lastName.trim() === "")}
         />

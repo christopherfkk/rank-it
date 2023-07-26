@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from dotenv import load_dotenv
+from rest_framework import authentication
 
 
 load_dotenv()
@@ -31,8 +32,7 @@ SECRET_KEY = 'django-insecure-@yuv)v1@%m3scgfx3zjk#gq0#wke1um$@&kmek803z82$e3iih
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','10.112.21.152','104.28.123.167', 'http://localhost:19006']
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -68,7 +68,7 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-SITE_ID = 2
+SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -96,28 +96,23 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'accounts.authentication.CsrfExemptSessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        'accounts.authentication.CsrfExemptSessionAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 REST_AUTH = {
-    'USE_JWT': 'True',
-    'JWT_AUTH_RETURN_EXPIRATION': True,
-    'JWT_AUTH_HTTPONLY': False,
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
     'USER_DETAILS_SERIALIZER': 'accounts.serializers.AccountSerializer',
-}
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1000),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1000),
+    'TOKEN_SERIALIZER': 'accounts.serializers.TokenSerializer',
+    'SESSION_LOGIN': False,  # returns token serializer detail upon registration
 }
 
 ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
@@ -134,14 +129,19 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = (
+    'http://localhost:19000',
+    'http://127.0.0.1:19000',
     'http://localhost:19006',
+    'http://127.0.0.1:19006',
+    'http://localhost:19007',
+    'http://127.0.0.1:19007',
 )
 
 CORS_ALLOW_CREDENTIALS = True  # Allow credentials to be sent with requests
@@ -153,6 +153,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:19000',
     'http://localhost:19006',
     'http://127.0.0.1:19006',
+    'http://localhost:19007',
+    'http://127.0.0.1:19007',
 ]
 
 ROOT_URLCONF = 'config.urls'

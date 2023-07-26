@@ -1,16 +1,97 @@
-import * as React from "react";
-import {Pressable, StyleSheet, Text, View, ScrollView} from "react-native";
-import {Image} from "expo-image";
+import React, {useEffect, useState} from "react";
+import { Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { RouteProp } from "@react-navigation/native";
 
-import {Padding, Color, FontSize, FontFamily, Border} from "../../GlobalStyles";
+import { Padding, Color, FontSize, FontFamily, Border } from "../../GlobalStyles";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import RegButton from '../../components/auth/RegButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import apiConfig from '../../apiConfig';
+
+type ProfileParamList = {
+  Profile: {
+    otherUserId: number | null;
+    self: boolean;
+  };
+};
 
 type ProfileType = {
-    self: Boolean;
+    route: RouteProp<ProfileParamList, "Profile">
 };
-const Profile = ({self=true}: ProfileType) => {
+const Profile = ({route}: ProfileType) => {
+
+    const navigation = useNavigation()
+    const isFocused = useIsFocused();
+
+    // Check if route.params is defined before destructuring
+    const { otherUserId, self } = route.params || { otherUserId: null, self: true };
+    const [ profile, setProfile ] = useState({
+        first_name: "",
+        last_name: "",
+        level: "",
+        blurb: "",
+        matches_played: "",
+        overall_sportsmanship_rating: "",
+    })
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            const selfUserId = JSON.parse(await AsyncStorage.getItem('userInfo')).id
+            const userId = self ? selfUserId : otherUserId;
+
+            try {
+                const access = await AsyncStorage.getItem('accessToken')
+                const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Token ${access}`
+                    }
+                })
+                const data = await response.json();
+                setProfile(data)
+                console.log(data)
+            } catch {
+                console.error("NO PROFILE: Can't fetch profile")
+            }
+        };
+        if (isFocused) {
+            fetchData();
+        }
+    }, [isFocused]);
+
+    const handleLogout = async () => {
+
+        // Get PUT request paramters
+        const userId = JSON.parse(await AsyncStorage.getItem('userInfo')).id;
+        const accessToken = await AsyncStorage.getItem('accessToken');
+
+        fetch(`${apiConfig.BASE_URL}/accounts/logout/`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Token ${accessToken}`
+            },
+        })
+            .then((response) => {
+                if (response.status == 200) {
+                    AsyncStorage.clear()
+
+                    console.log("LOGGED OUT: remove accessToken and userInfo")
+                    navigation.navigate("Login")
+                }
+                return response.json()
+            })
+            .then((data) => {
+                console.log(data)
+            })
+            .catch((error) => {
+                throw error
+            });
+    };
+
     return (
         <ScrollView
             style={styles.profile}
@@ -20,10 +101,10 @@ const Profile = ({self=true}: ProfileType) => {
         >
             {/* PHOTO AND SOME DETAILS */}
             <ProfileHeader
-                avatar={require("../../assets/memberphoto18.png")}
-                fullName="Bentley Chen"
-                location="Taito, Tokyo"
-                skill="Beginner"
+                avatar={require("../../assets/avatar.png")}
+                fullName={profile.first_name + " " + profile.last_name}
+                location="CB Gym, Tokyo"
+                skill={profile.level}
             />
 
             {self ?
@@ -50,13 +131,17 @@ const Profile = ({self=true}: ProfileType) => {
 
             {/* MORE PROFILE DETAILS */}
             <ProfileDetails
-                bioText="Experienced badminton player with 5+ years of competitive play. Available on weekends for intense matches. Prefer playing at indoor courts in central Tokyo."
-                nMatchesLogged={43}
-                highestRankAttained={7}
-                sportsmanshipRating={4.5}
+                bioText={profile.blurb}
+                nMatchesLogged={profile.matches_played}
+                highestRankAttained={1}
+                sportsmanshipRating={profile.overall_sportsmanship_rating}
                 strength="Agility, Cardio, Reaction Time"
                 competitiveness="High"
             />
+
+            <TouchableOpacity onPress={handleLogout}>
+                <Text>Logout</Text>
+            </TouchableOpacity>
 
         </ScrollView>
     );
