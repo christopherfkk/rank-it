@@ -10,24 +10,13 @@ import {
     TouchableOpacity
 } from "react-native";
 import {useNavigation} from "@react-navigation/native";
-import apiConfig from '../../apiConfig';
-import {Color, FontFamily, FontSize, Auth} from "../../GlobalStyles";
-import GoogleSignInButton from "../../components/auth/GoogleSignInButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRegContext, ACTIONS} from '../../RegContext';
 
+import apiConfig from '../../apiConfig';
+import {Color, FontFamily, FontSize, Auth} from "../../GlobalStyles";
+import GoogleSignInButton from "../../components/auth/GoogleSignInButton";
 
-function getCookie(name) {
-    const cookieString = document.cookie;
-    const cookies = cookieString.split(';');
-    for (const cookie of cookies) {
-        const [cookieName, cookieValue] = cookie.trim().split('=');
-        if (cookieName === name) {
-            return decodeURIComponent(cookieValue);
-        }
-    }
-    return null; // Return null if cookie not found
-}
 
 const Login = () => {
     const navigation = useNavigation();
@@ -40,9 +29,8 @@ const Login = () => {
 
     const storeUserInfo = async (userData: any, dispatch: any) => {
         try {
-            AsyncStorage.setItem('accessToken', userData.key);
-            // AsyncStorage.setItem('refreshToken', JSON.stringify(userData.refresh));
-            // AsyncStorage.setItem('id', JSON.stringify(userData.user.id));
+            await AsyncStorage.setItem('accessToken', userData.key);
+            await AsyncStorage.setItem('userInfo', JSON.stringify(userData.user));
 
             // backend data of user is inserted
             dispatch({type: ACTIONS.SET_PROFILE_PHOTO, payload: userData.user.avatar});
@@ -58,8 +46,13 @@ const Login = () => {
     };
 
     const handleLogin = () => {
-        setError(""); // Reset the error state before attempting login
+
+        // Reset the error state before attempting login
+        setError("");
+
         if (email && password) {
+
+            // Compile login data
             const loginData = {
                 email: email,
                 password: password,
@@ -74,21 +67,23 @@ const Login = () => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    // Handle the response from the backend
+
                     console.log(data);
-                    // Check if the login was successful (adjust this based on your backend response)
                     const loginSuccess = data.key !== undefined;
 
                     if (loginSuccess) {
-                        // ** add access and refresh token to asyncstorage
-                        console.log(data)
                         storeUserInfo(data, dispatch)
 
-                        if (state.gender === null) {
+                        // Navigate after login
+                        if (data.user.first_name === null ||
+                            data.user.last_name === null ||
+                            data.user.level === null)
+                        {
                             navigation.navigate("PfStart");
                         } else {
-                            navigation.navigate("Ranking")
+                            navigation.navigate("BottomTabs")
                         }
+
                     } else {
                         // Set the error state based on the response data from the backend
                         setError(Object.values(data).join(', '));
@@ -96,7 +91,7 @@ const Login = () => {
                 })
                 .catch((error) => {
                     // Handle network or other fetch-related errors
-                    setError("Network Request Failed");
+                    setError(`Network Request Failed ${error}`);
                 });
         } else {
             setError("Please enter email and password");

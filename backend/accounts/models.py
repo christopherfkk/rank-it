@@ -56,6 +56,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         MALE = "M", _("Male")
         FEMALE = "F", _("Female")
 
+    class LEVEL(models.TextChoices):
+        BEGINNER = "Beginner", _("Beginner")
+        INTERMEDIATE = "Intermediate", _("Intermediate")
+        EXPERT = "Expert", _("Expert")
+
     email = models.EmailField(
         _("email address"),
         unique=True
@@ -111,6 +116,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
                 message="Phone number must be entered in a valid format."
             )
         ]
+    )
+    level = models.CharField(
+        _("level"),
+        default=None,
+        blank=True,
+        null=True,
+        max_length=20,
+        choices=LEVEL.choices
     )
     dob = models.DateField(
         _("date of brith"),

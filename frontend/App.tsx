@@ -23,7 +23,8 @@ import PfGender1 from "./screens/setup/PfGender";
 import PfLocation from "./screens/setup/PfLocation";
 import PfBlurb from "./screens/setup/PfBlurb";
 import PfName from "./screens/setup/PfName";
-import PfSkill from "./screens/setup/PfSkill";
+import PfLevel from "./screens/setup/PfLevel";
+import PfSubmit from './screens/setup/PfSubmit';
 import ProfileEdit from "./screens/home/ProfileEdit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs"
@@ -65,53 +66,41 @@ const App = () => {
 };
 
 const InnerApp = ({hideSplashScreen}) => {
+
     const {state} = useRegContext();
     const [isRegistered, setIsRegistered] = useState(false);
     const [isLogIn, setIsLogIn] = useState(false);
 
-    //check if someone is logged in after entering app
     useEffect(() => {
-      const checkLoginStatus = async () => {
-        try {
-          const accessToken = await AsyncStorage.getItem("accessToken");
-          if (accessToken) {
-            setIsLogIn(true);
-          }
-        } catch {
-          console.log("Not Logged In: no access token found");
-        }
-      };
 
-      const checkRegistrationStatus = async () => {
-        try {
-          const accountId = await AsyncStorage.getItem('id');
-          const accessToken = await AsyncStorage.getItem('accessToken');
-
-          if (accountId) {
-            const url = `${apiConfig.BASE_URL}/accounts/3`;
-            const headers = {
-              'Authorization': `sdfasfsd`,
-              'Content-Type': 'application/json',
-            };
-            const response = await fetch(url, { headers });
-            console.log('sadfsdf');
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
+        // Check if logged in
+        const checkLoginStatus = async () => {
+            const accessToken = await AsyncStorage.getItem("accessToken")
+                .catch((error) => console.log(`NOT LOGGED IN: Asyn Storage getItem error ${error}`));
+            if (accessToken) {
+                setIsLogIn(true);
+                console.log("LOGGED IN: Access token found");
+            } else {
+                console.log("NOT LOGGED IN: No access token found");
             }
-            const data = await response.json();
-            console.log(response)
-            console.log(data);
-          } else {
-            console.log('Account ID not found in AsyncStorage');
-          }
-        } catch (error) {
-          console.error('Fetch error:', error);
-        }
-      };
+        };
+
+        // Checked if registered
+        const checkRegistrationStatus = async () => {
+            const userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
+            console.log(userInfo)
+            if (userInfo == null) {
+                console.log("NOT REGISTERED: Details not set");
+            } else if (userInfo.first_name && userInfo.last_name && userInfo.level) {
+                setIsRegistered(true);
+                console.log("REGISTERED: Details set");
+            }
+        };
 
         checkLoginStatus();
         checkRegistrationStatus();
-    }, [state]);
+
+    }, []);
 
     //ask chatgpt
     return (
@@ -122,8 +111,8 @@ const InnerApp = ({hideSplashScreen}) => {
                         !isLogIn
                             ? 'Login'
                             : !isRegistered
-                                ? 'Login' //PfStart
-                                : 'Login'
+                                ? 'PfStart'
+                                : 'BottomTabs'
                     }
                     screenOptions={{headerShown: false}}
                 >
@@ -202,8 +191,8 @@ const InnerApp = ({hideSplashScreen}) => {
                         options={{headerShown: false}}
                     />
                     <Stack.Screen
-                        name="PfSkill"
-                        component={PfSkill}
+                        name="PfLevel"
+                        component={PfLevel}
                         options={{headerShown: false}}
                     />
                     <Stack.Screen

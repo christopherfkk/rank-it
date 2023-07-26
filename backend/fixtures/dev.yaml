@@ -47,6 +47,7 @@
     username: admin
     password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
     is_staff: True
+    is_superuser: True
 
 - model: accounts.CustomUser
   pk: 2

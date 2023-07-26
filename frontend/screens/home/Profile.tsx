@@ -1,16 +1,50 @@
 import * as React from "react";
-import {Pressable, StyleSheet, Text, View, ScrollView} from "react-native";
+import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity} from "react-native";
 import {Image} from "expo-image";
 
 import {Padding, Color, FontSize, FontFamily, Border} from "../../GlobalStyles";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import RegButton from '../../components/auth/RegButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import apiConfig from '../../apiConfig';
+import {useNavigation} from '@react-navigation/native';
 
 type ProfileType = {
     self: Boolean;
 };
-const Profile = ({self=true}: ProfileType) => {
+const Profile = ({self = true}: ProfileType) => {
+
+    const navigation = useNavigation()
+
+    const handleLogout = async () => {
+
+        // Get PUT request paramters
+        const userId = JSON.parse(await AsyncStorage.getItem('userInfo')).id;
+        const accessToken = await AsyncStorage.getItem('accessToken');
+
+        fetch(`${apiConfig.BASE_URL}/accounts/logout/`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Token ${accessToken}`
+            },
+        })
+            .then((response) => {
+                if (response.status == 200) {
+                    AsyncStorage.clear()
+                    console.log("LOGGED OUT: remove accessToken and userInfo")
+                    navigation.navigate("Login")
+                }
+                return response.json()
+            })
+            .then((data) => {
+                console.log(data)
+            })
+            .catch((error) => {
+                throw error
+            });
+    };
+
     return (
         <ScrollView
             style={styles.profile}
@@ -57,6 +91,10 @@ const Profile = ({self=true}: ProfileType) => {
                 strength="Agility, Cardio, Reaction Time"
                 competitiveness="High"
             />
+
+            <TouchableOpacity onPress={handleLogout}>
+                <Text>Logout</Text>
+            </TouchableOpacity>
 
         </ScrollView>
     );

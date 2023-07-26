@@ -1,23 +1,13 @@
 import {React, useEffect} from 'react';
 import {Text, StyleSheet, View, Pressable, ScrollView} from "react-native";
 import {useNavigation} from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import RankingContainer from "../../components/home/RankingContainer";
 import {Padding, Border, FontFamily, FontSize, Color} from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Function to get the value of a specific cookie
-function getCookie(name) {
-  const cookieString = document.cookie;
-  const cookies = cookieString.split(';');
-  for (const cookie of cookies) {
-    const [cookieName, cookieValue] = cookie.trim().split('=');
-    if (cookieName === name) {
-      return decodeURIComponent(cookieValue);
-    }
-  }
-  return null; // Return null if cookie not found
-}
+
 const Ranking = () => {
 
     const navigation = useNavigation();
@@ -26,9 +16,8 @@ const Ranking = () => {
         const fetchData = async () => {
 
             const access = await AsyncStorage.getItem('accessToken')
-            console.log(`Authorization: Token ${access}`)
 
-            const response = await fetch(`http://localhost:8000/api/v1/ranks/skill/`, {
+            const response = await fetch(`${apiConfig.BASE_URL}/api/v1/ranks/skill/`, {
                 credentials: "include",
                 method: "GET",
                 headers: {
@@ -85,6 +74,7 @@ const Ranking = () => {
             >
                 {data.map((item, index) => (
                     <RankingContainer
+                        key={index + 1}
                         rank={index + 1}
                         name={item.name}
                         avatar={item.avatar}
