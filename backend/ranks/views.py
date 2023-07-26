@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from .models import Skill
 from .serializer import SkillSerializer
 
-
 class SkillViewSet(viewsets.ModelViewSet):
     """
     View set for the Skill model

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { Slider as RNESlider } from "@rneui/themed";
-import IndividualStrength from "../setup/IndividualStrength";
+import StrengthGrid from "./IndividualStrength"
 import PfButton1 from "../setup/PfButton1";
 import { Padding, Color, Border, FontFamily, FontSize } from "../../GlobalStyles";
 import InsertMatchScores from "./InsertMatchScores";
@@ -28,9 +28,9 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
           showsVerticalScrollIndicator={true}
           showsHorizontalScrollIndicator={false}
         >
-        <Text style={[styles.heading1, styles.heading1box]}>
-          Your Match with Bentley
-        </Text>
+        <View style={styles.heading1box}>
+          <Text style={styles.heading1}>Your Match with</Text>
+        </View>
           <View style={[styles.profile]}>
             <Image
               style={styles.memberPhotoIcon}
@@ -64,113 +64,15 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
               </View>
               </View>
               <InsertMatchScores/>
-
-               {/*
-          <View style={[styles.gameCompletion, styles.matchScoresSpaceBlock]}>
-            <Text style={[styles.gameCompleted, styles.fullNameTypo]}>
-              Game completed?
-            </Text>
-            <View style={[styles.gameCompletion1, styles.gameSpaceBlock]}>
-              <Pressable style={[styles.pfButton, styles.buttonShadowBox]}>
-                <Text style={styles.button} numberOfLines={3}>
-                  Yes
-                </Text>
-              </Pressable>
-              <Pressable style={[styles.pfButton1, styles.buttonShadowBox]}>
-                <Text style={styles.button} numberOfLines={1}>
-                  no
-                </Text>
-              </Pressable>
-            </View>
-    </View>*/}
-          {/*
-          <View style={[styles.matchScores, styles.matchScoresSpaceBlock]}>
-            <Text
-              style={[styles.gameCompleted, styles.fullNameTypo]}
-            >{`Match Scores `}</Text>
-            <View style={styles.matchScores2}>
-              <View style={styles.submittedAvailability}>
-                <Pressable style={[styles.subtitle, styles.profileFlexBox]}>
-                  <Text style={styles.dayTypo}>You</Text>
-                  <Text style={[styles.dayOfWeek1, styles.dayTypo]}>
-                    Opponent
-                  </Text>
-                </Pressable>
-                <Pressable
-                  style={[styles.insertMatchScores, styles.profileFlexBox]}
-                >
-                  <TextInput
-                    style={styles.timeBorder}
-                    placeholder="MM"
-                    keyboardType="numeric"
-                    placeholderTextColor="#737373"
-                    maxLength={2}
-                  />
-                  <TextInput
-                    style={[styles.startTime, styles.timeBorder]}
-                    placeholder="DD"
-                    keyboardType="number-pad"
-                    secureTextEntry={false}
-                    placeholderTextColor="#737373"
-                    maxLength={2}
-                    rejectResponderTermination
-                  />
-                </Pressable>
-                <Pressable
-                  style={[styles.insertMatchScores, styles.profileFlexBox]}
-                >
-                  <TextInput
-                    style={styles.timeBorder}
-                    placeholder="MM"
-                    keyboardType="numeric"
-                    placeholderTextColor="#737373"
-                    maxLength={2}
-                  />
-                  <TextInput
-                    style={[styles.startTime, styles.timeBorder]}
-                    placeholder="DD"
-                    keyboardType="number-pad"
-                    secureTextEntry={false}
-                    placeholderTextColor="#737373"
-                    maxLength={2}
-                    rejectResponderTermination
-                  />
-                </Pressable>
-                <Pressable
-                  style={[styles.insertMatchScores, styles.profileFlexBox]}
-                >
-                  <TextInput
-                    style={styles.timeBorder}
-                    placeholder="MM"
-                    keyboardType="numeric"
-                    placeholderTextColor="#737373"
-                    maxLength={2}
-                  />
-                  <TextInput
-                    style={[styles.startTime, styles.timeBorder]}
-                    placeholder="DD"
-                    keyboardType="number-pad"
-                    secureTextEntry={false}
-                    placeholderTextColor="#737373"
-                    maxLength={2}
-                    rejectResponderTermination
-                  />
-                </Pressable>
-              </View>
-            </View>
-            <Image
-              style={styles.addRingIcon}
-              contentFit="cover"
-              source={require("../../assets/add-ring.png")}
-            />
-          </View>
-          <View style={[styles.strengthWeakness, styles.gameSpaceBlock]}>
-            <Text style={[styles.gameCompleted, styles.fullNameTypo]}>
+              <Text style={[styles.fullName, {textAlign: "center"}]}>
               Opponent Strength
             </Text>
-            <View style={styles.matchScores3}>
-              <Pressable style={styles.frameFlexBox}>
-                <IndividualStrength
+              <StrengthGrid/>
+          {/* <View style={[styles.strengthWeakness, styles.gameSpaceBlock]}> */}
+
+           {/*  <View style={styles.matchScores3}>
+              <Pressable style={styles.frameFlexBox}> */}
+                {/* <IndividualStrength
                   image13={require("../../assets/image-13.png")}
                   agility="Agility"
                 />
@@ -252,7 +154,7 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
             minimumTrackTintColor="#3f3f3f"
             maximumTrackTintColor="#b3b3b3"
           />
-          <PfButton1 /> */}
+          <PfButton1 /> */} */}
         </ScrollView>
       </SafeAreaView>
     );
@@ -261,21 +163,19 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
 const styles = StyleSheet.create({
   modalPostmatchfeedback: {
     backgroundColor: Color.white,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "center", // Center items horizontally
+    justifyContent: "center", // Center items vertically
+    flex: 1,
   },
   heading1box: {
-    display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 100,
   },
   heading1: {
     fontSize: 50,
     letterSpacing: 1.2,
     fontFamily: FontFamily.bebasNeueRegular,
-    marginTop: 100, 
-    alignItems: "center",
-    justifyContent: "center",
   },
   profile: {
     flexDirection: "row",
