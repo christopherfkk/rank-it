@@ -10,7 +10,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = (
             'id', 'email', 'username', 'first_name', 'last_name', 'level',
-            'matches_played', 'matches_won',
+            'blurb', 'overall_sportsmanship_rating', 'matches_played', 'matches_won',
         )
 
 

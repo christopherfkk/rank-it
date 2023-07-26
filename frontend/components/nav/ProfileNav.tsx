@@ -13,7 +13,7 @@ const ProfileNav = memo(({ style }: ProfileNavType) => {
       <Image
         style={styles.memberPhotoIcon}
         contentFit="cover"
-        source={require("../../assets/memberphoto6.png")}
+        source={require("../../assets/avatar.png")}
       />
       <Text style={styles.profileText}>Profile</Text>
     </View>

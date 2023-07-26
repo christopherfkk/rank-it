@@ -9,19 +9,29 @@ type RankingContainerType = {
     name: string;
     avatar?: string;
     skill: number;
+    self: boolean;
 
     /** Action props: Navigates to the opponent profile */
     onFrameTouchableOpacityPress?: () => void;
 };
 
-const RankingContainer = memo(({rank, name, avatar, skill, onFrameTouchableOpacityPress}: RankingContainerType) => {
-        return (
-            <View style={styles.rankingContainer}>
+const RankingContainer = memo(({
+                                   rank,
+                                   name,
+                                   avatar,
+                                   skill,
+                                   onFrameTouchableOpacityPress,
+                                   self
+                               }: RankingContainerType) => {
 
+        const backgroundColor = self ? Color.dimgray_100 : Color.lavenderblush;
+
+        return (
+            <View style={[styles.rankingContainer, {backgroundColor}]}>
                 <TouchableOpacity
                     style={styles.rankingContainer}
-                    activeOpacity={0.5}
-                    onPress={onFrameTouchableOpacityPress}
+                    activeOpacity={self ? 1 : 0.3}
+                    onPress={self ? null : onFrameTouchableOpacityPress}
                 >
 
                     {/* PROFILE DETAILS */}
@@ -31,9 +41,11 @@ const RankingContainer = memo(({rank, name, avatar, skill, onFrameTouchableOpaci
                         </Text>
                         <ImageBackground
                             style={styles.avatar}
+                            imageStyle={styles.avatar_image}
                             resizeMode="cover"
                             source={require("../../assets/avatar.png")}
                         />
+
                         <Text style={styles.name}>
                             {name}
                         </Text>
@@ -43,14 +55,16 @@ const RankingContainer = memo(({rank, name, avatar, skill, onFrameTouchableOpaci
                     </View>
 
                     {/* START CHALLENGE BUTTON */}
-                    <RegButton
-                        pfButtonWidth={10}
-                        pfButtonHeight={29}
-                        button="start"
-                        pfButtonMarginTop="unset"
-                        pfButtonFlex={1}
-                        pfButtonMarginLeft={10}
-                    />
+                    {self ?
+                        null :
+                        <RegButton
+                            pfButtonWidth={10}
+                            pfButtonHeight={29}
+                            button="start"
+                            pfButtonMarginTop="unset"
+                            pfButtonFlex={1}
+                            pfButtonMarginLeft={10}
+                        />}
                 </TouchableOpacity>
             </View>
         );
@@ -69,7 +83,6 @@ const styles = StyleSheet.create({
         paddingVertical: Padding.p_0,
         marginVertical: 5,
         borderRadius: Border.br_8xs,
-        backgroundColor: Color.lavenderblush,
     },
     profile: {
         flexDirection: "row",
@@ -88,12 +101,14 @@ const styles = StyleSheet.create({
         width: "10%",
     },
     avatar: {
-        borderRadius: Border.br_81xl,
         width: 30,
         height: 30,
         alignItems: "center",
         justifyContent: "center",
         overflow: "visible",
+    },
+    avatar_image: {
+        borderRadius: 75,
     },
     name: {
         fontFamily: FontFamily.manropeBold,
@@ -102,7 +117,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        width: "48%"
+        width: "48%",
     },
     skillText: {
         fontSize: FontSize.size_3xs,
@@ -110,7 +125,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        paddingHorizontal: "8%"
+        paddingHorizontal: "8%",
     },
 });
 
