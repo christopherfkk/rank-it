@@ -5,7 +5,9 @@ from rest_framework.response import Response
 
 from .models import Skill
 from .serializer import SkillSerializer
+import logging
 
+logger = logging.getLogger('rank-it')
 
 class SkillViewSet(viewsets.ModelViewSet):
     """
@@ -15,6 +17,7 @@ class SkillViewSet(viewsets.ModelViewSet):
     queryset = Skill.objects.order_by('-skill')  # Order by skill in descending order
     serializer_class = SkillSerializer
     permission_classes = [IsAuthenticated]
+    logger.info('Inside SkillViewSet class')
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_queryset()[int(kwargs.get('pk'))-1]

@@ -156,6 +156,14 @@ export const Auth = {
     justifyContent: "center",
     marginTop: 28,
   },
+  googlebuttonText:{
+  fontSize: 12,
+  fontWeight: "500",
+  fontFamily: FontFamily.manropeMedium,
+  color: Color.black,
+  textAlign: "center",
+  paddingLeft: 10
+  },
   buttonText:{
   fontSize: 12,
   fontWeight: "500",
@@ -186,14 +194,12 @@ export const Auth = {
     backgroundColor: Color.white,
     flexDirection: "row",
     marginTop: 21,
-    overflow: "hidden",
     justifyContent: "center",  // Align content horizontally in the middle
     alignItems: "center"
   },  
   logogoogle: {
-    width: 14,
-    height: 14,
-    overflow: "hidden",
+    width: 12,
+    height: 12,
   },
   signupForm: {
   paddingBottom: 0,

@@ -76,31 +76,16 @@ const GoogleSignInButton = () => {
       }
     } catch (error) {
       console.error("Error during Google sign-in:", error);
-    }
-  };
-
-  // useEffect(() => {
-  //   checkcontext(dispatch);
-  // }, [dispatch]);
-  // const checkcontext = (dispatch) => {
-  //   // Check if 'firstName' value exists in the state object.
-  //   if (state.firstName !== null) {
-  //     // Do something if the 'firstName' value exists in the state.
-  //     console.log('firstName:', state.profilePhoto);
-  //   } else {
-  //     // Do something else if the 'firstName' value doesn't exist in the state.
-  //     console.log('firstName not set.');
-  //   }
-  // }
+    }}
 
   return (
     <TouchableOpacity style={[Auth.google, Auth.googleFlexBox]} activeOpacity={0.2} onPress={handleGoogleSignIn}>
       <Image style={Auth.logogoogle} source={require("../../assets/iconGoogle.png")} />
-      <Text style={[Auth.buttonText, { color: Color.black, paddingLeft: 10 }]}>
+      <Text style={Auth.googlebuttonText}>
         Sign in with Google
       </Text>
     </TouchableOpacity>
   );
-};
+;}
 
 export default GoogleSignInButton;

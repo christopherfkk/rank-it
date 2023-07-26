@@ -102,13 +102,13 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'accounts.authentication.CsrfExemptSessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication'
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 REST_AUTH = {
-    'USE_JWT': True,
+    'USE_JWT': 'True',
     'JWT_AUTH_RETURN_EXPIRATION': True,
     'JWT_AUTH_HTTPONLY': False,
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
@@ -141,11 +141,12 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:19000',
-    'http://127.0.0.1:19000',
     'http://localhost:19006',
-    'http://127.0.0.1:19006',
 )
+
+CORS_ALLOW_CREDENTIALS = True  # Allow credentials to be sent with requests
+SESSION_COOKIE_SECURE = False
+
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:19000',

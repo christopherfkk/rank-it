@@ -110,7 +110,6 @@ const InnerApp = ({hideSplashScreen}) => {
       };
 
         checkLoginStatus();
-        checkRegistrationStatus();
     }, [state]);
 
     //ask chatgpt
@@ -120,9 +119,9 @@ const InnerApp = ({hideSplashScreen}) => {
                 <Stack.Navigator
                     initialRouteName={
                         !isLogIn
-                            ? 'Login'
+                            ? 'BottomTabs'
                             : !isRegistered
-                                ? 'Login' //PfStart
+                                ? 'BottomTabs' //PfStart
                                 : 'BottomTabs'
                     }
                     screenOptions={{headerShown: false}}
