@@ -186,8 +186,8 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
                     opponent_id=curr_feedback.get('opponent_id'),
                     status=Match.Status.AWAITING_CONFIRMATION,
                 )
-                request.data._mutable = True
-                request.data['match_id'] = match.id
+                # request.data._mutable = True
+                request.data['match_id'] =  match.id
                 request.data.pop('opponent_id')
                 return super().create(request, *args, **kwargs)
 
@@ -297,6 +297,6 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
             match.status = Match.Status.AWAITING_CONFIRMATION
             match.save()
 
-        request.data._mutable = True
+        # request.data._mutable = True
         request.data.pop('opponent_id')
         return super().create(request, *args, **kwargs)
