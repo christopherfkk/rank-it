@@ -7,7 +7,7 @@ import { RouteProp } from "@react-navigation/native";
 import { Padding, Color, FontSize, FontFamily, Border } from "../../GlobalStyles";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
-import RegButton from '../../components/auth/RegButton';
+import RegButton from "../../components/setup/RegButton"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiConfig from '../../apiConfig';
 

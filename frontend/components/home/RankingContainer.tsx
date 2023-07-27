@@ -1,6 +1,7 @@
-import React, {memo} from "react";
+import React, {memo, useState} from "react";
 import {Text, StyleSheet, ImageBackground, View, TouchableOpacity,} from "react-native";
-import RegButton from "../auth/RegButton";
+import RegButton from "../home/ChallengeButton";
+import ModalPostmatchfeedback from "./ModalPostmatchfeedback"
 import {Color, FontFamily, FontSize, Border, Padding} from "../../GlobalStyles";
 
 type RankingContainerType = {
@@ -25,14 +26,25 @@ const RankingContainer = memo(({
                                }: RankingContainerType) => {
 
         const backgroundColor = self ? Color.dimgray_100 : Color.lavenderblush;
+        const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
+        const handleRegButtonPress = () => {
+          // Show the modal when RegButton is pressed
+          setShowFeedbackModal(true);
+        };
+      
+        const handleCloseModal = () => {
+          // Close the modal when the "Close" button is pressed
+          setShowFeedbackModal(false);
+        };
 
         return (
             <View style={[styles.rankingContainer, {backgroundColor}]}>
-                <TouchableOpacity
-                    style={styles.rankingContainer}
-                    activeOpacity={self ? 1 : 0.3}
-                    onPress={self ? null : onFrameTouchableOpacityPress}
-                >
+            <TouchableOpacity
+                style={styles.rankingContainer}
+                activeOpacity={self ? 1 : 0.3}
+                onPress={self ? null : onFrameTouchableOpacityPress}
+            >
 
                     {/* PROFILE DETAILS */}
                     <View style={styles.profile}>
@@ -64,8 +76,10 @@ const RankingContainer = memo(({
                             pfButtonMarginTop="unset"
                             pfButtonFlex={1}
                             pfButtonMarginLeft={10}
+                            onPress={handleRegButtonPress}
                         />}
                 </TouchableOpacity>
+                <ModalPostmatchfeedback visible={showFeedbackModal} onClose={handleCloseModal} />
             </View>
         );
     }
