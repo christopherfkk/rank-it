@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "jun13_sample",
-    "slug": "jun13_sample",
+    "name": "rank-it",
+    "slug": "rank0it",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -38,7 +38,8 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     }
   }
 }
