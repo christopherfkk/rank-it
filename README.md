@@ -46,3 +46,11 @@ cd frontend
 npm install
 npx expo start # Use camera to scan QR code
 ```
+
+## Build the frontend app on Expo (web)
+Build with Metro bundler
+```bash
+cd frontend
+npx expo export --platform web
+npx serve dist  # build bundle in `dist` folder
+```
