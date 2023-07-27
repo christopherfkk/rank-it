@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from .models import MatchOffer, Match, PostMatchFeedback
+from .models import MatchOffer, Match, PostMatchFeedback, Strength
 from accounts.serializers import AccountSerializer
 from communities.serializers import CommunitySerializer
 from communities.models import Community
@@ -81,6 +81,12 @@ class MatchSerializer(serializers.ModelSerializer):
         model = Match
 
 
+class StrengthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Strength
+        fields = '__all__'
+
+
 class PostMatchFeedbackSerializer(serializers.ModelSerializer):
     """
     Serializer for the PostMatchFeedback model
@@ -111,6 +117,11 @@ class PostMatchFeedbackSerializer(serializers.ModelSerializer):
         write_only=True,
         required=False,
         allow_null=True,
+    )
+    strengths = serializers.SlugRelatedField(
+        queryset=Strength.objects.all(),
+        many=True,
+        slug_field='type'
     )
 
     class Meta:
