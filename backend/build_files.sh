@@ -1,5 +1,5 @@
 # build_files.sh
-pip install -r requirements.txt
+pip install pipenv && pipenv install --system
 
 # make migrations
 python3.9 manage.py migrate
