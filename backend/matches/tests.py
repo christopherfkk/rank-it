@@ -396,6 +396,7 @@ class PostMatchFeedbackTest(TestCase):
         self.client.logout()
 
 
+# Init
 class PostMatchFeedbackWithoutOfferTest(TestCase):
     """
     When no MatchOffer is made and game is simply recorded on the spot
