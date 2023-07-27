@@ -12,6 +12,8 @@ from .models import MatchOffer, Match, PostMatchFeedback
 from .serializers import MatchOfferSerializer, MatchSerializer, PostMatchFeedbackSerializer
 from service.rating import update_rating
 from ranks.models import Skill
+from notifications.service import send_notification
+from notifications.models import NotificationType
 
 
 @api_view(('GET',))
@@ -186,9 +188,19 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
                     opponent_id=curr_feedback.get('opponent_id'),
                     status=Match.Status.AWAITING_CONFIRMATION,
                 )
-                request.data._mutable = True
-                request.data['match_id'] = match.id
+
+                request.data['match_id'] =  match.id
                 request.data.pop('opponent_id')
+
+                # Create Notification object
+                send_notification(
+                    NotificationType.Entity.MATCH,
+                    NotificationType.Description.MATCH_CREATED,
+                    match.id,
+                    match.submitter,  # who is also the reporter
+                    [match.opponent, ],
+                )
+
                 return super().create(request, *args, **kwargs)
 
         # case 1: First feedback with offer
@@ -232,37 +244,46 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
                     # Update user object with the current feedback
                     user = match.opponent if curr_feedback.get('reporter_is_submitter') else match.submitter
 
-                    if curr_feedback.get('peer_skill_level_given') or len(curr_feedback.get('peer_skill_level_given')) > 0:
+                    if curr_feedback.get('peer_skill_level_given'):
                         user.n_skill_level_received += 1
                         user.overall_skill_level = (
                             (user.overall_skill_level + int(curr_feedback.get('peer_skill_level_given'))) /
                             user.n_skill_level_received
                         )
-
-                    if curr_feedback.get('peer_sportsmanship_rating_given') or len(curr_feedback.get(
-                            'peer_sportsmanship_rating_given')) > 0:
+                    if curr_feedback.get('peer_sportsmanship_rating_given'):
                         user.n_sportsmanship_rating_received += 1
                         user.overall_sportsmanship_rating = (
                             (user.overall_sportsmanship_rating + int(curr_feedback.get('peer_sportsmanship_rating_given'))) /
                             user.n_sportsmanship_rating_received
+                        )
+                    if curr_feedback.get('match_competitiveness_rating'):
+                        user.n_match_competitiveness_rating_received += 1
+                        user.overall_match_competitiveness_rating = (
+                            (user.overall_match_competitiveness_rating + int(curr_feedback.get('match_competitiveness_rating'))) /
+                            user.n_match_competitiveness_rating_received
                         )
                     user.save()
 
                     # Update user with other feedback
                     user = match.submitter if curr_feedback.get('reporter_is_submitter') else match.opponent
 
-                    if curr_feedback.get('peer_skill_level_given') or len(curr_feedback.get('peer_skill_level_given')) > 0:
+                    if curr_feedback.get('peer_skill_level_given'):
                         user.n_skill_level_received += 1
                         user.overall_skill_level = (
                                 (user.overall_skill_level + other_feedback.peer_skill_level_given) /
                                 user.n_skill_level_received
                         )
-                    if curr_feedback.get('peer_sportsmanship_rating_given') or len(curr_feedback.get(
-                            'peer_sportsmanship_rating_given')) > 0:
+                    if curr_feedback.get('peer_sportsmanship_rating_given'):
                         user.n_sportsmanship_rating_received += 1
                         user.overall_sportsmanship_rating = (
                                 (user.overall_sportsmanship_rating + other_feedback.peer_sportsmanship_rating_given) /
                                 user.n_sportsmanship_rating_received
+                        )
+                    if curr_feedback.get('match_competitiveness_rating'):
+                        user.n_match_competitiveness_rating_received += 1
+                        user.overall_match_competitiveness_rating = (
+                            (user.overall_match_competitiveness_rating + int(curr_feedback.get('match_competitiveness_rating'))) /
+                            user.n_match_competitiveness_rating_received
                         )
                     user.save()
 
@@ -293,10 +314,10 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
 
         # If this is the first post-match feedback for this match
         else:
+
             # Update Match object
             match.status = Match.Status.AWAITING_CONFIRMATION
             match.save()
 
-        request.data._mutable = True
         request.data.pop('opponent_id')
         return super().create(request, *args, **kwargs)

@@ -1,7 +1,25 @@
 from django.conf import settings
-from django.db import models
+from django.db import models, IntegrityError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
+from django.core.serializers.json import DjangoJSONEncoder
+import json
+
+"""
+{
+    "match_id": null,
+    "reporter_id": 2,
+    "opponent_id": 1,
+    "strengths": ["Agility", "Cardio"],
+    "reporter_is_submitter": true,
+    "submitter_score": 21,
+    "opponent_score": 1,
+    "peer_sportsmanship_rating_given": 4,
+    "match_competitiveness_rating": 2,
+    "peer_skill_level_given": 3,
+    "peer_feedback_blurb_given": "Great"
+}
+"""
 
 from communities.models import Community
 
@@ -130,6 +148,19 @@ class Match(models.Model):
             """
 
 
+class Strength(models.Model):
+    class Types(models.TextChoices):
+        AGILITY = "Agility", _("Agility")
+        CARDIO = "Cardio", _("Cardio")
+        SMASH = "Smash", _("Smash")
+        # Add other choices here
+
+    type = models.CharField(max_length=20, choices=Types.choices)
+
+    def __str__(self):
+        return self.type
+
+
 class PostMatchFeedback(models.Model):
 
     match = models.ForeignKey(
@@ -149,26 +180,31 @@ class PostMatchFeedback(models.Model):
     opponent_score = models.IntegerField(
         null=False,
     )
-
+    # Overall and sportsmanship of the other person (1-5 Uber stars)
+    peer_sportsmanship_rating_given = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        null=True,
+        blank=True,
+    )
     # Perceived competitiveness of the match (easy, moderate, hard sliding scale 1-10)
     match_competitiveness_rating = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)],
         null=True,
+        blank=True,
     )
     # Perceived skill level of the other person (beginner, intermediate, expert, sliding scale 1-10)
     peer_skill_level_given = models.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)],
         null=True,
-    )
-    # Overall and sportsmanship of the other person (1-5 Uber stars)
-    peer_sportsmanship_rating_given = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        null=True,
+        blank=True,
     )
     # Airbnb review
     peer_feedback_blurb_given = models.TextField(
-        null=True
+        null=True,
+        blank=True,
     )
+    # Strengths
+    strengths = models.ManyToManyField(Strength, blank=True, null=True)
 
     def __str__(self):
         return \

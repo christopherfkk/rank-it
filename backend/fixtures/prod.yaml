@@ -39,3 +39,18 @@
   fields:
     entity: PostMatchFeedback
     description: Reported a post-match feedback
+
+- model: matches.Strength
+  pk: 1
+  fields:
+    type: Agility
+
+- model: matches.Strength
+  pk: 2
+  fields:
+    type: Cardio
+
+- model: matches.Strength
+  pk: 3
+  fields:
+    type: Smash
