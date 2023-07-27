@@ -73,9 +73,9 @@ const Ranking = () => {
                 {ranking.map((rank, index) => (
                     <RankingContainer
                         key={index + 1}
+                        userData = {rank.user}
                         rank={index + 1}
                         name={rank.user.first_name + " " + rank.user.last_name}
-                        // avatar={rank.avatar}
                         skill={rank.skill}
                         self={ rank.user.id == userId }
                         onFrameTouchableOpacityPress={() =>
