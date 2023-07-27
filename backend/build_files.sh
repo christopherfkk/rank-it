@@ -1,5 +1,5 @@
 # build_files.sh
-pipenv install && pipenv shell
+pip install pipenv && pipenv install && pipenv shell
 
 # make migrations
 python manage.py migrate
