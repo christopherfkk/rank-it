@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { Color, FontFamily } from '../../GlobalStyles'
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -9,11 +10,11 @@ const StrengthButton = ({ imageSource, title, isPressed, onPress, }) => {
       onPress={onPress}
       style={[
         styles.button,
-        { backgroundColor: isPressed ? 'pink' : 'white' },
+        { backgroundColor: isPressed ? Color.lavenderblush : 'white' },
       ]}
     >
       <Image source={imageSource} style={styles.image} />
-      <Text style={[styles.heading]}>{title}</Text>
+      <Text style={[styles.subheading]}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -78,6 +79,9 @@ const StrengthGrid = () => {
 
   return (
     <View style={[styles.container, { marginTop: 20 }]}>
+    <Text style={[styles.heading, {textAlign: "center"}]}>
+    Opponent Strength
+    </Text>
       {getButtonsInRows().map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
           {row.map((button) => (
@@ -114,13 +118,13 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 10, // Adjust the horizontal margin
+    width: 100, // Set a fixed width for the buttons
     borderRadius: 8,
-    paddingVertical: 15, // Adjust the vertical padding
+    paddingVertical: 3, // Adjust the vertical padding
     paddingHorizontal: 15, // Adjust the horizontal padding
     flexDirection: 'row',
     borderWidth: 1,
-    flex: 1, // Stretch the button to fill the available space horizontally
+    margin: 3, // Adjust the margin
     backgroundColor: 'white',
   },
   image: {
@@ -128,9 +132,15 @@ const styles = StyleSheet.create({
     height: 20,
     marginRight: 8,
   },
-  heading: {
-    fontSize: 12,
+  subheading: {
+    fontSize: 10,
     fontWeight: 'bold',
+    fontFamily: FontFamily.manropeSemiBold,
+    color: 'black',
+  },
+  heading: {
+    fontSize: 16,
+    fontFamily: FontFamily.manropeBold,
     color: 'black',
   },
 });
