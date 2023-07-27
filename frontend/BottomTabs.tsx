@@ -5,6 +5,7 @@ import MatchesNav from './components/nav/MatchesNav';
 import ProfileNav from './components/nav/ProfileNav';
 import Ranking from './screens/home/Ranking';
 import Profile from './screens/home/Profile';
+import MatchConfirm from './screens/home/MatchConfirm';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +30,7 @@ function BottomTabs({navigation}: any) {
             />
             <Tab.Screen
                 name="Match"
-                component={Ranking}
+                component={MatchConfirm}
                 options={{
                     headerShown: false,
                     tabBarIcon: MatchesNav.type,

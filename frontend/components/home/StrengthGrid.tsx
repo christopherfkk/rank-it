@@ -51,33 +51,34 @@ const StrengthGrid = ({ onButtonsPressed }) => {
     },
   ];
 
-  // Initialize the pressed state for each button
-  const [pressedButtons, setPressedButtons] = useState({});
+    // Initialize the pressed state for each button
+    const [pressedButtons, setPressedButtons] = useState({});
 
-  const handlePress = (buttonId) => {
-    // Toggle the pressed state of the button with the given id
-    setPressedButtons((prevState) => ({
-      ...prevState,
-      [buttonId]: !prevState[buttonId],
-    }));
+    const handlePress = (buttonTitle) => {
+      // Toggle the pressed state of the button with the given title
+      setPressedButtons((prevState) => ({
+        ...prevState,
+        [buttonTitle]: !prevState[buttonTitle],
+      }));
+  
+      // Pass the updated list of pressed buttons to the parent component
+      onButtonsPressed(Object.keys({...pressedButtons, [buttonTitle]: !pressedButtons[buttonTitle]}));
+    };
+  
+    // Function to group the buttons in rows of 2
+    const getButtonsInRows = () => {
+      const rows = [];
+      const buttonsPerRow = 2;
+      const totalButtons = buttonsData.length;
+  
+      for (let i = 0; i < totalButtons; i += buttonsPerRow) {
+        const rowButtons = buttonsData.slice(i, i + buttonsPerRow);
+        rows.push(rowButtons);
+      }
+  
+      return rows;
+    };
 
-    // Pass the updated list of pressed buttons to the parent component
-    onButtonsPressed(Object.keys(pressedButtons).filter((id) => pressedButtons[id]));
-  };
-
-  // Function to group the buttons in rows of 2
-  const getButtonsInRows = () => {
-    const rows = [];
-    const buttonsPerRow = 2;
-    const totalButtons = buttonsData.length;
-
-    for (let i = 0; i < totalButtons; i += buttonsPerRow) {
-      const rowButtons = buttonsData.slice(i, i + buttonsPerRow);
-      rows.push(rowButtons);
-    }
-
-    return rows;
-  };
 
   return (
     <View style={[styles.container, { marginTop: 20 }]}>
@@ -91,8 +92,8 @@ const StrengthGrid = ({ onButtonsPressed }) => {
               <StrengthButton
                 imageSource={button.imageSource}
                 title={button.title}
-                isPressed={pressedButtons[button.id]}
-                onPress={() => handlePress(button.id)}
+                isPressed={pressedButtons[button.title]}
+                onPress={() => handlePress(button.title)}
               />
             </View>
           ))}
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
   subheading: {
     fontSize: 10,
     fontWeight: 'bold',
-    fontFamily: FontFamily.manropeSemiBold,
+    fontFamily: FontFamily.manropeSemibold,
     color: 'black',
   },
   heading: {

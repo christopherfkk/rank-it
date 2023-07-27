@@ -112,7 +112,7 @@ const InnerApp = ({hideSplashScreen}) => {
                             ? 'Login'
                             : !isRegistered
                                 ? 'PfStart'
-                                : 'BottomTabs'
+                                : 'Login' //BottomTabs
                     }
                     screenOptions={{headerShown: false}}
                 >
