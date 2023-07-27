@@ -79,7 +79,11 @@ const RankingContainer = memo(({
                             onPress={handleRegButtonPress}
                         />}
                 </TouchableOpacity>
-                <ModalPostmatchfeedback visible={showFeedbackModal} onClose={handleCloseModal} />
+                <ModalPostmatchfeedback 
+                    visible={showFeedbackModal} 
+                    onClose={handleCloseModal}         
+                    name={name}
+                    skill={skill}/>
             </View>
         );
     }
