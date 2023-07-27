@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, StyleSheet } from 'react-native';
+import { Padding, Color, Border, FontFamily, FontSize } from "../../GlobalStyles";
 
-const FeedbackBlurb = () => {
+const FeedbackBlurb = ({ onChangeFeedbackText }) => {
   const [text, setText] = useState('');
   const maxLength = 150;
 
   const handleTextChange = (inputText) => {
     if (inputText.length <= maxLength) {
       setText(inputText);
+      onChangeFeedbackText(inputText); // Call the callback function to update parent component
     }
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.label}>Feedback:</Text>
       <TextInput
         value={text}
         onChangeText={handleTextChange}
@@ -43,7 +46,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
     color: '#999',
     fontSize: 6,
-  },
-});
+  },  
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    fontFamily: FontFamily.manropeBold,
+    marginBottom: 10,
+}});
 
 export default FeedbackBlurb;
