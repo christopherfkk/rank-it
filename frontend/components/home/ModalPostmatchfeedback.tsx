@@ -18,15 +18,19 @@ import InsertMatchScores from "./InsertMatchScores";
 import SlidersComponent from "./Slider";
 import FeedbackBlurb from "./FeedbackBlurb";
 import BackButton from "./BackButton";
+import ProfileBox from "./ProfileBox";
 import apiConfig from "../../apiConfig"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type ModalPostmatchfeedbackType = {
   visible: boolean; // Add the 'visible' property to the type
   onClose?: () => void;
+  name: string;
+  level: string;
+  opponentId: number
 };
 
-const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedback = ({ visible, onClose, name, level, opponentId}: ModalPostmatchfeedbackType) => {
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
   const [opponentScore, setOpponentScore] = useState(""); // State for "Opponent" score
   const [pressedButtonsList, setPressedButtonsList] = useState([]);
@@ -34,7 +38,7 @@ const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType
     setPressedButtonsList(pressedButtons);
   };
   const [sportsmanshipValue, setSportsmanshipValue] = useState(3);
-  const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(2);
+  const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(5);
   const [feedbackText, setFeedbackText] = useState('');
 
   const handleSubmit = async () => {
@@ -44,7 +48,7 @@ const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType
     const feedbackData = {
         "match_id": null,  
         "reporter_id": reporterId,
-        "opponent_id": 3,   // the opponent id 
+        "opponent_id": opponentId,   // the opponent id 
         "strengths": pressedButtonsList, //strength
         "reporter_is_submitter": true,
         "submitter_score": submitterScore, 
@@ -57,7 +61,7 @@ const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType
 
     // Perform the API request to send the feedback data to the backend
     // Example using fetch:
-    fetch(`${apiConfig.BASE_URL}postmatchfeedback/`, {
+    fetch(`${apiConfig.BASE_URL}/postmatchfeedback/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -90,53 +94,22 @@ const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType
         <View style={styles.heading1box}>
           <Text style={styles.heading1}>Your Match with</Text>
         </View>
-          <View style={[styles.profile]}>
-            <Image
-              style={styles.memberPhotoIcon}
-              contentFit="cover"
-              source={require("../../assets/avatar.png")} 
-            />
-            <View style={[styles.profileBox]}>
-              <Text style={[styles.fullName]}>
-                Jenny Tang
-              </Text>
-              <View style={[styles.location]}>
-                <Image
-                  style={[styles.iconLocation]}
-                  contentFit="cover"
-                  source={require("../../assets/profile/iconLocation.png")}  
-                />
-                <Text style={[styles.location]}>
-                  CB Gym
-                </Text>
-              </View>
-              <View style={[styles.location]}>
-                <Image
-                  style={[styles.iconLocation]}
-                  contentFit="cover"
-                  source={require("../../assets/profile/iconBadminton.png")}
-                />
-                <Text style={[styles.location]}>
-                  Expert
-                </Text>
-              </View>
-              </View>
-              </View>
-              <InsertMatchScores
+        <ProfileBox name={name} avatar={require("../../assets/avatar.png")} level={level} />
+        <InsertMatchScores
             onChangeYourScore={(score) => setSubmitterScore(score)}
             onChangeOpponentScore={(score) => setOpponentScore(score)}
-          />
-              <StrengthGrid onButtonsPressed={handleButtonsPressed}/>
-              <SlidersComponent
-                sportsmanshipValue={sportsmanshipValue}
-                setSportsmanshipValue={setSportsmanshipValue}
-                matchCompetitivenessValue={matchCompetitivenessValue}
-                setMatchCompetitivenessValue={setMatchCompetitivenessValue}
-                onChangeSportsmanship={(score) => setSportsmanshipValue(score)}
-                onChangeCompetitiveness={(score) => setMatchCompetitivenessValue(score)}
-              />
-              <FeedbackBlurb onChangeFeedbackText={(text) => setFeedbackText(text)}/>
-          <PfButton1 onPress ={handleSubmit}/> 
+        />
+        <StrengthGrid onButtonsPressed={handleButtonsPressed}/>
+        <SlidersComponent
+          sportsmanshipValue={sportsmanshipValue}
+          setSportsmanshipValue={setSportsmanshipValue}
+          matchCompetitivenessValue={matchCompetitivenessValue}
+          setMatchCompetitivenessValue={setMatchCompetitivenessValue}
+          onChangeSportsmanship={(score) => setSportsmanshipValue(score)}
+          onChangeCompetitiveness={(score) => setMatchCompetitivenessValue(score)}
+        />
+        <FeedbackBlurb onChangeFeedbackText={(text) => setFeedbackText(text)}/>
+        <PfButton1 onPress ={handleSubmit}/> 
         </ScrollView>
       </SafeAreaView>
       </Modal>
