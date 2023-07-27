@@ -21,11 +21,6 @@ class AccountViewSet(viewsets.ModelViewSet):
         kwargs['partial'] = True
         return super().update(request, *args, **kwargs)
 
-    def retrieve(self, request, *args, **kwargs):
-        path_name = request.resolver_match
-        print(path_name)
-        return super().retrieve(request, *args, **kwargs)
-
 
 class GoogleLogin(SocialLoginView):
     """View for Google Login"""

@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/v1/', include('matches.urls')),
     path('api/v1/accounts/', include('accounts.urls')),
     path('api/v1/ranks/', include('ranks.urls')),
+    path('api/v1/notifications/', include('notifications.urls')),
 
     # Admin and DRF auth interface
     path('admin/', admin.site.urls),
@@ -38,3 +39,4 @@ urlpatterns = [
 
 # Added
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

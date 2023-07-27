@@ -160,14 +160,21 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],
     )
     n_skill_level_received = models.IntegerField(
-        default=0
+        default=0,
     )
     overall_sportsmanship_rating = models.FloatField(
         default=0.0,
         validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
     )
     n_sportsmanship_rating_received = models.IntegerField(
-        default=0
+        default=0,
+    )
+    overall_match_competitiveness_rating = models.FloatField(
+        default=0.0,
+        validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],
+    )
+    n_match_competitiveness_rating_received = models.IntegerField(
+        default=0,
     )
 
     USERNAME_FIELD = "email"
