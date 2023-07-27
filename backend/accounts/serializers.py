@@ -2,6 +2,9 @@ from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
+from django.db import models
+
+from matches.models import PostMatchFeedback
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -10,8 +13,32 @@ class AccountSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = (
             'id', 'email', 'username', 'first_name', 'last_name', 'level',
-            'blurb', 'overall_sportsmanship_rating', 'matches_played', 'matches_won',
+            'matches_played', 'matches_won', 'overall_sportsmanship_rating',
+            'overall_match_competitiveness_rating', 'top_strengths', 'blurb',
         )
+
+    top_strengths = serializers.SerializerMethodField()
+
+    def get_top_strengths(self, obj):
+        # Get the feedbacks where the account is either the opponent or submitter
+
+        feedbacks = PostMatchFeedback.objects.filter(
+            models.Q(match__opponent=obj) | models.Q(match__submitter=obj), ~models.Q(reporter=obj)
+        )
+
+        # Count the occurrences of each strength in the feedbacks
+        strength_count = {}
+        for feedback in feedbacks:
+            for strength in feedback.strengths.all():
+                strength_count[strength.type] = strength_count.get(strength.type, 0) + 1
+
+        # Sort the strengths by count in descending order
+        sorted_strengths = sorted(strength_count.items(), key=lambda x: x[1], reverse=True)
+
+        # Get the top 3 strengths
+        top_strengths = [strength for strength, count in sorted_strengths[:3]]
+
+        return top_strengths
 
 
 class CustomRegisterSerializer(RegisterSerializer):
