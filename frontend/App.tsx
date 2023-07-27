@@ -24,7 +24,6 @@ import PfLocation from "./screens/setup/PfLocation";
 import PfBlurb from "./screens/setup/PfBlurb";
 import PfName from "./screens/setup/PfName";
 import PfLevel from "./screens/setup/PfLevel";
-import PfSubmit from './screens/setup/PfSubmit';
 import ProfileEdit from "./screens/home/ProfileEdit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs"
