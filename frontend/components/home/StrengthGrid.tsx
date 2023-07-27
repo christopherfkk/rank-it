@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Color, FontFamily } from '../../GlobalStyles'
 
-const windowWidth = Dimensions.get('window').width;
-
-const StrengthButton = ({ imageSource, title, isPressed, onPress, }) => {
+const StrengthButton = ({ imageSource, title, isPressed, onPress }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -18,7 +16,8 @@ const StrengthButton = ({ imageSource, title, isPressed, onPress, }) => {
     </TouchableOpacity>
   );
 };
-const StrengthGrid = () => {
+
+const StrengthGrid = ({ onButtonsPressed }) => {
   const buttonsData = [
     {
       id: 1,
@@ -61,6 +60,9 @@ const StrengthGrid = () => {
       ...prevState,
       [buttonId]: !prevState[buttonId],
     }));
+
+    // Pass the updated list of pressed buttons to the parent component
+    onButtonsPressed(Object.keys(pressedButtons).filter((id) => pressedButtons[id]));
   };
 
   // Function to group the buttons in rows of 2

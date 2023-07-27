@@ -12,7 +12,7 @@ import {
 import { Image } from "expo-image";
 import { Slider as RNESlider } from "@rneui/themed";
 import StrengthGrid from "./StrengthGrid"
-import PfButton1 from "./PfButton1";
+import PfButton1 from "./SubmitButton";
 import { Padding, Color, Border, FontFamily, FontSize } from "../../GlobalStyles";
 import InsertMatchScores from "./InsertMatchScores";
 import SlidersComponent from "./Slider";
@@ -29,6 +29,13 @@ type ModalPostmatchfeedbackType = {
 const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType) => {
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
   const [opponentScore, setOpponentScore] = useState(""); // State for "Opponent" score
+  const [pressedButtonsList, setPressedButtonsList] = useState([]);
+  const handleButtonsPressed = (pressedButtons) => {
+    setPressedButtonsList(pressedButtons);
+  };
+  const [sportsmanshipValue, setSportsmanshipValue] = useState(3);
+  const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(2);
+  const [feedbackText, setFeedbackText] = useState('');
 
   const handleSubmit = async () => {
     // Create the data object to send to the backend
@@ -38,12 +45,12 @@ const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType
         "match_id": null,  
         "reporter_id": reporterId,
         "opponent_id": 3,   // the opponent id 
-        "strengths": ["Smash", "Agility"], //strength
+        "strengths": pressedButtonsList, //strength
         "reporter_is_submitter": true,
         "submitter_score": submitterScore, 
         "opponent_score": opponentScore,
-        "peer_sportsmanship_rating_given": 5,  // 1-5
-        "match_competitiveness_rating": 5, // 1-10
+        "peer_sportsmanship_rating_given": sportsmanshipValue,  // 1-5
+        "match_competitiveness_rating": matchCompetitivenessValue, // 1-10
         "peer_skill_level_given": null,  
         "peer_feedback_blurb_given": ""  
     }
@@ -119,10 +126,17 @@ const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType
             onChangeYourScore={(score) => setSubmitterScore(score)}
             onChangeOpponentScore={(score) => setOpponentScore(score)}
           />
-              <StrengthGrid/>
-              <SlidersComponent/>
-              <FeedbackBlurb/>
-          {/* <PfButton1/>  onPress ={handleSubmit} */}
+              <StrengthGrid onButtonsPressed={handleButtonsPressed}/>
+              <SlidersComponent
+                sportsmanshipValue={sportsmanshipValue}
+                setSportsmanshipValue={setSportsmanshipValue}
+                matchCompetitivenessValue={matchCompetitivenessValue}
+                setMatchCompetitivenessValue={setMatchCompetitivenessValue}
+                onChangeSportsmanship={(score) => setSportsmanshipValue(score)}
+                onChangeCompetitiveness={(score) => setMatchCompetitivenessValue(score)}
+              />
+              <FeedbackBlurb onChangeFeedbackText={(text) => setFeedbackText(text)}/>
+          <PfButton1 onPress ={handleSubmit}/> 
         </ScrollView>
       </SafeAreaView>
       </Modal>

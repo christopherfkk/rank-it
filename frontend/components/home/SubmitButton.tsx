@@ -1,16 +1,14 @@
-import React, { memo } from "react";
+import React from "react";
 import { Pressable, Text, StyleSheet } from "react-native";
 import { FontSize, FontFamily, Color, Border, Padding } from "../../GlobalStyles";
 
-const PfButton1 = memo(() => {
+const PfButton1 = ({ onPress }) => {
   return (
-    <Pressable style={styles.pfButton}>
-      <Text style={styles.button}>
-        submit
-      </Text>
+    <Pressable style={styles.pfButton} onPress={onPress}>
+      <Text style={styles.button}>Submit</Text>
     </Pressable>
   );
-});
+};
 
 const styles = StyleSheet.create({
   button: {
