@@ -50,7 +50,7 @@ const Ranking = () => {
                     <Text style={styles.locationTabText}>Tokyo</Text>
                 </Pressable>
                 <Pressable style={styles.locationTab}>
-                    <Text style={styles.locationTabText}>Shibuya</Text>
+                    <Text style={styles.locationTabText}>CB Gym</Text>
                 </Pressable>
             </View>
 
