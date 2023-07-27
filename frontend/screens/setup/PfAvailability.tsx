@@ -5,7 +5,7 @@ import RegSkipButton from "../../components/auth/RegSkipButton";
 import RegTitle from "../../components/auth/RegTitle";
 import RegText from "../../components/auth/RegText";
 import TimeSlotForm from "../../components/setup/TimeSlotForm";
-import RegButton from "../../components/auth/RegButton";
+import RegButton from "../../components/setup/RegButton"
 import { Padding } from "../../GlobalStyles";
 
 const PfAvailability = () => {

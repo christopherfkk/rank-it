@@ -3,25 +3,21 @@ import { Pressable, Text, StyleSheet } from "react-native";
 import { FontSize, FontFamily, Color, Border, Padding } from "../../GlobalStyles";
 
 type RegButtonType = {
-  button?: string;
-
-  /** Style props */
-  pfButtonWidth?: number | string;
-  pfButtonHeight?: number | string;
-  pfButtonMarginTop?: number | string;
-  pfButtonFlex?: number;
-  pfButtonMarginLeft?: number | string;
-
-  /** Action props */
-  onPfButtonPress?: () => void;
+  pfButtonWidth: number;
+  pfButtonHeight: number;
+  button: string;
+  pfButtonMarginTop: string;
+  pfButtonFlex: number;
+  pfButtonMarginLeft: number;
+  onPress?: () => void; // Add the onPress prop here
 };
 
 const getStyleValue = (key: string, value: string | number | undefined) => {
   if (value === undefined) return;
   return { [key]: value === "unset" ? undefined : value };
 };
-const RegButton = ({
-  onPfButtonPress,
+const ChallengeButton = ({
+  onPress,
   pfButtonWidth,
   pfButtonHeight,
   button,
@@ -48,7 +44,7 @@ const RegButton = ({
   return (
     <Pressable
       style={[styles.pfButton, pfButtonStyle]}
-      onPress={onPfButtonPress}
+      onPress={onPress}
     >
       <Text style={styles.button} numberOfLines={3}>
         {button}
@@ -81,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegButton;
+export default ChallengeButton;

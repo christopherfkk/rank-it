@@ -6,29 +6,33 @@ import {
   StyleSheet,
   Pressable,
   TextInput,
-  SafeAreaView
+  SafeAreaView,
+  Modal
 } from "react-native";
 import { Image } from "expo-image";
 import { Slider as RNESlider } from "@rneui/themed";
 import StrengthGrid from "./StrengthGrid"
-import PfButton1 from "../setup/PfButton1";
+import PfButton1 from "./PfButton1";
 import { Padding, Color, Border, FontFamily, FontSize } from "../../GlobalStyles";
 import InsertMatchScores from "./InsertMatchScores";
 import SlidersComponent from "./Slider";
+import FeedbackBlurb from "./FeedbackBlurb";
+import BackButton from "./BackButton";
 
 type ModalPostmatchfeedbackType = {
+  visible: boolean; // Add the 'visible' property to the type
   onClose?: () => void;
 };
 
-const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
-  const [gameCompletionValue, setGameCompletionValue] = useState();
-  const [gameCompletion1Value, setGameCompletion1Value] = useState(0);
+const ModalPostmatchfeedback = ({ visible, onClose }: ModalPostmatchfeedbackType) => {
     return (
+      <Modal animationType="slide" transparent visible={visible}>
       <SafeAreaView style={[styles.modalPostmatchfeedback]}>
         <ScrollView
           showsVerticalScrollIndicator={true}
           showsHorizontalScrollIndicator={false}
         >
+        <BackButton onPress={() => onClose()} />
         <View style={styles.heading1box}>
           <Text style={styles.heading1}>Your Match with</Text>
         </View>
@@ -67,9 +71,11 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
               <InsertMatchScores/>
               <StrengthGrid/>
               <SlidersComponent/>
+              <FeedbackBlurb/>
           <PfButton1 /> 
         </ScrollView>
       </SafeAreaView>
+      </Modal>
     );
   }
 

@@ -5,7 +5,7 @@ import { FontSize, FontFamily, Color, Border, Padding } from "../../GlobalStyles
 const PfButton1 = memo(() => {
   return (
     <Pressable style={styles.pfButton}>
-      <Text style={styles.button} numberOfLines={3}>
+      <Text style={styles.button}>
         submit
       </Text>
     </Pressable>
@@ -14,7 +14,6 @@ const PfButton1 = memo(() => {
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     fontSize: FontSize.size_2xs,
     fontFamily: FontFamily.bebasNeueRegular,
     color: Color.white,
@@ -33,10 +32,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     width: 134,
     height: 32,
-    flexDirection: "row",
     padding: Padding.p_mini,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "center", // Align the content (Text) horizontally center.
+    justifyContent: "center", // Align the content (Text) vertically center.
+    alignSelf: "center", // Center the Pressable (container) itself horizontally.
     marginTop: 6,
   },
 });
