@@ -12,6 +12,8 @@ from .models import MatchOffer, Match, PostMatchFeedback
 from .serializers import MatchOfferSerializer, MatchSerializer, PostMatchFeedbackSerializer
 from service.rating import update_rating
 from ranks.models import Skill
+from notifications.service import send_notification
+from notifications.models import NotificationType
 
 
 @api_view(('GET',))
@@ -186,9 +188,19 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
                     opponent_id=curr_feedback.get('opponent_id'),
                     status=Match.Status.AWAITING_CONFIRMATION,
                 )
-                # request.data._mutable = True
+
                 request.data['match_id'] =  match.id
                 request.data.pop('opponent_id')
+
+                # Create Notification object
+                send_notification(
+                    NotificationType.Entity.MATCH,
+                    NotificationType.Description.MATCH_CREATED,
+                    match.id,
+                    match.submitter,  # who is also the reporter
+                    [match.opponent, ],
+                )
+
                 return super().create(request, *args, **kwargs)
 
         # case 1: First feedback with offer
@@ -307,10 +319,5 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
             match.status = Match.Status.AWAITING_CONFIRMATION
             match.save()
 
-            # Create Notification object
-
-
-
-        # request.data._mutable = True
         request.data.pop('opponent_id')
         return super().create(request, *args, **kwargs)
