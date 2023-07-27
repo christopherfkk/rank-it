@@ -26,6 +26,7 @@
     "@rneui/themed": "^4.0.0-rc.6",
     "@types/react": "~18.0.27",
     "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
     "expo": "~48.0.4",
     "expo-auth-session": "~4.0.3",
     "expo-crypto": "~12.2.1",
