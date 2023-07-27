@@ -1,0 +1,151 @@
+import React, { useState, useEffect } from 'react';
+import { Text, StyleSheet, View, Pressable, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import RankingContainer from "../../components/home/RankingContainer";
+import { Padding, Border, FontFamily, FontSize, Color } from "../../GlobalStyles";
+import apiConfig from '../../apiConfig';
+const Ranking = () => {
+
+    const navigation = useNavigation();
+    const [ ranking, setRanking ] = useState([])
+    const [ userId, setUserId ] = useState()
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            try {
+                const access = await AsyncStorage.getItem('accessToken')
+                const response = await fetch(`${apiConfig.BASE_URL}/notifications/notification/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Token ${access}`
+                    }
+                })
+                const data = await response.json();
+                console.log(data)
+            } catch {
+                console.error("NO NOTIFS")
+            }
+        };
+        fetchData();
+    }, []);
+
+    return (
+        <View style={styles.rankingPage}>
+
+            {/*HEADER*/}
+            <View style={styles.header}>
+                <Text style={styles.headerText}>Confirmation</Text>
+            </View>
+
+            {/*SUBHEADING*/}
+            <View style={styles.subheading}>
+                <Text style={styles.subheadingText}>
+                    OPPONENT
+                </Text>
+                <Text style={styles.subheadingText}>
+                    SKILL RATING
+                </Text>
+            </View>
+
+            {/* <ScrollView
+                style={styles.ranking}
+                showsVerticalScrollIndicator={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.rankingScrollViewContent}
+            >
+                {ranking.map((rank, index) => (
+                    <RankingContainer
+                        key={index + 1}
+                        userData = {rank.user}
+                        rank={index + 1}
+                        name={rank.user.first_name + " " + rank.user.last_name}
+                        skill={rank.skill}
+                        self={ rank.user.id == userId }
+                        onFrameTouchableOpacityPress={() =>
+                            navigation.navigate("Profile",
+                                { otherUserId: rank.user.id, self: rank.user.id == userId }
+                            )
+                        }
+                    />
+                ))}
+            </ScrollView> */}
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    rankingPage: {
+        flex: 1,
+        overflow: "scroll",
+        width: "100%",
+        backgroundColor: Color.white,
+    },
+    header: {
+        width: "100%",
+        alignItems: "center",
+        paddingTop: "5%",
+    },
+    headerText: {
+        fontSize: FontSize.size_11xl,
+        color: Color.lightLabelPrimary,
+        fontFamily: FontFamily.bebasNeueRegular,
+    },
+    location: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingHorizontal: "15%",
+        paddingVertical: "2%",
+    },
+    locationTab: {
+        width: "30%",
+        borderRadius: Border.br_xl,
+        backgroundColor: "#ededed",
+        height: 21,
+        paddingVertical: Padding.p_11xs,
+        paddingHorizontal: Padding.p_0,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "stretch",
+
+    },
+    locationTabText: {
+        textAlign: "center",
+        fontFamily: FontFamily.manropeRegular,
+        fontSize: FontSize.size_3xs,
+        color: Color.lightLabelPrimary,
+    },
+    subheading: {
+        paddingHorizontal: "8%",
+        paddingVertical: "1%",
+        flexDirection: "row",
+    },
+    subheadingText: {
+        width: "40%",
+        letterSpacing: 0.3,
+        fontSize: FontSize.size_3xs,
+        textAlign: "left",
+        color: Color.lightLabelPrimary,
+        fontFamily: FontFamily.bebasNeueRegular,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    ranking: {
+        alignSelf: "stretch",
+        overflow: "scroll",
+    },
+    rankingScrollViewContent: {
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        alignSelf: "stretch",
+        overflow: "scroll",
+    },
+});
+
+export default Ranking;
