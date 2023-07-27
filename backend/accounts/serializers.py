@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from django.db import models
 
 from matches.models import PostMatchFeedback
+from ranks.models import Skill
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -56,6 +57,9 @@ class CustomRegisterSerializer(RegisterSerializer):
         if data['username'] == '':  # if empty string, set username to None
             data['username'] = None
         return data
+
+    def custom_signup(self, request, user):
+        Skill.objects.create(user=user)
 
 
 class TokenSerializer(serializers.ModelSerializer):
