@@ -10,10 +10,11 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { Slider as RNESlider } from "@rneui/themed";
-import StrengthGrid from "./IndividualStrength"
+import StrengthGrid from "./StrengthGrid"
 import PfButton1 from "../setup/PfButton1";
 import { Padding, Color, Border, FontFamily, FontSize } from "../../GlobalStyles";
 import InsertMatchScores from "./InsertMatchScores";
+import SlidersComponent from "./Slider";
 
 type ModalPostmatchfeedbackType = {
   onClose?: () => void;
@@ -35,7 +36,7 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
             <Image
               style={styles.memberPhotoIcon}
               contentFit="cover"
-              source={require("../../assets/memberphoto8.png")}
+              source={require("../../assets/avatar.png")} 
             />
             <View style={[styles.profileBox]}>
               <Text style={[styles.fullName]}>
@@ -45,7 +46,7 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
                 <Image
                   style={[styles.iconLocation]}
                   contentFit="cover"
-                  source={require("../../assets/markerpin011.png")}
+                  source={require("../../assets/profile/iconLocation.png")}  
                 />
                 <Text style={[styles.location]}>
                   CB Gym
@@ -55,7 +56,7 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
                 <Image
                   style={[styles.iconLocation]}
                   contentFit="cover"
-                  source={require("../../assets/vector2.png")}
+                  source={require("../../assets/profile/iconBadminton.png")}
                 />
                 <Text style={[styles.location]}>
                   Expert
@@ -64,97 +65,9 @@ const ModalPostmatchfeedback = ({ onClose }: ModalPostmatchfeedbackType) => {
               </View>
               </View>
               <InsertMatchScores/>
-              <Text style={[styles.fullName, {textAlign: "center"}]}>
-              Opponent Strength
-            </Text>
               <StrengthGrid/>
-          {/* <View style={[styles.strengthWeakness, styles.gameSpaceBlock]}> */}
-
-           {/*  <View style={styles.matchScores3}>
-              <Pressable style={styles.frameFlexBox}> */}
-                {/* <IndividualStrength
-                  image13={require("../../assets/image-13.png")}
-                  agility="Agility"
-                />
-                <IndividualStrength
-                  individualStrengthBackgroundColor="unset"
-                  individualStrengthMarginLeft={10}
-                  image13={require("../../assets/vector3.png")}
-                  agility="Offense"
-                  agilityFontWeight="unset"
-                  agilityFontFamily="Manrope_regular"
-                  agilityColor="#4a4a4a"
-                />
-              </Pressable>
-              <View style={[styles.frameParent, styles.frameFlexBox]}>
-                <IndividualStrength
-                  individualStrengthBackgroundColor="unset"
-                  individualStrengthMarginLeft="unset"
-                  image13={require("../../assets/image-11.png")}
-                  agility="Defense"
-                  agilityFontWeight="unset"
-                  agilityFontFamily="Manrope_regular"
-                  agilityColor="#4a4a4a"
-                />
-                <IndividualStrength
-                  individualStrengthBackgroundColor="#fff2f2"
-                  individualStrengthMarginLeft={11}
-                  image13={require("../../assets/image-12.png")}
-                  agility="Cardio"
-                  agilityFontWeight="700"
-                  agilityFontFamily="Manrope_bold"
-                  agilityColor="#070707"
-                />
-              </View>
-              <View style={[styles.frameGroup, styles.frameFlexBox]}>
-                <Pressable style={[styles.image14Parent, styles.parentFlexBox]}>
-                  <Image
-                    style={styles.image14Icon}
-                    contentFit="cover"
-                    source={require("../../assets/image-14.png")}
-                  />
-                  <Text style={[styles.reactionTime, styles.footworkFlexBox]}>
-                    Reaction Time
-                  </Text>
-                </Pressable>
-                <Pressable style={[styles.image15Parent, styles.parentFlexBox]}>
-                  <Image
-                    style={styles.image14Icon}
-                    contentFit="cover"
-                    source={require("../../assets/image-15.png")}
-                  />
-                  <Text style={[styles.footwork, styles.footworkFlexBox]}>
-                    Footwork
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
-          <RNESlider
-            style={[styles.gameCompletion2, styles.gameSpaceBlock]}
-            minimumValue={0}
-            maximumValue={5}
-            step={1}
-            value={gameCompletionValue}
-            onValueChange={setGameCompletionValue}
-            thumbStyle={styles.gameCompletionts}
-            thumbTintColor="#ff0000"
-            minimumTrackTintColor="#3f3f3f"
-            maximumTrackTintColor="#b3b3b3"
-          />
-          <RNESlider
-            style={[styles.gameCompletion2, styles.gameSpaceBlock]}
-            minimumValue={0}
-            maximumValue={5}
-            step={1}
-            value={gameCompletion1Value}
-            onValueChange={setGameCompletion1Value}
-            thumbStyle={styles.gameCompletion1ts}
-            thumbTintColor="#ff0000"
-            minimumTrackTintColor="#3f3f3f"
-            maximumTrackTintColor="#b3b3b3"
-          />
-          <PfButton1 /> */} */}
+              <SlidersComponent/>
+          <PfButton1 /> 
         </ScrollView>
       </SafeAreaView>
     );
@@ -173,7 +86,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   heading1: {
-    fontSize: 50,
+    fontSize: 30,
     letterSpacing: 1.2,
     fontFamily: FontFamily.bebasNeueRegular,
   },
