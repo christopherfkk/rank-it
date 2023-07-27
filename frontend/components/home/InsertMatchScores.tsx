@@ -1,86 +1,93 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, TextInput, Image, StyleSheet } from 'react-native';
-import { Padding, Color, Border, FontFamily, FontSize } from "../../GlobalStyles";
+import { View, Text, TextInput, Image, StyleSheet } from 'react-native';
+import { Color, FontFamily, FontSize } from "../../GlobalStyles";
 
-const InsertMatchScores = () => {
-  const [rows, setRows] = useState([{id:0}]); // initial rows
+const InsertMatchScores = ({ onChangeYourScore, onChangeOpponentScore }) => {
+  const [yourScore, setYourScore] = useState('');
+  const [opponentScore, setOpponentScore] = useState('');
+  const [scoreError, setScoreError] = useState(false);
 
-  const handleAddRow = () => {
-    setRows([...rows, {id: Date.now()}]); // Add new row with unique id
-  };
+  const handleYourScoreChange = (text) => {
+    // Allow only numeric input
+    const numericValue = text.replace(/[^0-9]/g, '');
+    setYourScore(numericValue);
 
-  const handleDeleteRow = (id) => {
-    if (rows.length > 1) {
-      setRows(rows.filter(row => row.id !== id)); // Delete row by filtering out the one with matching id
+    // Check for non-numeric input and set the error state
+    if (text !== numericValue) {
+      setScoreError(true);
+    } else {
+      setScoreError(false);
     }
+
+    // Call the parent component's onChangeYourScore event handler
+    onChangeYourScore(numericValue);
   };
 
-  const renderRows = () => {
-    return rows.map((row, index) => (
-      <View key={row.id} style={[styles.insertMatchScores, styles.profileFlexBox]}>
+  const handleOpponentScoreChange = (text) => {
+    // Allow only numeric input
+    const numericValue = text.replace(/[^0-9]/g, '');
+    setOpponentScore(numericValue);
+
+    // Check for non-numeric input and set the error state
+    if (text !== numericValue) {
+      setScoreError(true);
+    } else {
+      setScoreError(false);
+    }
+
+    // Call the parent component's onChangeOpponentScore event handler
+    onChangeOpponentScore(numericValue);
+  };
+
+  return (
+    <View style={styles.body}>
+      <Text style={styles.heading}>Match Scores</Text>
+      <View style={styles.insertMatchScores}>
         <View style={styles.inputContainer}>
-          {index === 0 ? <Text style={styles.subheading}>You</Text> : null}
+          <Text style={styles.subheading}>You</Text>
           <TextInput
-            style={styles.timeBorder}
+            style={[styles.timeBorder, scoreError && styles.errorBorder]} // Apply error border style if there's an error
             placeholder="Score"
             keyboardType="numeric"
             placeholderTextColor="#737373"
             maxLength={2}
+            value={yourScore}
+            onChangeText={handleYourScoreChange}
           />
         </View>
         <View style={styles.inputContainer}>
-          {index === 0 ? <Text style={styles.subheading}>Opponent</Text> : null}
+          <Text style={styles.subheading}>Opponent</Text>
           <TextInput
-            style={[styles.timeBorder]}
+            style={[styles.timeBorder, scoreError && styles.errorBorder]} // Apply error border style if there's an error
             placeholder="Score"
-            keyboardType="number-pad"
+            keyboardType="numeric"
             placeholderTextColor="#737373"
             maxLength={2}
-            rejectResponderTermination
+            value={opponentScore}
+            onChangeText={handleOpponentScoreChange}
           />
         </View>
-        {index > 0 ? (
-          <View style={styles.deleteIconContainer}>
-            <View style={{ flex: 1 }} />
-            <Pressable onPress={() => handleDeleteRow(row.id)}>
-              <Image
-                style={styles.deleteRingIcon}
-                source={require("../../assets/minus_icon.png")}
-              />
-            </Pressable>
-            <View style={{ flex: 1 }} />
-          </View>
-        ) : null}
       </View>
-    ));
-  };
-
-
-
-  return (
-    <View style={[styles.body]}>
-      <Text style={[styles.heading]}>{`Match Scores `}</Text>
-      {renderRows()}
-      <View style={styles.addButtonContainer}>
-        <Pressable onPress={handleAddRow}>
-          <Image
-            style={styles.addRingIcon}
-            contentFit="cover"
-            source={require("../../assets/add-ring.png")}
-          />
-        </Pressable>
-      </View>
+      {scoreError && <Text style={styles.errorMessage}>Enter a valid number</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  errorBorder: {
+    borderColor: 'red',
+  },
+  errorMessage: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 5,
+  },
   body: {
     flexDirection: "column",
     alignItems: "center",
   },
   heading: {
-    fontSize: 16, // Smaller font size
+    fontSize: 16,
     color: Color.lightLabelPrimary,
     fontFamily: FontFamily.manropeBold,
     textAlign: "center",
@@ -89,41 +96,16 @@ const styles = StyleSheet.create({
   subheading: {
     color: Color.crimson_100,
     fontFamily: FontFamily.manropeMedium,
-    fontSize: 9, // Smaller font size
+    fontSize: 9,
     textAlign: "center",
-    marginBottom: 2, // Smaller margin
-  },
-  addRingIcon: {
-    width: 10, // Smaller icon size
-    height: 10, // Smaller icon size
-  },
-  addButtonContainer: {
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  rowContainer: {
-    flexDirection: "column",
-    paddingVertical: Padding.p_11xs,
-    paddingHorizontal: Padding.p_xl,
-    alignSelf: "stretch",
+    marginBottom: 2,
   },
   insertMatchScores: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: Padding.p_11xs,
-    paddingHorizontal: Padding.p_xl,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
     alignSelf: "stretch",
-    position: 'relative', // Add position relative
-  },
-  inputGroup: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-  },
-  profileFlexBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
   },
   inputContainer: {
     flex: 1,
@@ -131,32 +113,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginHorizontal: 5,
   },
-  deleteIconContainer: {
-    position: 'absolute',
-    top: '50%',
-    right: 15,
-    transform: [{ translateY: -3 }], // Adjust translateY to center the icon
-  },
   timeBorder: {
-    paddingVertical: 5, // Smaller padding
-    borderRadius: Border.br_8xs,
+    paddingVertical: 5,
+    borderRadius: 8,
     fontFamily: FontFamily.manropeMedium,
     fontWeight: "500",
-    fontSize: 9, // Smaller font size
+    fontSize: 9,
     borderWidth: 1,
     alignSelf: "stretch",
     alignItems: "center",
-    paddingHorizontal: 4, // Smaller padding
+    paddingHorizontal: 4,
     borderColor: "#000",
     borderStyle: "solid",
     backgroundColor: Color.white,
-  },
-  startTime: {
-    marginLeft: 20, // adjust as needed
-  },
-  deleteRingIcon: {
-    width: 8,
-    height: 8,
   },
 });
 
