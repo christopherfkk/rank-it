@@ -66,7 +66,11 @@ const GoogleSignInButton = () => {
                 const data = await fetchUserInfo(result.authentication.accessToken);
                 console.log(data)
                 await storeUserInfo(data, dispatch);
-                navigation.navigate("PfStart")
+                if ((data.user.first_name != null) && (data.user.last_name != null) && (data.user.level != null)) {
+                    navigation.navigate("BottomTabs")
+                } else {
+                    navigation.navigate("PfStart")
+                }
             }
         } catch (error) {
             console.error("Error during Google sign-in:", error);
