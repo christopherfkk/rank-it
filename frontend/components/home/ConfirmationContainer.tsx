@@ -1,7 +1,7 @@
 import React, {memo, useState} from "react";
 import {Text, StyleSheet, ImageBackground, View, TouchableOpacity,} from "react-native";
 import RegButton from "./ChallengeButton";
-import ModalPostmatchfeedback from "./ModalPostmatchfeedback"
+import ModalPostmatchfeedback from "./ModalPostmatchfeedbackA"
 import {Color, FontFamily, FontSize, Border, Padding} from "../../GlobalStyles";
 
 type ConfirmationContainerType = {
@@ -24,7 +24,7 @@ const ConfirmationContainer = memo(({
                                }: ConfirmationContainerType) => {
 
         const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-
+                                console.log(matchData,'hiß')
         const handleRegButtonPress = () => {
           // Show the modal when RegButton is pressed
           setShowFeedbackModal(true);
@@ -40,7 +40,6 @@ const ConfirmationContainer = memo(({
             <TouchableOpacity
                 style={styles.rankingContainer}
                 activeOpacity={self ? 1 : 0.3}
-                onPress={self ? null : onFrameTouchableOpacityPress}
             >
 
                     {/* PROFILE DETAILS */}
@@ -73,11 +72,13 @@ const ConfirmationContainer = memo(({
                             onPress={handleRegButtonPress}
                         />}
                 </TouchableOpacity>
-                {/* <ModalPostmatchfeedback 
+                <ModalPostmatchfeedback 
                     visible={showFeedbackModal} 
                     onClose={handleCloseModal}         
-                    name={name}/> */}
-            </View>
+                    name={name}
+                    level={matchData.submitter.level}
+                    opponentId={matchData.submitter.id}/> 
+            </View> //looks confusing yes sorry 
         );
     }
 );

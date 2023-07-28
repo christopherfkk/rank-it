@@ -1,7 +1,7 @@
 import React, {memo, useState} from "react";
 import {Text, StyleSheet, ImageBackground, View, TouchableOpacity,} from "react-native";
 import RegButton from "../home/ChallengeButton";
-import ModalPostmatchfeedback from "./ModalPostmatchfeedback"
+import ModalPostmatchfeedbackA from "./ModalPostmatchfeedbackA"
 import {Color, FontFamily, FontSize, Border, Padding} from "../../GlobalStyles";
 
 type RankingContainerType = {
@@ -86,7 +86,7 @@ const RankingContainer = memo(({
                             />}
                     </View>
                 </TouchableOpacity>
-                <ModalPostmatchfeedback
+                <ModalPostmatchfeedbackA
                     visible={showFeedbackModal}
                     onClose={handleCloseModal}
                     name={name}
