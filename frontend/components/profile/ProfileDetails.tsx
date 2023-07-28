@@ -49,6 +49,17 @@ const ProfileDetails = memo(
      }:
          ProfileDetailsType) => {
 
+        const displayCompetitveness = (competitiveness) => {
+
+            if (competitiveness < 3) {
+                return `Easy: ${competitiveness}/10`
+            } else if (competitiveness > 7) {
+                return `High: ${competitiveness}/10`
+            } else {
+                return `Moderate: ${competitiveness}/10`
+            }
+        }
+
         return (
             <View style={[styles.profileDetails]}>
 
@@ -65,7 +76,7 @@ const ProfileDetails = memo(
                 <Analytic
                     iconPath={require("../../assets/pf-sportsmanship-rating.png")}
                     name="Sportsmanship"
-                    analytic={`Star Rating: ${sportsmanshipRating}`}
+                    analytic={`Star Rating: ${sportsmanshipRating}/5`}
                 />
 
                 <Analytic
@@ -77,13 +88,13 @@ const ProfileDetails = memo(
                 <Analytic
                     iconPath={require("../../assets/pf-highest-rank.png")}
                     name="Highest Rank Attained"
-                    analytic={`${highestRankAttained}th in Tokyo`}
+                    analytic={`${highestRankAttained}st in Tokyo`}
                 />
 
                 <Analytic
                     iconPath={require("../../assets/pf-match-competitiveness.png")}
                     name="Match Competitiveness"
-                    analytic={competitiveness}
+                    analytic={displayCompetitveness(competitiveness)}
                 />
 
                 <Analytic
