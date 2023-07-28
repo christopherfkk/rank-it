@@ -47,6 +47,7 @@ const MatchConfirm = () => {
 
     useEffect(() => {
         const fetchMatchData = async () => {
+            console.log('notif',notification)
             if (notification.length === 0) return; // Check if there are notifications
 
             try {
@@ -65,6 +66,8 @@ const MatchConfirm = () => {
                     console.log("Submitter:", matchData.submitter.first_name, matchData.submitter.last_name);
                     console.log("Updated At:", formatDate(matchData.updated_at));
 
+                    //add notif id in allMatches in case match.id != notif.id
+                    matchData.notifId = notif.id;
                     allMatches.push(matchData); // Add the match to the array
                 }
 
@@ -86,13 +89,13 @@ const MatchConfirm = () => {
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Confirmation</Text>
                 </View>
-
+                <Text>To record the match in the ranking, both players must confirm the post-match feedback after completing the game.</Text>
                 {/*SUBHEADING*/}
                 <View style={styles.subheading}>
-                    <Text style={styles.subheadingText}>
+                <Text style={[styles.subheadingText, {width: "110%"}]}>
                         OPPONENT
                     </Text>
-                    <Text style={styles.subheadingText}>
+                    <Text style={[styles.subheadingText, {width: "70%"}]}>
                         TIME OF MATCH
                     </Text>
                 </View>
@@ -170,18 +173,18 @@ const styles = StyleSheet.create({
         color: Color.lightLabelPrimary,
     },
     subheading: {
-        paddingHorizontal: "8%",
-        paddingVertical: "1%",
+        alignSelf: "flex-start",  // ALIGN LEFT
+        width: "70%",  // SAME AS PROFILE IN RANKING CONTAINER
         flexDirection: "row",
+        marginBottom: "1%",
+        marginTop: "3%"
     },
     subheadingText: {
-        width: "100%",
         letterSpacing: 0.3,
         fontSize: FontSize.size_3xs,
-        textAlign: "left",
+        textAlign: "center",
         color: Color.lightLabelPrimary,
         fontFamily: FontFamily.bebasNeueRegular,
-        alignItems: "center",
         justifyContent: "center",
     },
     ranking: {
