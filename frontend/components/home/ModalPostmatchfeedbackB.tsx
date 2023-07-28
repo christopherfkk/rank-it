@@ -26,9 +26,10 @@ type ModalPostmatchfeedbackType = {
   level: string;
   opponentId: number;
   matchId:number
-  notifId: number}
+  notifId: number
+  setRefresh: Function}
 
-const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId, notifId}: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId, notifId, setRefresh}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
   
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
@@ -107,7 +108,8 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
       console.error('Error sending feedback data:', error);
     });
 
-    updateRead(notifId)
+    await updateRead(notifId)
+    setRefresh(true);
     // Close the modal after submitting
     onClose?.();
   };

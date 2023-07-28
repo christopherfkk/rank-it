@@ -10,6 +10,7 @@ type ConfirmationContainerType = {
   avatar?: string;
   date: string;
   matchData: any;
+  setRefresh: Function;
 
   /** Action props: Navigates to the opponent profile */
   onFrameTouchableOpacityPress?: () => void;
@@ -21,6 +22,7 @@ const ConfirmationContainer = memo(
     avatar,
     date,
     matchData,
+    setRefresh
     // onFrameTouchableOpacityPress,
   }: ConfirmationContainerType) => {
     const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -59,6 +61,7 @@ const ConfirmationContainer = memo(
           opponentId={matchData.submitter.id}
           matchId={matchData.id}
           notifId = {matchData.notifId}
+          setRefresh = {setRefresh}
         />
       </View> //instead of opponentId, they reversed
     );
