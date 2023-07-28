@@ -4,7 +4,7 @@ import {Image} from "expo-image";
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {RouteProp} from "@react-navigation/native";
 
-import {Padding, Color, FontSize, FontFamily, Border, Home} from "../../GlobalStyles";
+import {Padding, Color, FontSize, FontFamily, Border, Home, ProfileStyles} from "../../GlobalStyles";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import RegButton from "../../components/setup/RegButton"
@@ -39,6 +39,15 @@ const Profile = ({route}: ProfileType) => {
         overall_match_competitiveness_rating: "",
     })
 
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editedBioText, setEditedBioText] = useState("");
+    const [bioText, setBioText] = useState(profile.blurb);
+
+    const handleEditButtonPress = () => {
+        setIsEditMode(true);
+        setEditedBioText(bioText); // Assuming you have `bioText` state in the `Profile` component
+    };
+
     useEffect(() => {
         const fetchData = async () => {
 
@@ -47,7 +56,7 @@ const Profile = ({route}: ProfileType) => {
 
             try {
                 const access = await AsyncStorage.getItem('accessToken')
-                const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}`, {
+                const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}/`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Token ${access}`
@@ -64,6 +73,32 @@ const Profile = ({route}: ProfileType) => {
             fetchData();
         }
     }, [isFocused]);
+
+    const handleSaveButtonPress = async () => {
+        try {
+            // Call the API here to save the edited bio text
+            const selfUserId = JSON.parse(await AsyncStorage.getItem('userInfo')).id
+            const access = await AsyncStorage.getItem('accessToken')
+            const formData = new FormData();
+            formData.append("blurb", editedBioText)
+            const response = await fetch(`${apiConfig.BASE_URL}/accounts/${selfUserId}/`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Token ${access}`,
+                },
+                body: formData
+            })
+            const data = await response.json();
+            console.log(data)
+            setIsEditMode(false);
+            setBioText(data.blurb);
+            // Optionally, you can update the original bioText state with the editedBioText
+            // if you want to display the edited text immediately after saving.
+        } catch (error) {
+            console.error("Failed to save bio text:", error);
+            // Handle the error here (e.g., show an error message to the user)
+        }
+    };
 
     const handleLogout = async () => {
 
@@ -113,14 +148,17 @@ const Profile = ({route}: ProfileType) => {
 
                     {self ?
                         // Edit Profile Button
-                        <Pressable style={styles.editProfileButton}>
+                        <Pressable
+                            onPress={handleEditButtonPress}
+                            style={ProfileStyles.button}
+                        >
                             <Image
                                 style={styles.editProfileIcon}
                                 contentFit="contain"
                                 source={require("../../assets/edit-profile-icon.png")}
                             />
-                            <Text style={styles.editProfileText}>
-                                Edit Profile
+                            <Text style={ProfileStyles.buttonText}>
+                                Edit Bio
                             </Text>
                         </Pressable> :
                         // Challenge Button
@@ -135,17 +173,25 @@ const Profile = ({route}: ProfileType) => {
 
                     {/* MORE PROFILE DETAILS */}
                     <ProfileDetails
-                        bioText={profile.blurb}
+                        bioText={bioText}
                         nMatchesLogged={profile.matches_played}
                         highestRankAttained={1}
                         sportsmanshipRating={profile.overall_sportsmanship_rating}
                         strength={profile.top_strengths.join(", ")}
                         competitiveness={profile.overall_match_competitiveness_rating}
+
+                        isEditMode={isEditMode}
+                        editedBioText={editedBioText}
+                        setEditedBioText={setEditedBioText}
+                        onSaveButtonPress={handleSaveButtonPress}
                     />
 
-                    <TouchableOpacity onPress={handleLogout}>
-                        <Text>Logout</Text>
-                    </TouchableOpacity>
+                    <View style={ProfileStyles.button}>
+                        <TouchableOpacity onPress={handleLogout}>
+                            <Text style={ProfileStyles.buttonText}>Logout</Text>
+                        </TouchableOpacity>
+                    </View>
+
 
                 </ScrollView>
             </View>
@@ -155,6 +201,7 @@ const Profile = ({route}: ProfileType) => {
 
 const styles = StyleSheet.create({
     profile: {
+        width: "100%",
         alignSelf: "stretch",
         overflow: "scroll",
     },
@@ -167,24 +214,9 @@ const styles = StyleSheet.create({
         width: "100%",
         backgroundColor: Color.white,
     },
-    editProfileButton: {
-        flexDirection: "row",
-        gap: 5,
-        backgroundColor: Color.whitesmoke_300,
-        borderRadius: Border.br_131xl,
-        justifyContent: "center",
-        alignItems: "center",
-        width: "30%",
-        paddingVertical: "1%",
-        paddingHorizontal: "1%",
-    },
     editProfileIcon: {
         height: 13,
         width: 13,
-    },
-    editProfileText: {
-        fontFamily: FontFamily.manropeMedium,
-        color: Color.gray_100,
     },
 });
 
