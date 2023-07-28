@@ -186,11 +186,13 @@ const Profile = ({route}: ProfileType) => {
                         onSaveButtonPress={handleSaveButtonPress}
                     />
 
-                    <View style={ProfileStyles.button}>
-                        <TouchableOpacity onPress={handleLogout}>
-                            <Text style={ProfileStyles.buttonText}>Logout</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {self ?
+                        <View style={ProfileStyles.button}>
+                            <TouchableOpacity onPress={handleLogout}>
+                                <Text style={ProfileStyles.buttonText}>Logout</Text>
+                            </TouchableOpacity>
+                        </View>
+                        : null}
 
 
                 </ScrollView>
