@@ -1,5 +1,3 @@
-import Constants from 'expo-constants';
-
 const apiConfig  = {
     BASE_URL : process.env.BASE_URL,
     google: {
