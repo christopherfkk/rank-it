@@ -14,42 +14,45 @@ const MatchConfirm = () => {
     const [userId, setUserId] = useState();
     const [access, setAccess] = useState();
     const [matches, setMatches] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     const formatDate = (datetime) => {
         const date = new Date(datetime);
         const formattedDate = format(date, "MMMM dd, yyyy 'at' HH:mm"); // Customize the date and time format as you like
         return formattedDate;
     };
+    const fetchData = async () => {
+        try {
+            // Fetch the accessToken
+            const accessToken = await AsyncStorage.getItem('accessToken');
+            setAccess(accessToken);
+
+            // Fetch the notifications
+            const response = await fetch(`${apiConfig.BASE_URL}/notifications/notification/`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Token ${accessToken}`
+                }
+            });
+            const data = await response.json();
+            setNotification(data);
+        } catch {
+            console.error("Error fetching notifications");
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Fetch the accessToken
-                const accessToken = await AsyncStorage.getItem('accessToken');
-                setAccess(accessToken);
-
-                // Fetch the notifications
-                const response = await fetch(`${apiConfig.BASE_URL}/notifications/notification/`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Token ${accessToken}`
-                    }
-                });
-                const data = await response.json();
-                setNotification(data);
-            } catch {
-                console.error("Error fetching notifications");
-            }
-        };
-
         fetchData();
     }, []); // Empty dependency array, so it runs only once on mount
 
     useEffect(() => {
         const fetchMatchData = async () => {
             console.log('notif',notification)
-            if (notification.length === 0) return; // Check if there are notifications
+            if (notification.length === 0) {
+                setMatches([])
+                return; // Check if there are notifications
 
+            }
             try {
                 const allMatches = []; // Initialize an array to accumulate all matches
 
@@ -61,10 +64,6 @@ const MatchConfirm = () => {
                         }
                     });
                     const matchData = await response.json();
-                    console.log(matchData); // Log the data for each match
-
-                    console.log("Submitter:", matchData.submitter.first_name, matchData.submitter.last_name);
-                    console.log("Updated At:", formatDate(matchData.updated_at));
 
                     //add notif id in allMatches in case match.id != notif.id
                     matchData.notifId = notif.id;
@@ -80,6 +79,14 @@ const MatchConfirm = () => {
         fetchMatchData();
     }, [notification, access]);
 
+    useEffect(() => {
+        console.log('upper',refresh)
+        if (refresh) {
+            console.log(refresh)
+          fetchData(); // Fetch data when 'refresh' is true
+          setRefresh(false); // Set 'refresh' back to false after fetching data
+        }
+      }, [refresh]);
 
     return (
         <SafeAreaView style={[Home.background]}>
@@ -110,15 +117,9 @@ const MatchConfirm = () => {
                         <ConfirmationContainer
                             key={index + 1}
                             matchData={match}
-                            match={index + 1}
                             name={match.submitter.first_name + " " + match.submitter.last_name}
                             date={formatDate(match.updated_at)}
-                            // self={rank.user.id == userId}
-                            // onFrameTouchableOpacityPress={() =>
-                            //     navigation.navigate("Profile",
-                            //         { otherUserId: rank.user.id, self: rank.user.id == userId }
-                            //     )
-                            // }
+                            setRefresh={setRefresh}
                         />
                     ))}
                 </ScrollView>
@@ -201,4 +202,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MatchConfirm;
+export default MatchConfirm; 
