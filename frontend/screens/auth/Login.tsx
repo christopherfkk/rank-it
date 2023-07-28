@@ -57,7 +57,8 @@ const Login = () => {
                 email: email,
                 password: password,
             };
-
+            console.log(apiConfig)
+            console.log(`${apiConfig.BASE_URL}/accounts/login/`)
             fetch(`${apiConfig.BASE_URL}/accounts/login/`, {
                 method: "POST",
                 headers: {
