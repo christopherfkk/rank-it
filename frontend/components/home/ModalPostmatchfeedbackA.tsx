@@ -27,7 +27,7 @@ type ModalPostmatchfeedbackType = {
   opponentId: number
 };
 
-const ModalPostmatchfeedback = ({ visible, onClose, name, level, opponentId}: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedbackA = ({ visible, onClose, name, level, opponentId}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
   
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
@@ -45,6 +45,7 @@ const ModalPostmatchfeedback = ({ visible, onClose, name, level, opponentId}: Mo
     // Create the data object to send to the backend
     if (submitterScore === "" || opponentScore === "") {
       console.error("Match scores are mandatory. Please provide both your score and opponent's score.");
+      setMatchScoresError(true);
       return;
     }
     setMatchScoresError(false);
@@ -117,9 +118,7 @@ const ModalPostmatchfeedback = ({ visible, onClose, name, level, opponentId}: Mo
           />
           <FeedbackBlurb onChangeFeedbackText={(text) => setFeedbackText(text)}/>
           {matchScoresError && (
-            <View style={styles.errorMessage}>
               <Text style={styles.errorText}>Please provide both your score and opponent's score.</Text>
-            </View>
           )}
           <PfButton1 onPress ={handleSubmit}/> 
         </ScrollView>
@@ -134,15 +133,10 @@ const styles = StyleSheet.create({
     alignItems: "center", // Center items horizontally
     justifyContent: "center", // Center items vertically
     flex: 1,
-  },
-  errorMessage: {
-    backgroundColor: "red",
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 10,
+    paddingBottom: 30,
   },
   errorText: {
-    color: "white",
+    color: "red",
     fontFamily: FontFamily.manropeRegular,
     fontSize: 10,
     textAlign: "center",
@@ -158,4 +152,4 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.bebasNeueRegular,
   },
 });
-export default ModalPostmatchfeedback;
+export default ModalPostmatchfeedbackA;
