@@ -6,7 +6,7 @@ from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
-    """User Creation Form in the admin site"""
+    """User Creation Form in the admin site right"""
     class Meta(UserCreationForm):
         model = CustomUser
         fields = "__all__"
