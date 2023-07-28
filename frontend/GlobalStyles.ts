@@ -327,9 +327,9 @@ export const Home = {
         overflow: "hidden",
         flex: 1,
         alignSelf: "center", // INSTEAD OF STRETCH
-        width: "100%", // ADD THIS
+        width: "95%", // ADD THIS
         maxWidth: 500, // ADD THIS
-        borderWidth: 1,
+        // borderWidth: 1,
     },
 }
 
