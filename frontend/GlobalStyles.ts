@@ -329,7 +329,6 @@ export const Home = {
         alignSelf: "center", // INSTEAD OF STRETCH
         width: "95%", // ADD THIS
         maxWidth: 500, // ADD THIS
-        // borderWidth: 1,
     },
 }
 
@@ -358,5 +357,24 @@ export const Nav = {
         fontFamily: FontFamily.bebasNeueRegular,
         color: Color.lightLabelPrimary,
         textAlign: "center",
+    },
+}
+
+export const ProfileStyles = {
+    button: {
+        flexDirection: "row",
+        gap: 5,
+        backgroundColor: Color.whitesmoke_300,
+        borderRadius: Border.br_131xl,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "auto",
+        paddingVertical: "1%",
+        paddingHorizontal: "5%",
+        marginVertical: "2%"
+    },
+    buttonText: {
+        fontFamily: FontFamily.manropeMedium,
+        color: Color.gray_100,
     },
 }
