@@ -3,12 +3,12 @@ import { Pressable, Text, StyleSheet } from "react-native";
 import { FontSize, FontFamily, Color, Border, Padding } from "../../GlobalStyles";
 
 type RegButtonType = {
-  pfButtonWidth: number;
-  pfButtonHeight: number;
+  pfButtonWidth: number | string;
+  pfButtonHeight: number | string;
   button: string;
   pfButtonMarginTop: string;
   pfButtonFlex: number;
-  pfButtonMarginLeft: number;
+  pfButtonMarginLeft: number | string;
   onPress?: () => void; // Add the onPress prop here
 };
 
