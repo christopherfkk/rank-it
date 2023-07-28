@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     button: {
         width: "30%",
         height: "100%",
+        marginRight: "1%",
     },
     rankText: {
         width: "10%",

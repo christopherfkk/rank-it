@@ -131,19 +131,16 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: "15%",
-        paddingVertical: "2%",
+        paddingVertical: "2%"
     },
     locationTab: {
         width: "30%",
         borderRadius: Border.br_xl,
         backgroundColor: "#ededed",
-        height: 21,
-        paddingVertical: Padding.p_11xs,
-        paddingHorizontal: Padding.p_0,
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "stretch",
-
+        paddingVertical: "1%",
     },
     locationTabText: {
         textAlign: "center",
