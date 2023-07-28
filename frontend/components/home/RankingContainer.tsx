@@ -1,8 +1,8 @@
 import React, {memo, useState} from "react";
 import {Text, StyleSheet, ImageBackground, View, TouchableOpacity,} from "react-native";
-import RegButton from "../home/ChallengeButton";
 import ModalPostmatchfeedbackA from "./ModalPostmatchfeedbackA"
 import {Color, FontFamily, FontSize, Border, Padding} from "../../GlobalStyles";
+import ChallengeButton from '../home/ChallengeButton';
 
 type RankingContainerType = {
     /** Text props */
@@ -75,7 +75,7 @@ const RankingContainer = memo(({
                         {/* START CHALLENGE BUTTON */}
                         {self ?
                             null :
-                            <RegButton
+                            <ChallengeButton
                                 pfButtonWidth={"100%"}
                                 pfButtonHeight={"100%"}
                                 button="challenge"

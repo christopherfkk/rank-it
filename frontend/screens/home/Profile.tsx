@@ -7,9 +7,10 @@ import {RouteProp} from "@react-navigation/native";
 import {Padding, Color, FontSize, FontFamily, Border, Home, ProfileStyles} from "../../GlobalStyles";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
-import RegButton from "../../components/setup/RegButton"
+import ChallengeButton from '../../components/home/ChallengeButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiConfig from '../../apiConfig';
+import ModalPostmatchfeedbackA from '../../components/home/ModalPostmatchfeedbackA';
 
 type ProfileParamList = {
     Profile: {
@@ -29,6 +30,7 @@ const Profile = ({route}: ProfileType) => {
     // Check if route.params is defined before destructuring
     const {otherUserId, self} = route.params || {otherUserId: null, self: true};
     const [profile, setProfile] = useState({
+        id: "",
         first_name: "",
         last_name: "",
         level: "",
@@ -129,6 +131,18 @@ const Profile = ({route}: ProfileType) => {
             });
     };
 
+    const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
+    const handleRegButtonPress = () => {
+        // Show the modal when RegButton is pressed
+        setShowFeedbackModal(true);
+    };
+
+    const handleCloseModal = () => {
+        // Close the modal when the "Close" button is pressed
+        setShowFeedbackModal(false);
+    };
+
     return (
         <SafeAreaView style={[Home.background]}>
             <View style={Home.body}>
@@ -162,14 +176,22 @@ const Profile = ({route}: ProfileType) => {
                             </Text>
                         </Pressable> :
                         // Challenge Button
-                        <RegButton
-                            pfButtonWidth={100}
-                            pfButtonHeight={30}
+                        <ChallengeButton
+                            pfButtonWidth={"100%"}
+                            pfButtonHeight={"100%"}
                             button="challenge"
                             pfButtonMarginTop="unset"
-                            pfButtonFlex="unset"
-                            pfButtonMarginLeft={10}
+                            pfButtonFlex={1}
+                            pfButtonMarginLeft="unset"
+                            onPress={handleRegButtonPress}
                         />}
+
+                    <ModalPostmatchfeedbackA
+                        visible={showFeedbackModal}
+                        onClose={handleCloseModal}
+                        name={profile.first_name + " " + profile.last_name}
+                        level={profile.level ?? 'null'}
+                        opponentId={profile.id}/>
 
                     {/* MORE PROFILE DETAILS */}
                     <ProfileDetails
