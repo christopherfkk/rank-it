@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import { Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import { Image } from "expo-image";
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { RouteProp } from "@react-navigation/native";
+import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView} from "react-native";
+import {Image} from "expo-image";
+import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {RouteProp} from "@react-navigation/native";
 
-import { Padding, Color, FontSize, FontFamily, Border } from "../../GlobalStyles";
+import {Padding, Color, FontSize, FontFamily, Border, Home} from "../../GlobalStyles";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import RegButton from "../../components/setup/RegButton"
@@ -12,10 +12,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiConfig from '../../apiConfig';
 
 type ProfileParamList = {
-  Profile: {
-    otherUserId: number | null;
-    self: boolean;
-  };
+    Profile: {
+        otherUserId: number | null;
+        self: boolean;
+    };
 };
 
 type ProfileType = {
@@ -27,8 +27,8 @@ const Profile = ({route}: ProfileType) => {
     const isFocused = useIsFocused();
 
     // Check if route.params is defined before destructuring
-    const { otherUserId, self } = route.params || { otherUserId: null, self: true };
-    const [ profile, setProfile ] = useState({
+    const {otherUserId, self} = route.params || {otherUserId: null, self: true};
+    const [profile, setProfile] = useState({
         first_name: "",
         last_name: "",
         level: "",
@@ -93,57 +93,61 @@ const Profile = ({route}: ProfileType) => {
     };
 
     return (
-        <ScrollView
-            style={styles.profile}
-            showsVerticalScrollIndicator={true}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.profileScrollViewContent}
-        >
-            {/* PHOTO AND SOME DETAILS */}
-            <ProfileHeader
-                avatar={require("../../assets/avatar.png")}
-                fullName={profile.first_name + " " + profile.last_name}
-                location="CB Gym, Tokyo"
-                skill={profile.level}
-            />
-
-            {self ?
-                // Edit Profile Button
-                <Pressable style={styles.editProfileButton}>
-                    <Image
-                        style={styles.editProfileIcon}
-                        contentFit="contain"
-                        source={require("../../assets/edit-profile-icon.png")}
+        <SafeAreaView style={[Home.background]}>
+            <View style={Home.body}>
+                <ScrollView
+                    style={styles.profile}
+                    showsVerticalScrollIndicator={true}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.profileScrollViewContent}
+                >
+                    {/* PHOTO AND SOME DETAILS */}
+                    <ProfileHeader
+                        avatar={require("../../assets/avatar.png")}
+                        fullName={profile.first_name + " " + profile.last_name}
+                        location="CB Gym, Tokyo"
+                        skill={profile.level}
                     />
-                    <Text style={styles.editProfileText}>
-                        Edit Profile
-                    </Text>
-                </Pressable> :
-                // Challenge Button
-                <RegButton
-                    pfButtonWidth={100}
-                    pfButtonHeight={30}
-                    button="challenge"
-                    pfButtonMarginTop="unset"
-                    pfButtonFlex="unset"
-                    pfButtonMarginLeft={10}
-                />}
 
-            {/* MORE PROFILE DETAILS */}
-            <ProfileDetails
-                bioText={profile.blurb}
-                nMatchesLogged={profile.matches_played}
-                highestRankAttained={1}
-                sportsmanshipRating={profile.overall_sportsmanship_rating}
-                strength="Agility, Cardio, Reaction Time"
-                competitiveness="High"
-            />
+                    {self ?
+                        // Edit Profile Button
+                        <Pressable style={styles.editProfileButton}>
+                            <Image
+                                style={styles.editProfileIcon}
+                                contentFit="contain"
+                                source={require("../../assets/edit-profile-icon.png")}
+                            />
+                            <Text style={styles.editProfileText}>
+                                Edit Profile
+                            </Text>
+                        </Pressable> :
+                        // Challenge Button
+                        <RegButton
+                            pfButtonWidth={100}
+                            pfButtonHeight={30}
+                            button="challenge"
+                            pfButtonMarginTop="unset"
+                            pfButtonFlex="unset"
+                            pfButtonMarginLeft={10}
+                        />}
 
-            <TouchableOpacity onPress={handleLogout}>
-                <Text>Logout</Text>
-            </TouchableOpacity>
+                    {/* MORE PROFILE DETAILS */}
+                    <ProfileDetails
+                        bioText={profile.blurb}
+                        nMatchesLogged={profile.matches_played}
+                        highestRankAttained={1}
+                        sportsmanshipRating={profile.overall_sportsmanship_rating}
+                        strength="Agility, Cardio, Reaction Time"
+                        competitiveness="High"
+                    />
 
-        </ScrollView>
+                    <TouchableOpacity onPress={handleLogout}>
+                        <Text>Logout</Text>
+                    </TouchableOpacity>
+
+                </ScrollView>
+            </View>
+        </SafeAreaView>
     );
 };
 

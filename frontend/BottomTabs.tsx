@@ -6,6 +6,8 @@ import ProfileNav from './components/nav/ProfileNav';
 import Ranking from './screens/home/Ranking';
 import Profile from './screens/home/Profile';
 import MatchConfirm from './screens/home/MatchConfirm';
+import {StyleSheet, View} from 'react-native';
+import {Border, Color, FontFamily} from './GlobalStyles';
 
 const Tab = createBottomTabNavigator();
 
