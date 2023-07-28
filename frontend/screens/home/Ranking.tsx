@@ -47,24 +47,24 @@ const Ranking = () => {
                 </View>
 
                 {/*LOCATION TABS*/}
-                <View style={styles.location}>
-                    <Pressable style={styles.locationTab}>
-                        <Text style={styles.locationTabText}>Tokyo</Text>
-                    </Pressable>
-                    <Pressable style={styles.locationTab}>
-                        <Text style={styles.locationTabText}>CB Gym</Text>
-                    </Pressable>
-                </View>
+                {/*<View style={styles.location}>*/}
+                {/*    <Pressable style={styles.locationTab}>*/}
+                {/*        <Text style={styles.locationTabText}>Tokyo</Text>*/}
+                {/*    </Pressable>*/}
+                {/*    <Pressable style={styles.locationTab}>*/}
+                {/*        <Text style={styles.locationTabText}>CB Gym</Text>*/}
+                {/*    </Pressable>*/}
+                {/*</View>*/}
 
                 {/*SUBHEADING*/}
                 <View style={styles.subheading}>
-                    <Text style={[styles.subheadingText, {width: "20%"}]}>
+                    <Text style={[styles.subheadingText, {width: "25%"}]}>
                         RANK
                     </Text>
-                    <Text style={[styles.subheadingText, {width: "50%"}]}>
+                    <Text style={[styles.subheadingText, {width: "40%"}]}>
                         ATHLETE
                     </Text>
-                    <Text style={[styles.subheadingText, {width: "30%"}]}>
+                    <Text style={[styles.subheadingText, {width: "35%"}]}>
                         SKILL RATING
                     </Text>
                 </View>
