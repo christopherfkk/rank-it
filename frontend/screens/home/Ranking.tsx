@@ -58,10 +58,13 @@ const Ranking = () => {
 
                 {/*SUBHEADING*/}
                 <View style={styles.subheading}>
-                    <Text style={styles.subheadingText}>
+                    <Text style={[styles.subheadingText, {width: "20%"}]}>
+                        RANK
+                    </Text>
+                    <Text style={[styles.subheadingText, {width: "50%"}]}>
                         ATHLETE
                     </Text>
-                    <Text style={styles.subheadingText}>
+                    <Text style={[styles.subheadingText, {width: "30%"}]}>
                         SKILL RATING
                     </Text>
                 </View>
@@ -138,18 +141,18 @@ const styles = StyleSheet.create({
         color: Color.lightLabelPrimary,
     },
     subheading: {
-        paddingHorizontal: "8%",
-        paddingVertical: "1%",
+        alignSelf: "flex-start",  // ALIGN LEFT
+        width: "70%",  // SAME AS PROFILE IN RANKING CONTAINER
         flexDirection: "row",
+        marginBottom: "1%",
+        marginTop: "3%"
     },
     subheadingText: {
-        width: "40%",
         letterSpacing: 0.3,
         fontSize: FontSize.size_3xs,
-        textAlign: "left",
+        textAlign: "center",
         color: Color.lightLabelPrimary,
         fontFamily: FontFamily.bebasNeueRegular,
-        alignItems: "center",
         justifyContent: "center",
     },
     ranking: {
