@@ -78,7 +78,7 @@ const RankingContainer = memo(({
                             <RegButton
                                 pfButtonWidth={"100%"}
                                 pfButtonHeight={"100%"}
-                                button="start"
+                                button="challenge"
                                 pfButtonMarginTop="unset"
                                 pfButtonFlex={1}
                                 pfButtonMarginLeft="unset"
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     button: {
         width: "30%",
         height: "100%",
-        marginRight: "1%",
+        marginRight: 20,
     },
     rankText: {
         width: "10%",
