@@ -25,9 +25,10 @@ type ModalPostmatchfeedbackType = {
   name: string;
   level: string;
   opponentId: number;
-  matchId:number}
+  matchId:number
+  notifId: number}
 
-const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId}: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId, notifId}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
   
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
@@ -40,6 +41,26 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
   const handleButtonsPressed = (pressedButtons) => {
     setPressedButtonsList(pressedButtons);
   };
+
+  const updateRead = async (notifId) => {
+
+    try {
+        const access = await AsyncStorage.getItem('accessToken')
+        const response = await fetch(`${apiConfig.BASE_URL}/notifications/notification/${notifId}/`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Token ${access}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({status: "Read"})
+        })
+        const data = await response.json();
+        console.log(response)
+        console.log(data)
+    } catch {
+        console.error("NO READ: Can't update notification")
+    }
+};
 
   const handleSubmit = async () => {
     // Create the data object to send to the backend
@@ -86,6 +107,7 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
       console.error('Error sending feedback data:', error);
     });
 
+    updateRead(notifId)
     // Close the modal after submitting
     onClose?.();
   };
