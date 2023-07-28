@@ -1,20 +1,17 @@
-import React, { memo } from "react";
+import React from "react";
 import { Pressable, Text, StyleSheet } from "react-native";
 import { FontSize, FontFamily, Color, Border, Padding } from "../../GlobalStyles";
 
-const PfButton1 = memo(() => {
+const PfButton1 = ({ onPress }) => {
   return (
-    <Pressable style={styles.pfButton}>
-      <Text style={styles.button} numberOfLines={3}>
-        submit
-      </Text>
+    <Pressable style={styles.pfButton} onPress={onPress}>
+      <Text style={styles.button}>Submit</Text>
     </Pressable>
   );
-});
+};
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     fontSize: FontSize.size_2xs,
     fontFamily: FontFamily.bebasNeueRegular,
     color: Color.white,
@@ -33,10 +30,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     width: 134,
     height: 32,
-    flexDirection: "row",
     padding: Padding.p_mini,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "center", // Align the content (Text) horizontally center.
+    justifyContent: "center", // Align the content (Text) vertically center.
+    alignSelf: "center", // Center the Pressable (container) itself horizontally.
     marginTop: 6,
   },
 });

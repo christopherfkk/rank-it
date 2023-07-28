@@ -152,8 +152,10 @@ class Strength(models.Model):
     class Types(models.TextChoices):
         AGILITY = "Agility", _("Agility")
         CARDIO = "Cardio", _("Cardio")
-        SMASH = "Smash", _("Smash")
-        # Add other choices here
+        OFFENSE = "Offense", _("Offense")
+        DEFENSE = "Defense", _("Defense")
+        FOOTWORK = "Footwork", _("Footwork")
+        REACTION_TIME = "Reaction Time", _("Reaction Time")
 
     type = models.CharField(max_length=20, choices=Types.choices)
 

@@ -5,7 +5,7 @@ import RegSkipButton from "../../components/auth/RegSkipButton";
 import RegTitle from "../../components/auth/RegTitle";
 import RegText from "../../components/auth/RegText";
 import RankITCard from "../../components/home/RankITCard";
-import RegButton from "../../components/auth/RegButton";
+import RegButton from "../../components/setup/RegButton"
 import { Padding } from "../../GlobalStyles";
 
 const PfBirthday = () => {

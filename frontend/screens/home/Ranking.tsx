@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, View, Pressable, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, {useState, useEffect} from 'react';
+import {Text, StyleSheet, View, Pressable, ScrollView, SafeAreaView} from "react-native";
+import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RankingContainer from "../../components/home/RankingContainer";
-import { Padding, Border, FontFamily, FontSize, Color } from "../../GlobalStyles";
+import {Padding, Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
+
 const Ranking = () => {
 
     const navigation = useNavigation();
-    const [ ranking, setRanking ] = useState([])
-    const [ userId, setUserId ] = useState()
+    const [ranking, setRanking] = useState([])
+    const [userId, setUserId] = useState()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,66 +38,71 @@ const Ranking = () => {
     }, []);
 
     return (
-        <View style={styles.rankingPage}>
+        <SafeAreaView style={[Home.background]}>
+            <View style={Home.body}>
 
-            {/*HEADER*/}
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Ranking</Text>
+                {/*HEADER*/}
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Ranking</Text>
+                </View>
+
+                {/*LOCATION TABS*/}
+                {/*<View style={styles.location}>*/}
+                {/*    <Pressable style={styles.locationTab}>*/}
+                {/*        <Text style={styles.locationTabText}>Tokyo</Text>*/}
+                {/*    </Pressable>*/}
+                {/*    <Pressable style={styles.locationTab}>*/}
+                {/*        <Text style={styles.locationTabText}>CB Gym</Text>*/}
+                {/*    </Pressable>*/}
+                {/*</View>*/}
+
+                {/*SUBHEADING*/}
+                <View style={styles.subheading}>
+                    <Text style={[styles.subheadingText, {width: "25%"}]}>
+                        RANK
+                    </Text>
+                    <Text style={[styles.subheadingText, {width: "40%"}]}>
+                        ATHLETE
+                    </Text>
+                    <Text style={[styles.subheadingText, {width: "35%"}]}>
+                        SKILL RATING
+                    </Text>
+                </View>
+
+                <ScrollView
+                    style={styles.ranking}
+                    showsVerticalScrollIndicator={true}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.rankingScrollViewContent}
+                >
+                    {ranking.map((rank, index) => (
+                        <RankingContainer
+                            key={index + 1}
+                            userData={rank.user}
+                            rank={index + 1}
+                            name={rank.user.first_name + " " + rank.user.last_name}
+                            skill={rank.skill}
+                            self={rank.user.id == userId}
+                            onFrameTouchableOpacityPress={() =>
+                                navigation.navigate("Profile",
+                                    {otherUserId: rank.user.id, self: rank.user.id == userId}
+                                )
+                            }
+                        />
+                    ))}
+                </ScrollView>
             </View>
-
-            {/*LOCATION TABS*/}
-            <View style={styles.location}>
-                <Pressable style={styles.locationTab}>
-                    <Text style={styles.locationTabText}>Tokyo</Text>
-                </Pressable>
-                <Pressable style={styles.locationTab}>
-                    <Text style={styles.locationTabText}>Shibuya</Text>
-                </Pressable>
-            </View>
-
-            {/*SUBHEADING*/}
-            <View style={styles.subheading}>
-                <Text style={styles.subheadingText}>
-                    ATHLETE
-                </Text>
-                <Text style={styles.subheadingText}>
-                    SKILL RATING
-                </Text>
-            </View>
-
-            <ScrollView
-                style={styles.ranking}
-                showsVerticalScrollIndicator={true}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.rankingScrollViewContent}
-            >
-                {ranking.map((rank, index) => (
-                    <RankingContainer
-                        key={index + 1}
-                        rank={index + 1}
-                        name={rank.user.first_name + " " + rank.user.last_name}
-                        // avatar={rank.avatar}
-                        skill={rank.skill}
-                        self={ rank.user.id == userId }
-                        onFrameTouchableOpacityPress={() =>
-                            navigation.navigate("Profile",
-                                { otherUserId: rank.user.id, self: rank.user.id == userId }
-                            )
-                        }
-                    />
-                ))}
-            </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    rankingPage: {
-        flex: 1,
-        overflow: "scroll",
-        width: "100%",
-        backgroundColor: Color.white,
-    },
+    // rankingPage: {
+    //     flex: 1,
+    //     overflow: "scroll",
+    //     width: "100%",
+    //     backgroundColor: Color.white,
+    // },
     header: {
         width: "100%",
         alignItems: "center",
@@ -114,19 +120,16 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: "15%",
-        paddingVertical: "2%",
+        paddingVertical: "2%"
     },
     locationTab: {
         width: "30%",
         borderRadius: Border.br_xl,
         backgroundColor: "#ededed",
-        height: 21,
-        paddingVertical: Padding.p_11xs,
-        paddingHorizontal: Padding.p_0,
         alignItems: "center",
         justifyContent: "center",
         alignSelf: "stretch",
-
+        paddingVertical: "1%",
     },
     locationTabText: {
         textAlign: "center",
@@ -135,18 +138,18 @@ const styles = StyleSheet.create({
         color: Color.lightLabelPrimary,
     },
     subheading: {
-        paddingHorizontal: "8%",
-        paddingVertical: "1%",
+        alignSelf: "flex-start",  // ALIGN LEFT
+        width: "70%",  // SAME AS PROFILE IN RANKING CONTAINER
         flexDirection: "row",
+        marginBottom: "1%",
+        marginTop: "3%"
     },
     subheadingText: {
-        width: "40%",
         letterSpacing: 0.3,
         fontSize: FontSize.size_3xs,
-        textAlign: "left",
+        textAlign: "center",
         color: Color.lightLabelPrimary,
         fontFamily: FontFamily.bebasNeueRegular,
-        alignItems: "center",
         justifyContent: "center",
     },
     ranking: {

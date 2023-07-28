@@ -48,12 +48,26 @@
 - model: matches.Strength
   pk: 2
   fields:
-    type: Cardio
+    type: Defense
 
 - model: matches.Strength
   pk: 3
   fields:
-    type: Smash
+    type: Offense
+- model: matches.Strength
+  pk: 4
+  fields:
+    type: Cardio
+
+- model: matches.Strength
+  pk: 5
+  fields:
+    type: Footwork
+
+- model: matches.Strength
+  pk: 6
+  fields:
+    type: Reaction Time
 
 - model: accounts.CustomUser
   pk: 1

@@ -1,42 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Color } from '../../GlobalStyles';
+import { Color, FontFamily } from '../../GlobalStyles';
 import { Slider as RNESlider } from "@rneui/themed";
 
-const SlidersComponent = () => {
-  const [sportsmanshipValue, setSportsmanshipValue] = useState(3);
-  const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(2);
-
+const SlidersComponent = ({
+  sportsmanshipValue,
+  setSportsmanshipValue,
+  matchCompetitivenessValue,
+  setMatchCompetitivenessValue,
+  onChangeSportsmanship,
+  onChangeCompetitiveness,
+}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Sportsmanship Rating: {sportsmanshipValue}</Text>
       <RNESlider
         style={styles.slider}
-        minimumValue={0}
+        minimumValue={1}
         maximumValue={5}
         step={1}
         value={sportsmanshipValue}
-        onValueChange={setSportsmanshipValue}
+        onValueChange={(value) => {
+          setSportsmanshipValue(value);
+          onChangeSportsmanship(value); // Update the sportsmanship value in the parent component
+        }}
         thumbTintColor={Color.gray_100}
-        minimumTrackTintColor={Color.lavenderblush}
-        maximumTrackTintColor={Color.lavenderblush} // Set the maximum track color to black
-        trackStyle={styles.trackStyle} // Custom style for the slider track
-        thumbStyle={styles.thumbStyle} // Custom style for the slider thumb
+        minimumTrackTintColor={Color.crimson_100}
+        maximumTrackTintColor={Color.lavenderblush}
+        trackStyle={styles.trackStyle}
+        thumbStyle={styles.thumbStyle}
       />
 
       <Text style={styles.label}>Match Competitiveness: {matchCompetitivenessValue}</Text>
       <RNESlider
         style={styles.slider}
-        minimumValue={0}
-        maximumValue={5}
+        minimumValue={1}
+        maximumValue={10}
         step={1}
         value={matchCompetitivenessValue}
-        onValueChange={setMatchCompetitivenessValue}
+        onValueChange={(value) => {
+          setMatchCompetitivenessValue(value);
+          onChangeCompetitiveness(value); // Update the match competitiveness value in the parent component
+        }}
         thumbTintColor={Color.gray_100}
-        minimumTrackTintColor={Color.lavenderblush}
-        maximumTrackTintColor={Color.lavenderblush} // Set the maximum track color to black
-        trackStyle={styles.trackStyle} // Custom style for the slider track
-        thumbStyle={styles.thumbStyle} // Custom style for the slider thumb
+        minimumTrackTintColor={Color.crimson_100}
+        maximumTrackTintColor={Color.lavenderblush}
+        trackStyle={styles.trackStyle}
+        thumbStyle={styles.thumbStyle}
       />
     </View>
   );
@@ -50,6 +60,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
+    fontFamily: FontFamily.manropeBold,
     marginBottom: 10,
   },
   slider: {
