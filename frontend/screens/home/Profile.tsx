@@ -35,6 +35,8 @@ const Profile = ({route}: ProfileType) => {
         blurb: "",
         matches_played: "",
         overall_sportsmanship_rating: "",
+        top_strengths: [],
+        overall_match_competitiveness_rating: "",
     })
 
     useEffect(() => {
@@ -137,8 +139,8 @@ const Profile = ({route}: ProfileType) => {
                         nMatchesLogged={profile.matches_played}
                         highestRankAttained={1}
                         sportsmanshipRating={profile.overall_sportsmanship_rating}
-                        strength="Agility, Cardio, Reaction Time"
-                        competitiveness="High"
+                        strength={profile.top_strengths.join(", ")}
+                        competitiveness={profile.overall_match_competitiveness_rating}
                     />
 
                     <TouchableOpacity onPress={handleLogout}>
