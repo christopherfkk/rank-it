@@ -72,7 +72,7 @@ const Profile = ({route}: ProfileType) => {
         if (isFocused) {
             fetchData();
         }
-    }, [isFocused, self]);
+    }, [isFocused]);
 
     const handleSaveButtonPress = async () => {
         try {

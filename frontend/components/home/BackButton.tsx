@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#007AFF",
-    fontFamily: FontFamily.manropesemiBold,
-    fontSize: 17,
+    fontFamily: FontFamily.manropeSemibold,
+    fontSize: 10,
     fontStyle: "normal",
     fontWeight: "400",
     lineHeight: 22,
@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   image: {
-    width: 10,
-    height: 18,
+    width: 6,
+    height: 10,
   },
 });
 
