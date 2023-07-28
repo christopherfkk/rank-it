@@ -1,8 +1,8 @@
 import React, {memo, useState} from "react";
 import {Text, StyleSheet, ImageBackground, View, TouchableOpacity,} from "react-native";
-import RegButton from "../home/ChallengeButton";
 import ModalPostmatchfeedbackA from "./ModalPostmatchfeedbackA"
 import {Color, FontFamily, FontSize, Border, Padding} from "../../GlobalStyles";
+import ChallengeButton from '../home/ChallengeButton';
 
 type RankingContainerType = {
     /** Text props */
@@ -75,7 +75,7 @@ const RankingContainer = memo(({
                         {/* START CHALLENGE BUTTON */}
                         {self ?
                             null :
-                            <RegButton
+                            <ChallengeButton
                                 pfButtonWidth={"100%"}
                                 pfButtonHeight={"100%"}
                                 button="challenge"
@@ -118,10 +118,10 @@ const styles = StyleSheet.create({
     button: {
         width: "30%",
         height: "100%",
-        marginRight: 20,
+        marginRight: "2%",
     },
     rankText: {
-        width: "10%",
+        width: "15%",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     name: {
-        width: "50%",
+        width: "40%",
         fontFamily: FontFamily.manropeBold,
         fontSize: FontSize.size_3xs,
         color: Color.lightLabelPrimary,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     skillText: {
-        width: "30%",
+        width: "35%",
         fontSize: FontSize.size_3xs,
         fontFamily: FontFamily.manropeBold,
         alignItems: "center",

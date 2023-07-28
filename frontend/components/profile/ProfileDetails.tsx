@@ -125,7 +125,7 @@ const ProfileDetails = memo(
                     <Analytic
                         iconPath={require("../../assets/pf-strength.png")}
                         name="Strengths"
-                        analytic={strength}
+                        analytic={strength != "" ? strength : "No strengths yet"}
                     />
 
                 </View>
