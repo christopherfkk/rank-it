@@ -8,6 +8,11 @@ import Profile from './screens/home/Profile';
 import MatchConfirm from './screens/home/MatchConfirm';
 import {StyleSheet, View} from 'react-native';
 import {Border, Color, FontFamily} from './GlobalStyles';
+import Icon from 'react-native-vector-icons/FontAwesome5'; // Import your desired icon library
+import {default as IconEntypo} from 'react-native-vector-icons/Entypo';
+
+
+// const Tab = createBottomTabNavigator();
 
 const Tab = createBottomTabNavigator();
 
@@ -26,8 +31,15 @@ function BottomTabs({navigation}: any) {
                 component={Ranking}
                 options={{
                     headerShown: false,
-                    tabBarIcon: RankingNav.type,
                     tabBarLabel: () => null,
+                    // tabBarIcon: RankingNav.type,
+                    tabBarIcon: ({focused}) => (
+                        <Icon
+                            name="medal"
+                            size={20}
+                            color={focused ? Color.crimson_200 : 'black'}
+                        />
+                    ),
                 }}
             />
             <Tab.Screen
@@ -35,8 +47,15 @@ function BottomTabs({navigation}: any) {
                 component={MatchConfirm}
                 options={{
                     headerShown: false,
-                    tabBarIcon: MatchesNav.type,
                     tabBarLabel: () => null,
+                    // tabBarIcon: MatchesNav.type,
+                    tabBarIcon: ({focused}) => (
+                        <IconEntypo
+                            name="add-to-list"
+                            size={20}
+                            color={focused ? Color.crimson_200 : 'black'}
+                        />
+                    ),
                 }}
             />
             <Tab.Screen
@@ -50,8 +69,15 @@ function BottomTabs({navigation}: any) {
                 })}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ProfileNav.type,
                     tabBarLabel: () => null,
+                    // tabBarIcon: ProfileNav.type,
+                    tabBarIcon: ({focused}) => (
+                        <Icon
+                            name="user"
+                            size={20}
+                            color={focused ? Color.crimson_200 : 'black'}
+                        />
+                    ),
                 }}
             />
         </Tab.Navigator>
