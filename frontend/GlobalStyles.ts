@@ -96,7 +96,7 @@ export const Auth = {
         justifyContent: "center",
         alignItems: "center",
         overflow: "hidden",
-        alignSelf: "stretch",
+        alignSelf: "center", // INSTEAD OF STRETCH
         flex: 1,
     },
     heading1: {
@@ -310,4 +310,26 @@ export const Reg = {
     },
 
 };
+
+export const Home = {
+    background: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        flex: 1,
+        backgroundColor: Color.white,
+    },
+    body: {
+        // paddingHorizontal: Padding.p_9xl,
+        paddingVertical: Padding.p_4xs,
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+        flex: 1,
+        alignSelf: "center", // INSTEAD OF STRETCH
+        width: "100%", // ADD THIS
+        maxWidth: 500, // ADD THIS
+        borderWidth: 1,
+    },
+}
 

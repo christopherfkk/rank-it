@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Text, StyleSheet, View, Pressable, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, {useState, useEffect} from 'react';
+import {Text, StyleSheet, View, Pressable, ScrollView, SafeAreaView} from "react-native";
+import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RankingContainer from "../../components/home/RankingContainer";
-import { Padding, Border, FontFamily, FontSize, Color } from "../../GlobalStyles";
+import {Padding, Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
+
 const Ranking = () => {
 
     const navigation = useNavigation();
-    const [ ranking, setRanking ] = useState([])
-    const [ userId, setUserId ] = useState()
+    const [ranking, setRanking] = useState([])
+    const [userId, setUserId] = useState()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,66 +38,68 @@ const Ranking = () => {
     }, []);
 
     return (
-        <View style={styles.rankingPage}>
+        <SafeAreaView style={[Home.background]}>
+            <View style={Home.body}>
 
-            {/*HEADER*/}
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Ranking</Text>
+                {/*HEADER*/}
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Ranking</Text>
+                </View>
+
+                {/*LOCATION TABS*/}
+                <View style={styles.location}>
+                    <Pressable style={styles.locationTab}>
+                        <Text style={styles.locationTabText}>Tokyo</Text>
+                    </Pressable>
+                    <Pressable style={styles.locationTab}>
+                        <Text style={styles.locationTabText}>CB Gym</Text>
+                    </Pressable>
+                </View>
+
+                {/*SUBHEADING*/}
+                <View style={styles.subheading}>
+                    <Text style={styles.subheadingText}>
+                        ATHLETE
+                    </Text>
+                    <Text style={styles.subheadingText}>
+                        SKILL RATING
+                    </Text>
+                </View>
+
+                <ScrollView
+                    style={styles.ranking}
+                    showsVerticalScrollIndicator={true}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.rankingScrollViewContent}
+                >
+                    {ranking.map((rank, index) => (
+                        <RankingContainer
+                            key={index + 1}
+                            userData={rank.user}
+                            rank={index + 1}
+                            name={rank.user.first_name + " " + rank.user.last_name}
+                            skill={rank.skill}
+                            self={rank.user.id == userId}
+                            onFrameTouchableOpacityPress={() =>
+                                navigation.navigate("Profile",
+                                    {otherUserId: rank.user.id, self: rank.user.id == userId}
+                                )
+                            }
+                        />
+                    ))}
+                </ScrollView>
             </View>
-
-            {/*LOCATION TABS*/}
-            <View style={styles.location}>
-                <Pressable style={styles.locationTab}>
-                    <Text style={styles.locationTabText}>Tokyo</Text>
-                </Pressable>
-                <Pressable style={styles.locationTab}>
-                    <Text style={styles.locationTabText}>CB Gym</Text>
-                </Pressable>
-            </View>
-
-            {/*SUBHEADING*/}
-            <View style={styles.subheading}>
-                <Text style={styles.subheadingText}>
-                    ATHLETE
-                </Text>
-                <Text style={styles.subheadingText}>
-                    SKILL RATING
-                </Text>
-            </View>
-
-            <ScrollView
-                style={styles.ranking}
-                showsVerticalScrollIndicator={true}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.rankingScrollViewContent}
-            >
-                {ranking.map((rank, index) => (
-                    <RankingContainer
-                        key={index + 1}
-                        userData = {rank.user}
-                        rank={index + 1}
-                        name={rank.user.first_name + " " + rank.user.last_name}
-                        skill={rank.skill}
-                        self={ rank.user.id == userId }
-                        onFrameTouchableOpacityPress={() =>
-                            navigation.navigate("Profile",
-                                { otherUserId: rank.user.id, self: rank.user.id == userId }
-                            )
-                        }
-                    />
-                ))}
-            </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    rankingPage: {
-        flex: 1,
-        overflow: "scroll",
-        width: "100%",
-        backgroundColor: Color.white,
-    },
+    // rankingPage: {
+    //     flex: 1,
+    //     overflow: "scroll",
+    //     width: "100%",
+    //     backgroundColor: Color.white,
+    // },
     header: {
         width: "100%",
         alignItems: "center",
