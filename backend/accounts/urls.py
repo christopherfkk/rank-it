@@ -16,4 +16,5 @@ urlpatterns = [
             TemplateView.as_view(template_name="password_reset_confirm.html"),
             name='password_reset_confirm'),
     path(r'', include(router.urls)),
+    path(r'^all-auth/', include('allauth.urls'), name='socialaccount_signup'),
 ]
