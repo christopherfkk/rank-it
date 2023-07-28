@@ -41,7 +41,7 @@ const RankingContainer = memo(({
 
         const showSkill = (skill) => {
             // Origin Trueskill from backend is 1-100 with many decimals
-            return Math.round(skill*10)
+            return Math.round(skill*10) + 100
         }
 
         return (

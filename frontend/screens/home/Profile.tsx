@@ -64,6 +64,7 @@ const Profile = ({route}: ProfileType) => {
                 })
                 const data = await response.json();
                 setProfile(data)
+                setBioText(data.blurb)
                 console.log(data)
             } catch {
                 console.error("NO PROFILE: Can't fetch profile")
@@ -72,7 +73,7 @@ const Profile = ({route}: ProfileType) => {
         if (isFocused) {
             fetchData();
         }
-    }, [isFocused]);
+    }, [isFocused, self, otherUserId]);
 
     const handleSaveButtonPress = async () => {
         try {
