@@ -21,4 +21,8 @@ class NotificationViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_superuser:
             return Notification.objects.all()
-        return Notification.objects.filter(Q(notifier=user))
+        return Notification.objects.filter(Q(notifier=user) & Q(status=Notification.Status.UNREAD))
+    
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)

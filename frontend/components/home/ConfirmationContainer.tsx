@@ -45,11 +45,8 @@ const ConfirmationContainer = memo(
               resizeMode="cover"
               source={require("../../assets/avatar.png")}
             />
-
-            <View style={styles.nameTimeContainer}>
               <Text style={styles.name}>{name}</Text>
               <Text style={styles.skillText}>{date}</Text>
-            </View>
           </View>
 
           {/* START CHALLENGE BUTTON */}
@@ -61,6 +58,7 @@ const ConfirmationContainer = memo(
           level={matchData.submitter.level}
           opponentId={matchData.submitter.id}
           matchId={matchData.id}
+          notifId = {matchData.notifId}
         />
       </View> //instead of opponentId, they reversed
     );
@@ -74,55 +72,63 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: Padding.p_8xs,
-    paddingVertical: Padding.p_0,
     marginVertical: 5,
     borderRadius: Border.br_8xs,
-    borderWidth: 1,
-  },
-  profileContainer: {
-    flex: 1,
-  },
-  profile: {
+    borderWidth: 1
+},
+profileContainer: {
+  flex: 1,
+  flexDirection: "row",
+  alignSelf: "stretch",
+  alignItems: "center",
+  justifyContent: "center",
+  marginVertical: 5,
+  borderRadius: Border.br_8xs,
+},
+profile: {
+    width: "70%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    width: "100%", // Changed to 100% to take up the entire width
-    paddingHorizontal: Padding.p_8xs,
-  },
-  rankText: {
+    height: 35,
+},
+button: {
+    width: "30%",
+    height: "100%",
+    marginRight: 20,
+},
+rankText: {
+    width: "10%",
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
     fontSize: FontSize.size_3xs,
     fontFamily: FontFamily.manropeExtrabold,
     color: Color.darkslategray,
-    width: "10%",
   },
   avatar: {
-    width: 30,
-    height: 30,
+    width: "10%",
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
     overflow: "visible",
-    marginRight: 10, // Added margin to create space between avatar and nameTimeContainer
-  },
-  avatar_image: {
+},
+avatar_image: {
     borderRadius: 75,
-  },
-  nameTimeContainer: {
-    flex: 1,
-  },
+    width: "100%",
+    height: "100%",
+},
   name: {
+    width: "30%",
     fontFamily: FontFamily.manropeBold,
     fontSize: FontSize.size_3xs,
     color: Color.lightLabelPrimary,
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    marginBottom: 5, // Added margin to create space between name and date
   },
   skillText: {
+    width: "50%",
     fontSize: FontSize.size_3xs,
     fontFamily: FontFamily.manropeBold,
     alignItems: "center",

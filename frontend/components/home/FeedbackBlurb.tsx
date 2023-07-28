@@ -20,6 +20,7 @@ const FeedbackBlurb = ({ onChangeFeedbackText }) => {
         value={text}
         onChangeText={handleTextChange}
         placeholder="Provide constructive feedback and pointing out areas they can improve on. Remember to be respectful and avoid being rude!"
+        placeholderTextColor="#737373"
         maxLength={maxLength}
         multiline
         style={styles.input}
@@ -38,7 +39,9 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 8,
     padding: 8,
-    fontSize: 8,
+    fontWeight: "500",
+    fontSize: 9,
+    fontFamily: FontFamily.manropeMedium,
     minHeight: 100,
   },
   characterCount: {
