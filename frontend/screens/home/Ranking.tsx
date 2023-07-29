@@ -4,7 +4,7 @@ import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RankingContainer from "../../components/home/RankingContainer";
-import {Padding, Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
+import { Border, FontFamily, FontSize, Color, Home } from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
 
 const Ranking = () => {

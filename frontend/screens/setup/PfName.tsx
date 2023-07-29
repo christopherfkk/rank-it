@@ -50,7 +50,7 @@ const PfName = () => {
         {/* {showError && <Text style={Reg.errorText}>{ERROR_MESSAGE}</Text>} */}
         <RegButton
           navigation={navigation}
-          screenName="PfLevel"
+          screenName="PfGender"
           onPress={() => storeUserInfo(firstName, lastName)} 
           disabled={(firstName.trim() === "" || lastName.trim() === "")}
         />

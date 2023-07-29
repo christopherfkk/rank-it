@@ -1,43 +1,50 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, ImageBackground, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontFamily, Color, Padding, Reg } from "../../GlobalStyles";
+import { Reg } from "../../GlobalStyles";
+import { useRegContext, ACTIONS } from '../../RegContext';
 
 import RegBackground from "../../components/setup/RegBackground";
 import RegSelectButton from "../../components/setup/RegSelectButton";
 import RegButton from "../../components/setup/RegButton"
 
-const PfGender1 = () => {
+const PfGender = () => {
   const navigation = useNavigation();
+  const { dispatch } = useRegContext();
   const [selectedGender, setSelectedGender] = useState("");
+
+  const storeUserGenderInfo = (gender) => {
+    dispatch({ type: ACTIONS.SET_GENDER, payload: gender });
+  };
 
   return (
     <View style={Reg.background}>
       <RegBackground>
         <Text style={Reg.heading1}>Pick which best describes you</Text>
         <RegSelectButton
-          onGenderPress={(gender) => setSelectedGender(gender)}
-          selectedGender={selectedGender}
-          gender="Male"
+          onPress={(gender) => setSelectedGender(gender)}
+          selectedOption={selectedGender}
+          optionLabel="Male"
         />
         <RegSelectButton
-          onGenderPress={(gender) => setSelectedGender(gender)}
-          selectedGender={selectedGender}
-          gender="Female"
+          onPress={(gender) => setSelectedGender(gender)}
+          selectedOption={selectedGender}
+          optionLabel="Female"
         />
         <RegSelectButton
-          onGenderPress={(gender) => setSelectedGender(gender)}
-          selectedGender={selectedGender}
-          gender="Non-binary"
+          onPress={(gender) => setSelectedGender(gender)}
+          selectedOption={selectedGender}
+          optionLabel="Non-binary"
         />
         <RegSelectButton
-          onGenderPress={(gender) => setSelectedGender(gender)}
-          selectedGender={selectedGender}
-          gender="Prefer not to say"
+          onPress={(gender) => setSelectedGender(gender)}
+          selectedOption={selectedGender}
+          optionLabel="Prefer not to say"
         />
         <RegButton
           navigation={navigation}
-          screenName="Phone"
+          screenName="PfLocation"
+          onPress={() => storeUserGenderInfo(selectedGender)} // Store the selected gender
           disabled={selectedGender === ""}
         />
       </RegBackground>
@@ -45,16 +52,4 @@ const PfGender1 = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  signUpBody: {
-    overflow: "hidden",
-    paddingHorizontal: Padding.p_9xl,
-    paddingVertical: Padding.p_4xs,
-    alignItems: "center",
-    justifyContent: "center",
-    alignSelf: "stretch",
-    flex: 1,
-  },
-});
-
-export default PfGender1;
+export default PfGender;
