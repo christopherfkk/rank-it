@@ -46,7 +46,7 @@ const Ranking = () => {
                     <Text style={styles.headerText}>Ranking</Text>
                 </View>
 
-                {/*LOCATION TABS*/}
+                {/* LOCATION TABS
                 <View style={styles.location}>
                     <Pressable style={styles.locationTab}>
                         <Text style={styles.locationTabText}>Tokyo</Text>
@@ -54,7 +54,7 @@ const Ranking = () => {
                     <Pressable style={styles.locationTab}>
                         <Text style={styles.locationTabText}>CB Gym</Text>
                     </Pressable>
-                </View>
+                </View> */}
 
                 {/*SUBHEADING*/}
                 <View style={styles.subheading}>
