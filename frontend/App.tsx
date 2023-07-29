@@ -18,7 +18,7 @@ import PfAvailability from "./screens/setup/PfAvailability";
 import PfBirthday from "./screens/setup/PfBirthday";
 import PfAvatar from "./screens/setup/PfAvatar";
 import PfPhone from "./screens/setup/PfPhone";
-import PfGender1 from "./screens/setup/PfGender";
+import PfGender from "./screens/setup/PfGender";
 import PfLocation from "./screens/setup/PfLocation";
 import PfBlurb from "./screens/setup/PfBlurb";
 import PfName from "./screens/setup/PfName";
@@ -182,7 +182,7 @@ const InnerApp = ({hideSplashScreen}) => {
                     />
                     <Stack.Screen
                         name="PfGender"
-                        component={PfGender1}
+                        component={PfGender}
                         options={{headerShown: false}}
                     />
                     <Stack.Screen
