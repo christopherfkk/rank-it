@@ -35,7 +35,7 @@ const SlidersComponent = ({
       <RNESlider
         style={styles.slider}
         minimumValue={1}
-        maximumValue={10}
+        maximumValue={5}
         step={1}
         value={matchCompetitivenessValue}
         onValueChange={(value) => {
