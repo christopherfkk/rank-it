@@ -24,10 +24,11 @@ type ModalPostmatchfeedbackType = {
   onClose?: () => void;
   name: string;
   level: string;
-  opponentId: number
+  opponentId: number;
+  setRefresh: Function;
 };
 
-const ModalPostmatchfeedbackA = ({ visible, onClose, name, level, opponentId}: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedbackA = ({ visible, onClose, name, level, opponentId, setRefresh}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
   
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
@@ -87,6 +88,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, name, level, opponentId}: M
     });
 
     // Close the modal after submitting
+    setRefresh(true);
     onClose?.();
   };
     

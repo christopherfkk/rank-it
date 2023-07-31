@@ -11,7 +11,8 @@ type RankingContainerType = {
     avatar?: string;
     skill: number;
     self: boolean;
-    userData: any
+    userData: any;
+    setRefresh: Function;
 
     /** Action props: Navigates to the opponent profile */
     onFrameTouchableOpacityPress?: () => void;
@@ -23,6 +24,7 @@ const RankingContainer = memo(({
                                    avatar,
                                    skill,
                                    userData,
+                                   setRefresh,
                                    onFrameTouchableOpacityPress,
                                    self
                                }: RankingContainerType) => {
@@ -89,6 +91,7 @@ const RankingContainer = memo(({
                 <ModalPostmatchfeedbackA
                     visible={showFeedbackModal}
                     onClose={handleCloseModal}
+                    setRefresh = {setRefresh}
                     name={name}
                     level={userData.level ?? 'null'}
                     opponentId={userData.id}/>

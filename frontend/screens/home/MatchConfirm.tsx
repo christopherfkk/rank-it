@@ -43,11 +43,10 @@ const MatchConfirm = () => {
 
     useEffect(() => {
         fetchData();
-    }, []); // Empty dependency array, so it runs only once on mount
+    }, []); 
 
     useEffect(() => {
         const fetchMatchData = async () => {
-            console.log('notif',notification)
             if (notification.length === 0) {
                 setMatches([])
                 return; // Check if there are notifications
@@ -80,9 +79,7 @@ const MatchConfirm = () => {
     }, [notification, access]);
 
     useEffect(() => {
-        console.log('upper',refresh)
         if (refresh) {
-            console.log(refresh)
           fetchData(); // Fetch data when 'refresh' is true
           setRefresh(false); // Set 'refresh' back to false after fetching data
         }
