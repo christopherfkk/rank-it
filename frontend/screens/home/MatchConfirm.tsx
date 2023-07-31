@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, StyleSheet, View, Pressable, ScrollView, SafeAreaView} from "react-native";
-import {useNavigation} from "@react-navigation/native";
+import {Text, StyleSheet, View, ScrollView, SafeAreaView} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {format} from 'date-fns';
 
@@ -9,7 +8,6 @@ import {Padding, Border, FontFamily, FontSize, Color, Home} from "../../GlobalSt
 import apiConfig from '../../apiConfig';
 
 const MatchConfirm = () => {
-    const navigation = useNavigation();
     const [notification, setNotification] = useState([]);
     const [userId, setUserId] = useState();
     const [access, setAccess] = useState();

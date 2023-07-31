@@ -2,8 +2,6 @@ import React, {useEffect, useState} from "react";
 import {NavigationContainer, useNavigation} from "@react-navigation/native";
 import {useFonts} from "expo-font";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {View, Text, Pressable} from "react-native";
 import {useRegContext, RegContextProvider} from './RegContext';
 
 
@@ -25,8 +23,7 @@ import PfName from "./screens/setup/PfName";
 import PfSkill from "./screens/setup/PfSkill";
 import ProfileEdit from "./screens/home/ProfileEdit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import BottomTabs from "./BottomTabs"
-import apiConfig from './apiConfig';
+import BottomTabs from "./BottomTabs";
 
 const Stack = createNativeStackNavigator();
 
@@ -112,7 +109,6 @@ const InnerApp = ({hideSplashScreen}) => {
         checkLoginStatus();
     }, [state]);
 
-    //ask chatgpt
     return (
         <NavigationContainer>
             {hideSplashScreen ? (
