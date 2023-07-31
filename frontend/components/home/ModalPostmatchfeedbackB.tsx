@@ -25,9 +25,9 @@ type ModalPostmatchfeedbackType = {
   name: string;
   level: string;
   opponentId: number;
-  matchId:number
-  notifId: number
-  setRefresh: Function}
+  matchId:number;
+  notifId: number;
+  setRefresh: Function;}
 
 const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId, notifId, setRefresh}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
@@ -84,7 +84,7 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
         "submitter_score": opponentScore, // they are reversed due to backend database structure when confirming an existing match
         "opponent_score": submitterScore, // they are reversed due to backend database structure when confirming an existing match
         "peer_sportsmanship_rating_given": sportsmanshipValue,  // 1-5
-        "match_competitiveness_rating": matchCompetitivenessValue, // 1-10
+        "match_competitiveness_rating": matchCompetitivenessValue, // 1-5
         "peer_skill_level_given": null,  
         "peer_feedback_blurb_given": ""  
     }

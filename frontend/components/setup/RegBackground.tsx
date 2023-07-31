@@ -1,6 +1,6 @@
 import React from "react";
-import { ImageBackground, StyleSheet } from "react-native";
-import { Color, Reg} from "../../GlobalStyles";
+import { ImageBackground } from "react-native";
+import { Reg } from "../../GlobalStyles";
 
 const RegBackground = ({ children }) => {
   return (
