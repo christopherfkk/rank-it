@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
     ImageBackground,
-    StyleSheet,
     Text,
     TextInput,
     View,
@@ -10,10 +9,9 @@ import {
     Linking,
     SafeAreaView
 } from "react-native";
-import {Image} from "expo-image";
-import {useState, useEffect} from "react";
+import { useState } from "react";
 import {useNavigation} from "@react-navigation/native";
-import {Color, FontFamily, Border, FontSize, Padding, Auth} from "../../GlobalStyles";
+import { Auth } from "../../GlobalStyles";
 import apiConfig from "../../apiConfig";
 import BackButton from '../../components/home/BackButton';
 import GoogleSignInButton from "../../components/auth/GoogleSignInButton";
@@ -117,6 +115,7 @@ const Signup = () => {
                         keyboardType="default"
                         placeholderTextColor="#737373"
                         onChangeText={(text: string) => setPassword1(text)}
+                        secureTextEntry // Redact the password input
                         contextMenuHidden // Disable context menu (copy-paste actions)
                     />
                     <TextInput
@@ -125,6 +124,7 @@ const Signup = () => {
                         keyboardType="default"
                         placeholderTextColor="#737373"
                         onChangeText={(text: string) => setPassword2(text)}
+                        secureTextEntry // Redact the password input
                         contextMenuHidden // Disable context menu (copy-paste actions)
                     />
                 </View>

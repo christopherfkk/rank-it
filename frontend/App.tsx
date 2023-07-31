@@ -8,8 +8,6 @@ import {useRegContext, RegContextProvider} from './RegContext';
 
 
 import Login from "./screens/auth/Login";
-import OpponentMenu from "./screens/home/OpponentMenu";
-import Ranking from "./screens/home/Ranking";
 import Signup from "./screens/auth/Signup";
 import ResetPassword from "./screens/auth/ResetPassword";
 import LoadingPage from "./screens/LoadingPage";
@@ -111,7 +109,7 @@ const InnerApp = ({hideSplashScreen}) => {
                         !isLogIn
                             ? 'Login'
                             : !isRegistered
-                                ? 'PfStart'
+                                ? 'Login' //PfStart
                                 : 'BottomTabs' //BottomTabs
                     }
                     screenOptions={{headerShown: false}}
