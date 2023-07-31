@@ -142,8 +142,8 @@ const Signup = () => {
                 {error ? (
                     <Text style={Auth.errorText}>{error}</Text>
                 ) : null}
-                <GoogleSignInButton/>
 
+                {/* <GoogleSignInButton/> */}
 
                 <Pressable
                     onPress={() =>
