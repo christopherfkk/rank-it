@@ -22,12 +22,13 @@ type ModalPostmatchfeedbackType = {
   visible: boolean; // Add the 'visible' property to the type
   onClose?: () => void;
   opponentName: string;
+  selfName: string;
   level: string;
   opponentId: number;
   setRefresh: Function;
 };
 
-const ModalPostmatchfeedbackA = ({ visible, onClose, opponentName, level, opponentId, setRefresh}: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, level, opponentId, setRefresh}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
   
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
@@ -108,6 +109,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, opponentName, level, oppone
             onChangeYourScore={(score) => setSubmitterScore(score)}
             onChangeOpponentScore={(score) => setOpponentScore(score)}
             opponentName = {opponentName}
+            selfName = {selfName}
           />
           <StrengthGrid onButtonsPressed={handleButtonsPressed}/>
           <SlidersComponent
@@ -149,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   heading1: {
-    fontSize: 30,
+    fontSize: 35,
     letterSpacing: 1.2,
     fontFamily: FontFamily.bebasNeueRegular,
   },
