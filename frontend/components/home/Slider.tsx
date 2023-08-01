@@ -16,7 +16,7 @@ const SlidersComponent = ({
       <Text style={styles.label}>Sportsmanship Rating: {sportsmanshipValue}</Text>
       <RNESlider
         style={styles.slider}
-        minimumValue={1}
+        minimumValue={0}
         maximumValue={5}
         step={1}
         value={sportsmanshipValue}
@@ -34,7 +34,7 @@ const SlidersComponent = ({
       <Text style={styles.label}>Match Competitiveness: {matchCompetitivenessValue}</Text>
       <RNESlider
         style={styles.slider}
-        minimumValue={1}
+        minimumValue={0}
         maximumValue={5}
         step={1}
         value={matchCompetitivenessValue}

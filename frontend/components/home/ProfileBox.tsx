@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { Color, FontFamily, FontSize, Padding } from "../../GlobalStyles";
+import { Color, FontFamily, Padding } from "../../GlobalStyles";
 
 type ProfileBoxProps = {
     name: string;
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   profile: {
     flexDirection: "row",
     paddingVertical: 10,
-    marginTop: 6,
+    marginTop: 2,
     overflow: "hidden",
     justifyContent: "center",
   },
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "left",
     color: Color.gray_300,
+    marginBottom: 6
   },
   location: {
     flexDirection: "row",
