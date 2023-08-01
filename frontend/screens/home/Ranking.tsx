@@ -12,6 +12,7 @@ const Ranking = () => {
     const navigation = useNavigation();
     const [ranking, setRanking] = useState([])
     const [userId, setUserId] = useState()
+    const [userName, setUserName] = useState()
     const [refresh, setRefresh] = useState(false);
 
     const fetchData = async () => {
@@ -19,6 +20,7 @@ const Ranking = () => {
         try {
             const user = JSON.parse(await AsyncStorage.getItem('userInfo'))
             setUserId(user.id)
+            setUserName(user.first_name)
 
             const access = await AsyncStorage.getItem('accessToken')
             const response = await fetch(`${apiConfig.BASE_URL}/ranks/skill/`, {
@@ -94,6 +96,7 @@ const Ranking = () => {
                             opponentName={rank.user.first_name + " " + rank.user.last_name}
                             skill={rank.skill}
                             self={rank.user.id == userId}
+                            selfName = {userName}
                             setRefresh={setRefresh}
                             onFrameTouchableOpacityPress={() =>
                                 navigation.navigate("Profile",

@@ -7,6 +7,7 @@ import ChallengeButton from '../home/ChallengeButton';
 type RankingContainerType = {
     /** Text props */
     rank: number;
+    selfName: string;
     opponentName: string;
     avatar?: string;
     skill: number;
@@ -20,6 +21,7 @@ type RankingContainerType = {
 
 const RankingContainer = memo(({
                                    rank,
+                                   selfName,
                                    opponentName,
                                    avatar,
                                    skill,
@@ -92,6 +94,7 @@ const RankingContainer = memo(({
                     visible={showFeedbackModal}
                     onClose={handleCloseModal}
                     setRefresh = {setRefresh}
+                    selfName = {selfName}
                     opponentName={opponentName}
                     level={opponentData.level ?? 'null'}
                     opponentId={opponentData.id}/>
