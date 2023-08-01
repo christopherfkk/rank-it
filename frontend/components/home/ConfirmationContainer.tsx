@@ -25,6 +25,7 @@ const ConfirmationContainer = memo(
     setRefresh
     // onFrameTouchableOpacityPress,
   }: ConfirmationContainerType) => {
+    console.log(matchData)
     const [showFeedbackModal, setShowFeedbackModal] = useState(false);
     const handleRegButtonPress = () => {
       // Show the modal when RegButton is pressed

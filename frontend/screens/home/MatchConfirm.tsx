@@ -9,7 +9,6 @@ import apiConfig from '../../apiConfig';
 
 const MatchConfirm = () => {
     const [notification, setNotification] = useState([]);
-    const [userId, setUserId] = useState();
     const [access, setAccess] = useState();
     const [matches, setMatches] = useState([]);
     const [refresh, setRefresh] = useState(false);
