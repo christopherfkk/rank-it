@@ -16,7 +16,7 @@ const PfAvailability = () => {
       <ImageBackground
         style={styles.signUpBody}
         resizeMode="cover"
-        source={require("../../assets/signupbody.png")}
+        source={require("../../assets/badminton-bg.png")}
       >
         <RegSkipButton />
         <RegTitle

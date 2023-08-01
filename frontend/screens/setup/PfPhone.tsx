@@ -15,7 +15,7 @@ const PfPhone = () => {
       <ImageBackground
         style={[styles.signUpBody, styles.pfPhoneFlexBox]}
         resizeMode="cover"
-        source={require("../../assets/signupbody1.png")}
+        source={require("../../assets/badminton-bg.png")}
       >
         <RegTitle
           regtitle={`

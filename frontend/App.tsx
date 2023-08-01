@@ -16,7 +16,6 @@ import LoadingPage from "./screens/LoadingPage";
 import Profile from "./screens/home/Profile";
 import PfStart from "./screens/setup/PfStart";
 import PfAvailability from "./screens/setup/PfAvailability";
-import PfBirthday from "./screens/setup/PfBirthday";
 import PfAvatar from "./screens/setup/PfAvatar";
 import PfPhone from "./screens/setup/PfPhone";
 import PfGender1 from "./screens/setup/PfGender";
@@ -24,7 +23,6 @@ import PfLocation from "./screens/setup/PfLocation";
 import PfBlurb from "./screens/setup/PfBlurb";
 import PfName from "./screens/setup/PfName";
 import PfLevel from "./screens/setup/PfLevel";
-import ProfileEdit from "./screens/home/ProfileEdit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs"
 import apiConfig from './apiConfig';
@@ -155,11 +153,11 @@ const InnerApp = ({hideSplashScreen}) => {
                         component={PfAvailability}
                         options={{headerShown: false}}
                     />
-                    <Stack.Screen
-                        name="PfBirthday"
-                        component={PfBirthday}
-                        options={{headerShown: false}}
-                    />
+                    {/*<Stack.Screen*/}
+                    {/*    name="PfBirthday"*/}
+                    {/*    component={PfBirthday}*/}
+                    {/*    options={{headerShown: false}}*/}
+                    {/*/>*/}
                     <Stack.Screen
                         name="PfAvatar"
                         component={PfAvatar}
@@ -195,11 +193,11 @@ const InnerApp = ({hideSplashScreen}) => {
                         component={PfLevel}
                         options={{headerShown: false}}
                     />
-                    <Stack.Screen
-                        name="ProfileEdit"
-                        component={ProfileEdit}
-                        options={{headerShown: false}}
-                    />
+                    {/*<Stack.Screen*/}
+                    {/*    name="ProfileEdit"*/}
+                    {/*    component={ProfileEdit}*/}
+                    {/*    options={{headerShown: false}}*/}
+                    {/*/>*/}
                 </Stack.Navigator>
             ) : (
                 <LoadingPage/>
