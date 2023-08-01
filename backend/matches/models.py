@@ -184,13 +184,13 @@ class PostMatchFeedback(models.Model):
     )
     # Overall and sportsmanship of the other person (1-5 Uber stars)
     peer_sportsmanship_rating_given = models.IntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
         null=True,
         blank=True,
     )
     # Perceived competitiveness of the match (easy, moderate, hard sliding scale 1-10)
     match_competitiveness_rating = models.IntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
         null=True,
         blank=True,
     )
