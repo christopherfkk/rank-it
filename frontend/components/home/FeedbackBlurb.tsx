@@ -31,9 +31,6 @@ const FeedbackBlurb = ({ onChangeFeedbackText }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',

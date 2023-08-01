@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   Modal
 } from "react-native";
-import { Image } from "expo-image";
 import StrengthGrid from "./StrengthGrid"
 import PfButton1 from "./SubmitButton";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles";
@@ -65,7 +64,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, opponentName, level, oppone
         "peer_sportsmanship_rating_given": sportsmanshipValue,  // 1-5
         "match_competitiveness_rating": matchCompetitivenessValue, // 1-10
         "peer_skill_level_given": null,  
-        "peer_feedback_blurb_given": ""  
+        "peer_feedback_blurb_given": feedbackText 
     }
     console.log(feedbackData)
     // Perform the API request to send the feedback data to the backend
@@ -104,7 +103,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, opponentName, level, oppone
           <View style={styles.heading1box}>
             <Text style={styles.heading1}>Your Match with</Text>
           </View>
-          <ProfileBox name={opponentName} avatar={require("../../assets/avatar.png")} level={level} />
+          <ProfileBox name={opponentName} avatar={require("../../assets/empty-avatar.png")} level={level} />
           <InsertMatchScores
             onChangeYourScore={(score) => setSubmitterScore(score)}
             onChangeOpponentScore={(score) => setOpponentScore(score)}
