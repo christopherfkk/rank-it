@@ -54,14 +54,11 @@ const SlidersComponent = ({
 
 // add INTERVALS
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
     fontFamily: FontFamily.manropeBold,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   slider: {
     width: '100%',

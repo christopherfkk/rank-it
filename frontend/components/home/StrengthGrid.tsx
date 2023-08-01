@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { Color, FontFamily } from '../../GlobalStyles'
+import Icon from 'react-native-vector-icons/FontAwesome5'; // Import your desired icon library
+import {default as IconEntypo} from 'react-native-vector-icons/Entypo';
 
 const StrengthButton = ({ imageSource, title, isPressed, onPress }) => {
   return (
@@ -8,11 +10,23 @@ const StrengthButton = ({ imageSource, title, isPressed, onPress }) => {
       onPress={onPress}
       style={[
         styles.button,
-        { backgroundColor: isPressed ? Color.lavenderblush : 'white' },
+        { 
+          borderColor: isPressed ? 'darkgreen' : 'black', // change border color based on `isPressed`
+          backgroundColor: isPressed ? '#D4FFE0' : 'white'
+        },
       ]}
     >
-      <Image source={imageSource} style={styles.image} />
-      <Text style={[styles.subheading]}>{title}</Text>
+      <View style={{ flex: 0.4, alignItems: 'center' }}>  {/* make this view occupy 25% of the button width */}
+        <Icon
+          name={imageSource}
+          size={20}
+          color={isPressed ? 'darkgreen' : 'black'}
+          style={{ marginRight: 10 }}
+        />
+      </View>
+      <View style={{ flex: 0.6 }}>  {/* make this view occupy 75% of the button width */}
+        <Text style={[styles.subheading, { color: isPressed ? 'darkgreen' : 'black' }]}>{title}</Text> {/* change text color based on `isPressed` */}
+      </View>
     </TouchableOpacity>
   );
 };
@@ -21,33 +35,33 @@ const StrengthGrid = ({ onButtonsPressed }) => {
   const buttonsData = [
     {
       id: 1,
-      imageSource: require('../../assets/postmatch/agility.png'),
+      imageSource: 'running',
       title: 'Agility',
     },
     {
       id: 2,
-      imageSource: require('../../assets/postmatch/defense.png'),
+      imageSource: 'ban',
       title: 'Defense',
     },
     {
       id: 3,
-      imageSource: require('../../assets/postmatch/offense.png'),
-      title: 'Offense', //vector 3
+      imageSource: 'crosshairs',
+      title: 'Offense', 
     },
     {
       id: 4,
-      imageSource: require('../../assets/postmatch/cardio.png'),
-      title: 'Cardio',//img12
+      imageSource: "heartbeat",
+      title: 'Cardio',
     },
     {
       id: 5,
-      imageSource: require('../../assets/postmatch/footwork.png'),
-      title: 'Footwork',//img15
+      imageSource: 'shoe-prints',
+      title: 'Footwork',
     },
     {
       id: 6,
-      imageSource: require('../../assets/postmatch/reactiontime.png'),
-      title: 'Reaction Time',//img14
+      imageSource: 'clock',
+      title: 'Reaction Time',
     },
   ];
 
@@ -81,8 +95,8 @@ const StrengthGrid = ({ onButtonsPressed }) => {
 
 
   return (
-    <View style={[styles.container, { marginTop: 20 }]}>
-    <Text style={[styles.heading, {textAlign: "center"}]}>
+    <View style={[styles.container]}>
+    <Text style={[styles.heading, {textAlign: "center", marginBottom:10}]}>
     Opponent Strength
     </Text>
       {getButtonsInRows().map((row, rowIndex) => (
@@ -121,7 +135,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 100, // Set a fixed width for the buttons
+    width: 125, // Set a fixed width for the buttons
     borderRadius: 8,
     paddingVertical: 3, // Adjust the vertical padding
     paddingHorizontal: 15, // Adjust the horizontal padding
@@ -129,6 +143,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 3, // Adjust the margin
     backgroundColor: 'white',
+    borderColor: 'black', // Default border color
   },
   image: {
     width: 20,
