@@ -470,7 +470,7 @@ class PostMatchFeedbackWithoutOfferTest(TestCase):
             'reporter_is_submitter': False,
             'submitter_score': 21,
             'opponent_score': 15,
-            'match_competitiveness_rating': 8,
+            'match_competitiveness_rating': 4,
             'peer_skill_level_given': 8,
             'peer_sportsmanship_rating_given': 4,
             'peer_feedback_blurb_given': 'Definitely play Jin again. Great player.',
