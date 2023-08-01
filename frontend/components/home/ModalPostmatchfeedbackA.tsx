@@ -35,7 +35,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
   const [opponentScore, setOpponentScore] = useState(""); // State for "Opponent" score
   const [pressedButtonsList, setPressedButtonsList] = useState([]);
   const [sportsmanshipValue, setSportsmanshipValue] = useState(3);
-  const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(5);
+  const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(3);
   const [feedbackText, setFeedbackText] = useState('');
 
   const handleButtonsPressed = (pressedButtons) => {
@@ -63,7 +63,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
         "submitter_score": submitterScore, 
         "opponent_score": opponentScore,
         "peer_sportsmanship_rating_given": sportsmanshipValue,  // 1-5
-        "match_competitiveness_rating": matchCompetitivenessValue, // 1-10
+        "match_competitiveness_rating": matchCompetitivenessValue, // 1-5
         "peer_skill_level_given": null,  
         "peer_feedback_blurb_given": feedbackText 
     }
