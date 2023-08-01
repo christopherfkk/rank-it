@@ -15,7 +15,7 @@ const TimeSlotForm = memo(() => {
         <Image
           style={styles.addRingIcon}
           contentFit="cover"
-          source={require("../../assets/add-ring1.png")}
+          source={require("../../assets/add-ring-white.png")}
         />
         <View style={styles.birthday}>
           <View style={styles.year}>

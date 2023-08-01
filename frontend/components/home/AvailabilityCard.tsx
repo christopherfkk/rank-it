@@ -20,7 +20,7 @@ const AvailabilityCard = memo(() => {
           <Image
             style={styles.addRingIcon}
             contentFit="cover"
-            source={require("../../assets/add-ring.png")}
+            source={require("../../assets/add-ring-black.png")}
           />
           <Image
             style={[styles.birthdayIcon, styles.timeslotsFlexBox]}

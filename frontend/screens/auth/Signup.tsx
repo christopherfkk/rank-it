@@ -96,7 +96,7 @@ const Signup = () => {
                 <ImageBackground
                     style={Auth.memberPhotoIcon}
                     resizeMode="cover"
-                    source={require("../../assets/companylogo.png")}
+                    source={require("../../assets/rank-it-logo.png")}
                 />
                 <Text style={[Auth.heading1]}>
                     Create an Account
