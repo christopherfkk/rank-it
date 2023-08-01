@@ -17,18 +17,18 @@ const ProfileBox = ({ name, avatar, level }: ProfileBoxProps) => {
             <Text style={styles.fullName}>{name}</Text>
     
             <View style={styles.location}>
-              <Image
-                style={styles.iconLocation}
-                source={require("../../assets/profile/iconLocation.png")}
-              />
+              {/*<Image*/}
+              {/*  style={styles.iconLocation}*/}
+              {/*  source={require("../../assets/profile/iconLocation.png")}*/}
+              {/*/>*/}
               <Text style={styles.locationText}>CB Gym</Text>
             </View>
     
             <View style={styles.location}>
-              <Image
-                style={styles.iconLocation}
-                source={require("../../assets/profile/iconBadminton.png")}
-              />
+              {/*<Image*/}
+              {/*  style={styles.iconLocation}*/}
+              {/*  source={require("../../assets/profile/iconBadminton.png")}*/}
+              {/*/>*/}
               <Text style={styles.locationText}>{level}</Text>
             </View>
           </View>

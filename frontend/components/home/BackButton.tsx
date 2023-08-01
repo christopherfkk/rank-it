@@ -8,7 +8,7 @@ const BackButton = ({ onPress }) => {
       <Image
         style={styles.image}
         resizeMode="cover"
-        source={require("../../assets/leftbutton.png")}
+        source={require("../../assets/left-back-button.png")}
       />
 
       <Text style={styles.text}>Back</Text>

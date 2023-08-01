@@ -106,7 +106,7 @@ const Login = () => {
                 <ImageBackground
                     style={Auth.memberPhotoIcon}
                     resizeMode="cover"
-                    source={require("../../assets/companylogo.png")}
+                    source={require("../../assets/rank-it-logo.png")}
                 />
                 <Text style={[Auth.heading1]}>Log in to Rank-it</Text>
                 <View style={Auth.signupForm}>

@@ -45,7 +45,7 @@ const InsertMatchScores = () => {
             <Pressable onPress={() => handleDeleteRow(row.id)}>
               <Image
                 style={styles.deleteRingIcon}
-                source={require("../../assets/minus_icon.png")}
+                source={require("../../assets/minus-ring-black.png")}
               />
             </Pressable>
             <View style={{ flex: 1 }} />
@@ -66,7 +66,7 @@ const InsertMatchScores = () => {
           <Image
             style={styles.addRingIcon}
             contentFit="cover"
-            source={require("../../assets/add-ring.png")}
+            source={require("../../assets/add-ring-black.png")}
           />
         </Pressable>
       </View>

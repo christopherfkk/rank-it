@@ -63,7 +63,7 @@ const RankingContainer = memo(({
                             style={styles.avatar}
                             imageStyle={styles.avatar_image}
                             resizeMode="cover"
-                            source={require("../../assets/avatar.png")}
+                            source={require("../../assets/empty-avatar.png")}
                         />
 
                         <Text style={styles.name}>
