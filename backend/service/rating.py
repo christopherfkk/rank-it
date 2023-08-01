@@ -26,7 +26,7 @@ def update_rating(mu1, sigma1, score1, mu2, sigma2, score2):
     if score1 > score2:
         new_r1, new_r2 = rate_1vs1(r1, r2)
     elif score2 > score1:
-        new_r2, new_r1 = rate_1vs1(r2, r1)
+        new_r1, new_r2 = rate_1vs1(r2, r1)
     else:
         raise ValueError("Game score cannot be a draw")
 
