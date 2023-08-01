@@ -9,7 +9,7 @@ const LoadingPage = () => {
         <ImageBackground
           style={styles.Icon}
           resizeMode="cover"
-          source={require("../assets/companylogo.png")}
+          source={require("../assets/rank-it-logo.png")}
         />
       </View>
     </View>

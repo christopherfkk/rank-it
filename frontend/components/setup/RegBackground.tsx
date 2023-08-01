@@ -7,7 +7,7 @@ const RegBackground = ({ children }) => {
     <ImageBackground
       style={Reg.signUpBody}
       resizeMode="cover"
-      source={require("../../assets/badminton_background.png")}
+      source={require("../../assets/badminton-bg.png")}
     >
       {children}
     </ImageBackground>

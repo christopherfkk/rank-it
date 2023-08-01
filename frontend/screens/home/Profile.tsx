@@ -154,7 +154,7 @@ const Profile = ({route}: ProfileType) => {
                 >
                     {/* PHOTO AND SOME DETAILS */}
                     <ProfileHeader
-                        avatar={require("../../assets/avatar.png")}
+                        avatar={require("../../assets/empty-avatar.png")}
                         fullName={profile.first_name + " " + profile.last_name}
                         location="CB Gym, Tokyo"
                         skill={profile.level}
