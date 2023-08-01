@@ -2,14 +2,10 @@ import React, {useEffect, useState} from "react";
 import {NavigationContainer, useNavigation} from "@react-navigation/native";
 import {useFonts} from "expo-font";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {View, Text, Pressable} from "react-native";
 import {useRegContext, RegContextProvider} from './RegContext';
 
 
 import Login from "./screens/auth/Login";
-import OpponentMenu from "./screens/home/OpponentMenu";
-import Ranking from "./screens/home/Ranking";
 import Signup from "./screens/auth/Signup";
 import ResetPassword from "./screens/auth/ResetPassword";
 import LoadingPage from "./screens/LoadingPage";
@@ -18,14 +14,13 @@ import PfStart from "./screens/setup/PfStart";
 import PfAvailability from "./screens/setup/PfAvailability";
 import PfAvatar from "./screens/setup/PfAvatar";
 import PfPhone from "./screens/setup/PfPhone";
-import PfGender1 from "./screens/setup/PfGender";
+import PfGender from "./screens/setup/PfGender";
 import PfLocation from "./screens/setup/PfLocation";
 import PfBlurb from "./screens/setup/PfBlurb";
 import PfName from "./screens/setup/PfName";
 import PfLevel from "./screens/setup/PfLevel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import BottomTabs from "./BottomTabs"
-import apiConfig from './apiConfig';
+import BottomTabs from "./BottomTabs";
 
 const Stack = createNativeStackNavigator();
 
@@ -100,7 +95,6 @@ const InnerApp = ({hideSplashScreen}) => {
 
     }, []);
 
-    //ask chatgpt
     return (
         <NavigationContainer>
             {hideSplashScreen ? (
@@ -109,7 +103,7 @@ const InnerApp = ({hideSplashScreen}) => {
                         !isLogIn
                             ? 'Login'
                             : !isRegistered
-                                ? 'PfStart'
+                                ? 'Login' //PfStart
                                 : 'BottomTabs' //BottomTabs
                     }
                     screenOptions={{headerShown: false}}
@@ -170,7 +164,7 @@ const InnerApp = ({hideSplashScreen}) => {
                     />
                     <Stack.Screen
                         name="PfGender"
-                        component={PfGender1}
+                        component={PfGender}
                         options={{headerShown: false}}
                     />
                     <Stack.Screen

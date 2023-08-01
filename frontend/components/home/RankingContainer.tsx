@@ -7,11 +7,12 @@ import ChallengeButton from '../home/ChallengeButton';
 type RankingContainerType = {
     /** Text props */
     rank: number;
-    name: string;
+    opponentName: string;
     avatar?: string;
     skill: number;
     self: boolean;
-    userData: any
+    opponentData: any;
+    setRefresh: Function;
 
     /** Action props: Navigates to the opponent profile */
     onFrameTouchableOpacityPress?: () => void;
@@ -19,10 +20,11 @@ type RankingContainerType = {
 
 const RankingContainer = memo(({
                                    rank,
-                                   name,
+                                   opponentName,
                                    avatar,
                                    skill,
-                                   userData,
+                                   opponentData,
+                                   setRefresh,
                                    onFrameTouchableOpacityPress,
                                    self
                                }: RankingContainerType) => {
@@ -65,7 +67,7 @@ const RankingContainer = memo(({
                         />
 
                         <Text style={styles.name}>
-                            {name}
+                            {opponentName}
                         </Text>
                         <Text style={styles.skillText}>
                             {showSkill(skill)}
@@ -89,9 +91,10 @@ const RankingContainer = memo(({
                 <ModalPostmatchfeedbackA
                     visible={showFeedbackModal}
                     onClose={handleCloseModal}
-                    name={name}
-                    level={userData.level ?? 'null'}
-                    opponentId={userData.id}/>
+                    setRefresh = {setRefresh}
+                    opponentName={opponentName}
+                    level={opponentData.level ?? 'null'}
+                    opponentId={opponentData.id}/>
             </View>
         );
     }

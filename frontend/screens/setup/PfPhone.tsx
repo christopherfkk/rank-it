@@ -1,73 +1,85 @@
-import * as React from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import React, { useState } from 'react';
+import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import {
+  PhoneInput,
+  ICountry,
+  getCountryByCca2,
+} from 'react-native-international-phone-number';
+
 import RegTitle from "../../components/auth/RegTitle";
 import RegText from "../../components/auth/RegText";
 import RegTextInput from "../../components/auth/RegTextInput";
 import RegButton from "../../components/setup/RegButton"
-import { Padding, Color } from "../../GlobalStyles";
+import RegBackground from "../../components/setup/RegBackground";
 
+import { Reg } from "../../GlobalStyles";
+
+import { useRegContext, ACTIONS } from '../../RegContext';
+
+
+// reference from https://github.com/AstrOOnauta/react-native-international-phone-number
 const PfPhone = () => {
   const navigation = useNavigation();
+  const { state, dispatch } = useRegContext();
+  const [selectedCountry, setSelectedCountry] = useState(getCountryByCca2('JP'))
+  const [inputValue, setInputValue] = useState<string>('');
 
-  return (
-    <View style={[styles.pfPhone, styles.pfPhoneFlexBox]}>
-      <ImageBackground
-        style={[styles.signUpBody, styles.pfPhoneFlexBox]}
-        resizeMode="cover"
-        source={require("../../assets/badminton-bg.png")}
-      >
-        <RegTitle
-          regtitle={`
-What’s your phone number?`}
-          whatsYourFirstAndLastNameMarginTop="unset"
-          whatsYourFirstAndLastNameAlignSelf="stretch"
-          whatsYourFirstAndLastNameDisplay="unset"
-          whatsYourFirstAndLastNameAlignItems="unset"
-          whatsYourFirstAndLastNameJustifyContent="unset"
-          whatsYourFirstAndLastNameWidth="unset"
-        />
-        <RegText
-          youWontBeAbleToChangeThis="Your phone number will only be shared with opponents you have matched with, ensuring your privacy throughout the competitive badminton experience."
-          youWontBeAbleToChangeThisFontSize={10}
-          youWontBeAbleToChangeThisFontFamily="Manrope_bold"
-          youWontBeAbleToChangeThisColor="#fff"
-          youWontBeAbleToChangeThisTextAlign="left"
-          youWontBeAbleToChangeThisFontWeight="700"
-          youWontBeAbleToChangeThisAlignSelf="stretch"
-          youWontBeAbleToChangeThisWidth="unset"
-        />
-        <RegTextInput />
-        <RegButton
-          onPfButtonPress={() => navigation.navigate("PfSkill")}
-          pfButtonWidth={176}
-          pfButtonHeight={41}
-          button="Next"
-          pfButtonMarginTop={18}
-          pfButtonMarginLeft="unset"
-        />
-      </ImageBackground>
-    </View>
-  );
-};
+  function handleInputValue(phoneNumber: string) {
+    setInputValue(phoneNumber);
+    }
 
-const styles = StyleSheet.create({
-  pfPhoneFlexBox: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-  signUpBody: {
-    alignSelf: "stretch",
-    overflow: "hidden",
-    paddingHorizontal: Padding.p_9xl,
-    paddingVertical: Padding.p_4xs,
-  },
-  pfPhone: {
-    backgroundColor: Color.white,
-    width: "100%",
-    height: 655,
-  },
-});
+  function handleSelectedCountry(country: ICountry) {
+    setSelectedCountry(country);
+    }
+
+  const storeUserInfo = async (phoneNumber: string) => {
+    try {
+      // backend data of user is inserted
+      dispatch({ type: ACTIONS.SET_PHONE_NUMBER, payload: phoneNumber });
+
+    } catch (error) {
+      console.error("Error storing location in context:", error);
+    }
+  };
+return (
+  <View style={Reg.background}>
+    <RegBackground>
+    <Text style={Reg.heading1}>
+      {`What’s your Phone Number?`}
+    </Text>
+    <Text style={Reg.heading2}>
+      {`Your phone number will only be shared with opponents you have matched with, ensuring your privacy throughout the competitive badminton experience.`}
+    </Text>
+    <PhoneInput
+      value={inputValue}
+      onChangePhoneNumber={handleInputValue}
+      selectedCountry={selectedCountry}
+      onChangeSelectedCountry={handleSelectedCountry}
+      withDarkTheme
+      containerStyle={{
+        marginTop: 10,  // Set your desired margin here.
+      }}
+    />
+    {/* <View style={{ marginTop: 10 }}>
+      <Text>
+        Country:{' '}
+        {`${selectedCountry?.name} (${selectedCountry?.cca2})`}
+      </Text>
+      <Text>
+        Phone Number:{' '}
+        {`${selectedCountry?.callingCode} ${inputValue}`}
+      </Text>
+    </View> */}
+    <RegButton
+      navigation={navigation}
+      screenName="PfAvatar"
+      onPress={() => storeUserInfo(`${selectedCountry?.callingCode} ${inputValue}`)}
+      disabled={selectedCountry === undefined || inputValue.trim() === ""}
+    />
+    </RegBackground>
+  </View>
+);
+}
 
 export default PfPhone;

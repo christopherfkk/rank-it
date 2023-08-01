@@ -4,7 +4,7 @@ import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RankingContainer from "../../components/home/RankingContainer";
-import {Padding, Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
+import { Border, FontFamily, FontSize, Color, Home } from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
 
 const Ranking = () => {
@@ -12,30 +12,41 @@ const Ranking = () => {
     const navigation = useNavigation();
     const [ranking, setRanking] = useState([])
     const [userId, setUserId] = useState()
+    const [refresh, setRefresh] = useState(false);
+
+    const fetchData = async () => {
+
+        try {
+            const user = JSON.parse(await AsyncStorage.getItem('userInfo'))
+            setUserId(user.id)
+
+            const access = await AsyncStorage.getItem('accessToken')
+            const response = await fetch(`${apiConfig.BASE_URL}/ranks/skill/`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Token ${access}`
+                }
+            })
+            const data = await response.json();
+            setRanking(data)
+            console.log(data)
+        } catch {
+            console.error("NO RANKING: Can't fetch ranking")
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-
-            try {
-                const user = JSON.parse(await AsyncStorage.getItem('userInfo'))
-                setUserId(user.id)
-
-                const access = await AsyncStorage.getItem('accessToken')
-                const response = await fetch(`${apiConfig.BASE_URL}/ranks/skill/`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Token ${access}`
-                    }
-                })
-                const data = await response.json();
-                setRanking(data)
-                console.log(data)
-            } catch {
-                console.error("NO RANKING: Can't fetch ranking")
-            }
-        };
         fetchData();
     }, []);
+
+    // change later to see whether we can remove the first useEffect()
+    useEffect(() => {
+        if (refresh) {
+            console.log('autorefresh')
+          fetchData(); // Fetch data when 'refresh' is true
+          setRefresh(false); // Set 'refresh' back to false after fetching data
+        }
+      }, [refresh]);
 
     return (
         <SafeAreaView style={[Home.background]}>
@@ -78,11 +89,12 @@ const Ranking = () => {
                     {ranking.map((rank, index) => (
                         <RankingContainer
                             key={index + 1}
-                            userData={rank.user}
+                            opponentData={rank.user}
                             rank={index + 1}
-                            name={rank.user.first_name + " " + rank.user.last_name}
+                            opponentName={rank.user.first_name + " " + rank.user.last_name}
                             skill={rank.skill}
                             self={rank.user.id == userId}
+                            setRefresh={setRefresh}
                             onFrameTouchableOpacityPress={() =>
                                 navigation.navigate("Profile",
                                     {otherUserId: rank.user.id, self: rank.user.id == userId}

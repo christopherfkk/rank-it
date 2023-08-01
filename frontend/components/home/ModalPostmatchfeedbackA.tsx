@@ -22,12 +22,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 type ModalPostmatchfeedbackType = {
   visible: boolean; // Add the 'visible' property to the type
   onClose?: () => void;
-  name: string;
+  opponentName: string;
   level: string;
-  opponentId: number
+  opponentId: number;
+  setRefresh: Function;
 };
 
-const ModalPostmatchfeedbackA = ({ visible, onClose, name, level, opponentId}: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedbackA = ({ visible, onClose, opponentName, level, opponentId, setRefresh}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
   
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
@@ -87,6 +88,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, name, level, opponentId}: M
     });
 
     // Close the modal after submitting
+    setRefresh(true);
     onClose?.();
   };
     
@@ -102,10 +104,11 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, name, level, opponentId}: M
           <View style={styles.heading1box}>
             <Text style={styles.heading1}>Your Match with</Text>
           </View>
-          <ProfileBox name={name} avatar={require("../../assets/empty-avatar.png")} level={level} />
+          <ProfileBox name={opponentName} avatar={require("../../assets/avatar.png")} level={level} />
           <InsertMatchScores
             onChangeYourScore={(score) => setSubmitterScore(score)}
             onChangeOpponentScore={(score) => setOpponentScore(score)}
+            opponentName = {opponentName}
           />
           <StrengthGrid onButtonsPressed={handleButtonsPressed}/>
           <SlidersComponent

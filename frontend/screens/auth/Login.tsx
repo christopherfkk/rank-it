@@ -148,7 +148,7 @@ const Login = () => {
                     </Text>
                 </TouchableOpacity>
 
-                <GoogleSignInButton/>
+                {/* <GoogleSignInButton/> */}
 
                 <TouchableOpacity activeOpacity={0.2} onPress={() => navigation.navigate("Signup")}>
                     <Text style={[Auth.heading2]}>
