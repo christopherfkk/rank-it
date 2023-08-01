@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, StyleSheet, View, Pressable, ScrollView, SafeAreaView} from "react-native";
+import {Text, StyleSheet, View, Pressable, ScrollView, RefreshControl, SafeAreaView} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -14,6 +14,14 @@ const Ranking = () => {
     const [userId, setUserId] = useState()
     const [userName, setUserName] = useState()
     const [refresh, setRefresh] = useState(false);
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
 
     const fetchData = async () => {
 
@@ -87,7 +95,9 @@ const Ranking = () => {
                     showsVerticalScrollIndicator={true}
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.rankingScrollViewContent}
-                >
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> 
+                    }>
                     {ranking.map((rank, index) => (
                         <RankingContainer
                             key={index + 1}
