@@ -171,7 +171,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     overall_match_competitiveness_rating = models.FloatField(
         default=0.0,
-        validators=[MinValueValidator(0.0), MaxValueValidator(10.0)],
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
     )
     n_match_competitiveness_rating_received = models.IntegerField(
         default=0,

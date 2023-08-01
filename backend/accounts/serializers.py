@@ -40,6 +40,16 @@ class AccountSerializer(serializers.ModelSerializer):
         top_strengths = [strength for strength, count in sorted_strengths[:3]]
 
         return top_strengths
+    
+    # Override the behavior for 'overall_sportsmanship_rating' and 'overall_match_competitiveness_rating'
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+
+        # Round the 'overall_sportsmanship_rating' and 'overall_match_competitiveness_rating' fields to three deciman
+        representation['overall_sportsmanship_rating'] = round(instance.overall_sportsmanship_rating, 2)
+        representation['overall_match_competitiveness_rating'] = round(instance.overall_match_competitiveness_rating, 2)
+
+        return representation
 
 
 class CustomRegisterSerializer(RegisterSerializer):
