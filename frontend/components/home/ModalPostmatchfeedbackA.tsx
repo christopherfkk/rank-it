@@ -104,14 +104,18 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
           <View style={styles.heading1box}>
             <Text style={styles.heading1}>Your Match with</Text>
           </View>
+          <View style={styles.spacing} />
           <ProfileBox name={opponentName} avatar={require("../../assets/empty-avatar.png")} level={level} />
+          <View style={styles.spacing} />
           <InsertMatchScores
             onChangeYourScore={(score) => setSubmitterScore(score)}
             onChangeOpponentScore={(score) => setOpponentScore(score)}
             opponentName = {opponentName}
             selfName = {selfName}
           />
+          <View style={styles.spacing} />
           <StrengthGrid onButtonsPressed={handleButtonsPressed}/>
+          <View style={styles.spacing} />
           <SlidersComponent
             sportsmanshipValue={sportsmanshipValue}
             setSportsmanshipValue={setSportsmanshipValue}
@@ -120,10 +124,13 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
             onChangeSportsmanship={(score) => setSportsmanshipValue(score)}
             onChangeCompetitiveness={(score) => setMatchCompetitivenessValue(score)}
           />
+          <View style={styles.spacing} />
           <FeedbackBlurb onChangeFeedbackText={(text) => setFeedbackText(text)}/>
+          <View style={styles.spacing} />
           {matchScoresError && (
               <Text style={styles.errorText}>Please provide both your score and opponent's score.</Text>
           )}
+          <View style={styles.spacing} />
           <PfButton1 onPress ={handleSubmit}/> 
         </ScrollView>
       </SafeAreaView>
@@ -151,9 +158,12 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   heading1: {
-    fontSize: 35,
+    fontSize: 40,
     letterSpacing: 1.2,
     fontFamily: FontFamily.bebasNeueRegular,
+  },
+  spacing: {
+    height: 20, // Set the desired vertical spacing between components
   },
 });
 export default ModalPostmatchfeedbackA;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Image, StyleSheet } from 'react-native';
 import { Color, FontFamily, FontSize } from "../../GlobalStyles";
 
-const InsertMatchScores = ({ onChangeYourScore, onChangeOpponentScore, opponentName}) => {
+const InsertMatchScores = ({ onChangeYourScore, onChangeOpponentScore, selfName, opponentName}) => {
   const [yourScore, setYourScore] = useState('');
   const [opponentScore, setOpponentScore] = useState('');
   const [scoreError, setScoreError] = useState(false);
@@ -44,7 +44,7 @@ const InsertMatchScores = ({ onChangeYourScore, onChangeOpponentScore, opponentN
       <Text style={styles.heading}>Match Scores</Text>
       <View style={styles.insertMatchScores}>
         <View style={styles.inputContainer}>
-          <Text style={styles.subheading}>You</Text>
+          <Text style={styles.subheading}>{selfName}</Text>
           <TextInput
             style={[styles.timeBorder, scoreError && styles.errorBorder]} // Apply error border style if there's an error
             placeholder="Score"
