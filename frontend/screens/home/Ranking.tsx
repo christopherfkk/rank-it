@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {Text, StyleSheet, View, Pressable, ScrollView, RefreshControl, SafeAreaView} from "react-native";
+import {Text, StyleSheet, View, Pressable, ScrollView, RefreshControl, SafeAreaView, ActivityIndicator} from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -16,6 +16,8 @@ const Ranking = () => {
     const [refresh, setRefresh] = useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const onRefresh = React.useCallback(() => {
       setRefreshing(true);
       setTimeout(() => {
@@ -24,7 +26,7 @@ const Ranking = () => {
     }, []);
 
     const fetchData = async () => {
-
+        setIsLoading(true);
         try {
             const user = JSON.parse(await AsyncStorage.getItem('userInfo'))
             setUserId(user.id)
@@ -43,14 +45,19 @@ const Ranking = () => {
         } catch {
             console.error("NO RANKING: Can't fetch ranking")
         }
+        setIsLoading(false);
     };
 
     useFocusEffect(
         useCallback(() => {
-            console.log('focusEffect')
           fetchData();
         }, []) // The function will be re-run if any variables in this array change
         );
+    
+    if (isLoading) {
+        return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color= {Color.crimson_100} />
+    </View>)}
 
     return (
         <SafeAreaView style={[Home.background]}>

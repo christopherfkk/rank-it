@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from "react";
-import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView} from "react-native";
+import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator} from "react-native";
 import {Image} from "expo-image";
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {RouteProp} from "@react-navigation/native";
@@ -25,6 +25,8 @@ type ProfileType = {
 const Profile = ({route}: ProfileType) => {
 
     const navigation = useNavigation()
+
+    const [isLoading, setIsLoading] = useState(true);
 
     // Check if route.params is defined before destructuring
     const {otherUserId, self} = route.params || {otherUserId: null, self: true};
@@ -52,6 +54,7 @@ const Profile = ({route}: ProfileType) => {
     useFocusEffect(
         useCallback(() => {
             const fetchData = async () => {
+                setIsLoading(true);
                 const selfUserId = JSON.parse(await AsyncStorage.getItem('userInfo')).id
                 const userId = self ? selfUserId : otherUserId;
                 try {
@@ -68,8 +71,10 @@ const Profile = ({route}: ProfileType) => {
                 } catch {
                     console.error("NO PROFILE: Can't fetch profile")
                 }
+                setIsLoading(false);
             };
             fetchData();
+            
         }, [self])
     );
 
@@ -139,6 +144,14 @@ const Profile = ({route}: ProfileType) => {
         // Close the modal when the "Close" button is pressed
         setShowFeedbackModal(false);
     };
+
+    if (isLoading) {
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ActivityIndicator size="large" color= {Color.crimson_100} />
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={[Home.background]}>

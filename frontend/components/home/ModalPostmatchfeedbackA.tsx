@@ -93,8 +93,10 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
       console.error('Error sending feedback data:', error);
     });
 
-    // Close the modal after submitting
-    setRefresh(true);
+    // If it is not undefined (accessed via opponent profile), then set True
+    if (setRefresh) {
+      setRefresh(true);
+    }
     onClose?.();
   };
     
