@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Text, StyleSheet, View, Pressable, ScrollView, RefreshControl, SafeAreaView} from "react-native";
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RankingContainer from "../../components/home/RankingContainer";
@@ -45,18 +45,11 @@ const Ranking = () => {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    // change later to see whether we can remove the first useEffect()
-    useEffect(() => {
-        if (refresh) {
-            console.log('autorefresh')
-          fetchData(); // Fetch data when 'refresh' is true
-          setRefresh(false); // Set 'refresh' back to false after fetching data
-        }
-      }, [refresh]);
+    useFocusEffect(
+        useCallback(() => {
+          fetchData();
+        }, []) // The function will be re-run if any variables in this array change
+        );
 
     return (
         <SafeAreaView style={[Home.background]}>
