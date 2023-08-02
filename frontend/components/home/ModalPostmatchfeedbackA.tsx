@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import StrengthGrid from "./StrengthGrid"
 import PfButton1 from "./SubmitButton";
-import { Color, FontFamily, FontSize } from "../../GlobalStyles";
+import { Color, FontFamily } from "../../GlobalStyles";
 import InsertMatchScores from "./InsertMatchScores";
 import SlidersComponent from "./Slider";
 import FeedbackBlurb from "./FeedbackBlurb";

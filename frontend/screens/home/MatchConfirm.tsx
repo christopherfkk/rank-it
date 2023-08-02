@@ -13,6 +13,8 @@ const MatchConfirm = () => {
     // const [access, setAccess] = useState();
     const [matches, setMatches] = useState([]);
     const [refresh, setRefresh]  = useState(false)
+    const [selfId, setSelfId] = useState()
+    const [selfName, setSelfName] = useState()
 
     const formatDate = (datetime) => {
         const date = new Date(datetime);
@@ -23,7 +25,8 @@ const MatchConfirm = () => {
         try {
             // Fetch the accessToken
             const accessToken = await AsyncStorage.getItem('accessToken');
-            console.log(accessToken)
+            const selfInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
+            setSelfName(selfInfo.first_name)
             // setAccess(accessToken);
 
             // Fetch the notifications
@@ -115,9 +118,11 @@ const MatchConfirm = () => {
                         <ConfirmationContainer
                             key={index + 1}
                             matchData={match}
-                            name={match.submitter.first_name + " " + match.submitter.last_name}
+                            opponentName={match.submitter.first_name + " " + match.submitter.last_name}
                             date={formatDate(match.updated_at)}
                             setRefresh={setRefresh}
+                            selfId = {selfId}
+                            selfName = {selfName}
                         />
                     ))}
                 </ScrollView>

@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView} from "react-native";
 import {Image} from "expo-image";
-import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {RouteProp} from "@react-navigation/native";
 
 import {Padding, Color, FontSize, FontFamily, Border, Home, ProfileStyles} from "../../GlobalStyles";
@@ -25,7 +25,6 @@ type ProfileType = {
 const Profile = ({route}: ProfileType) => {
 
     const navigation = useNavigation()
-    const isFocused = useIsFocused();
 
     // Check if route.params is defined before destructuring
     const {otherUserId, self} = route.params || {otherUserId: null, self: true};
@@ -50,31 +49,29 @@ const Profile = ({route}: ProfileType) => {
         setEditedBioText(bioText); // Assuming you have `bioText` state in the `Profile` component
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-
-            const selfUserId = JSON.parse(await AsyncStorage.getItem('userInfo')).id
-            const userId = self ? selfUserId : otherUserId;
-
-            try {
-                const access = await AsyncStorage.getItem('accessToken')
-                const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}/`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Token ${access}`
-                    }
-                })
-                const data = await response.json();
-                setProfile(data)
-                console.log(data)
-            } catch {
-                console.error("NO PROFILE: Can't fetch profile")
-            }
-        };
-        if (isFocused) {
+    useFocusEffect(
+        useCallback(() => {
+            const fetchData = async () => {
+                const selfUserId = JSON.parse(await AsyncStorage.getItem('userInfo')).id
+                const userId = self ? selfUserId : otherUserId;
+                try {
+                    const access = await AsyncStorage.getItem('accessToken')
+                    const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}/`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Token ${access}`
+                        }
+                    })
+                    const data = await response.json();
+                    setProfile(data)
+                    console.log(data)
+                } catch {
+                    console.error("NO PROFILE: Can't fetch profile")
+                }
+            };
             fetchData();
-        }
-    }, [isFocused, self]);
+        }, [self])
+    );
 
     const handleSaveButtonPress = async () => {
         try {

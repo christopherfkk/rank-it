@@ -47,6 +47,7 @@ const Ranking = () => {
 
     useFocusEffect(
         useCallback(() => {
+            console.log('focusEffect')
           fetchData();
         }, []) // The function will be re-run if any variables in this array change
         );

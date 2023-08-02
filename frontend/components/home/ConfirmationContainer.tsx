@@ -6,24 +6,24 @@ import { Color, FontFamily, FontSize, Border, Padding } from "../../GlobalStyles
 
 type ConfirmationContainerType = {
   /** Text props */
-  name: string;
+  opponentName: string;
   avatar?: string;
   date: string;
   matchData: any;
   setRefresh: Function;
-
-  /** Action props: Navigates to the opponent profile */
-  onFrameTouchableOpacityPress?: () => void;
+  selfId: string;
+  selfName: string;
 };
 
 const ConfirmationContainer = memo(
   ({
-    name,
+    opponentName,
     avatar,
     date,
     matchData,
-    setRefresh
-    // onFrameTouchableOpacityPress,
+    setRefresh, 
+    selfName, 
+    selfId
   }: ConfirmationContainerType) => {
     const [showFeedbackModal, setShowFeedbackModal] = useState(false);
     const handleRegButtonPress = () => {
@@ -47,7 +47,7 @@ const ConfirmationContainer = memo(
               resizeMode="cover"
               source={require("../../assets/empty-avatar.png")}
             />
-              <Text style={styles.name}>{name}</Text>
+              <Text style={styles.name}>{opponentName}</Text>
               <Text style={styles.skillText}>{date}</Text>
           </View>
 
@@ -56,7 +56,9 @@ const ConfirmationContainer = memo(
         <ModalPostmatchfeedbackB
           visible={showFeedbackModal}
           onClose={handleCloseModal}
-          name={name}
+          name={opponentName}
+          selfName = {selfName}
+          selfId = {selfId}
           level={matchData.submitter.level}
           opponentId={matchData.submitter.id}
           matchId={matchData.id}
