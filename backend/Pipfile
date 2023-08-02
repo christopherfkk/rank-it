@@ -17,6 +17,7 @@ pillow = "*"
 requests = "==2.31.0"
 charset-normalizer = "==3.1.0"
 trueskill = "*"
+django-channels = "*"
 
 [dev-packages]
 
