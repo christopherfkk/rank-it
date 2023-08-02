@@ -137,6 +137,13 @@ CHANNEL_LAYERS = {
     },
 }
 
+CELERY_BEAT_SCHEDULE = {
+    'task-real': {
+        'task': 'latest_ranking_task',
+        'schedule': 3 # this means, the task will run itself every second
+    },
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

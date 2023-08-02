@@ -19,6 +19,7 @@ charset-normalizer = "==3.1.0"
 trueskill = "*"
 channels = "*"
 daphne = "*"
+celery = "*"
 
 [dev-packages]
 
