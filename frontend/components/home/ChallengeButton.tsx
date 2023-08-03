@@ -1,52 +1,27 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Pressable, Text, StyleSheet } from "react-native";
 import { FontSize, FontFamily, Color, Border, Padding } from "../../GlobalStyles";
 
 type RegButtonType = {
-  pfButtonWidth: number | string;
-  pfButtonHeight: number | string;
   button: string;
-  pfButtonMarginTop: string;
-  pfButtonFlex: number;
-  pfButtonMarginLeft: number | string;
+  textColor?: string;
+  backgroundColor?: string;
   onPress?: () => void; // Add the onPress prop here
 };
 
-const getStyleValue = (key: string, value: string | number | undefined) => {
-  if (value === undefined) return;
-  return { [key]: value === "unset" ? undefined : value };
-};
 const ChallengeButton = ({
   onPress,
-  pfButtonWidth,
-  pfButtonHeight,
   button,
-  pfButtonMarginTop,
-  pfButtonFlex,
-  pfButtonMarginLeft,
+  textColor = Color.crimson_200,  // default text color
+  backgroundColor = Color.white,  // default background color
 }: RegButtonType) => {
-  const pfButtonStyle = useMemo(() => {
-    return {
-      ...getStyleValue("width", pfButtonWidth),
-      ...getStyleValue("height", pfButtonHeight),
-      ...getStyleValue("marginTop", pfButtonMarginTop),
-      ...getStyleValue("flex", pfButtonFlex),
-      ...getStyleValue("marginLeft", pfButtonMarginLeft),
-    };
-  }, [
-    pfButtonWidth,
-    pfButtonHeight,
-    pfButtonMarginTop,
-    pfButtonFlex,
-    pfButtonMarginLeft,
-  ]);
 
   return (
     <Pressable
-      style={[styles.pfButton, pfButtonStyle]}
+      style={[styles.pfButton, { backgroundColor }]}
       onPress={onPress}
     >
-      <Text style={styles.button} numberOfLines={3}>
+      <Text style={[styles.button, { color: textColor }]} numberOfLines={3}>
         {button}
       </Text>
     </Pressable>
@@ -55,23 +30,27 @@ const ChallengeButton = ({
 
 const styles = StyleSheet.create({
   button: {
+    flex: 1,
     fontSize: FontSize.size_2xs,
     fontFamily: FontFamily.bebasNeueRegular,
-    color: Color.crimson_200,
+    color: Color.white,
     textAlign: "center",
-    width: "100%",
   },
   pfButton: {
     borderRadius: Border.br_11xs,
-    backgroundColor: Color.white,
+    backgroundColor: Color.crimson_100,
     shadowColor: "rgba(0, 0, 0, 0.25)",
     shadowOffset: {
       width: 0,
       height: 4,
     },
     shadowRadius: 4,
+    elevation: 4,
     shadowOpacity: 1,
+    width: 134,
+    height: 32,
     flexDirection: "row",
+    padding: Padding.p_mini,
     alignItems: "center",
     justifyContent: "center",
   },

@@ -4,7 +4,7 @@ import {Image} from "expo-image";
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {RouteProp} from "@react-navigation/native";
 
-import {Padding, Color, FontSize, FontFamily, Border, Home, ProfileStyles} from "../../GlobalStyles";
+import {Padding, Color,  Home, ProfileStyles} from "../../GlobalStyles";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import ChallengeButton from '../../components/home/ChallengeButton';
@@ -184,24 +184,17 @@ const Profile = ({route}: ProfileType) => {
                             <Text style={ProfileStyles.buttonText}>
                                 Edit Bio
                             </Text>
-                        </Pressable> :
-                        // Challenge Button
-                        <ChallengeButton
-                            pfButtonWidth={"100%"}
-                            pfButtonHeight={"100%"}
-                            button="challenge"
-                            pfButtonMarginTop="unset"
-                            pfButtonFlex={1}
-                            pfButtonMarginLeft="unset"
-                            onPress={handleRegButtonPress}
-                        />}
+                        </Pressable> : null}
 
                     <ModalPostmatchfeedbackA
                         visible={showFeedbackModal}
                         onClose={handleCloseModal}
                         name={profile.first_name + " " + profile.last_name}
                         level={profile.level ?? 'null'}
-                        opponentId={profile.id}/>
+                        opponentId={profile.id}
+                        // selfName = {}
+                        // opponentName = {}
+                        />
 
                     {/* MORE PROFILE DETAILS */}
                     <ProfileDetails
@@ -226,6 +219,14 @@ const Profile = ({route}: ProfileType) => {
                         </View>
                         : null}
 
+                    {!self ?                         
+                    // Challenge Button
+                    <ChallengeButton
+                    button="record"
+                    backgroundColor= {Color.crimson_200}
+                    textColor= {Color.white}
+                    onPress={handleRegButtonPress}
+                  />: null}
 
                 </ScrollView>
             </View>

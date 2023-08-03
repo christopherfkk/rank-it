@@ -24,6 +24,8 @@ django-celery-beat = "*"
 django-celery-results = "*"
 redis = "*"
 twisted = "*"
+channels-redis = "*"
+async-timeout = "*"
 
 [dev-packages]
 

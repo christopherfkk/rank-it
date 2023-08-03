@@ -57,9 +57,10 @@ const Ranking = () => {
         useFocusEffect(
             useCallback(() => {
               fetchData();
-            }, []) // The function will be re-run if any variables in this array change
-            );
 
+            }, [refresh]) // The function will be re-run if any variables in this array change
+            )
+            
         if (isLoading) {
             return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <ActivityIndicator size="large" color= {Color.crimson_100} />
@@ -102,8 +103,6 @@ const Ranking = () => {
                         showsVerticalScrollIndicator={true}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.rankingScrollViewContent}
-                        // refreshControl={
-                        //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
                     >
                         {ranking.map((rank, index) => (
                             <RankingContainer

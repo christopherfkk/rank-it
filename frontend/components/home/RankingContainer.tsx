@@ -30,7 +30,6 @@ const RankingContainer = memo(({
                                    onFrameTouchableOpacityPress,
                                    self
                                }: RankingContainerType) => {
-        const backgroundColor = self ? Color.dimgray_100 : Color.lavenderblush;
         const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
         const handleRegButtonPress = () => {
@@ -47,6 +46,8 @@ const RankingContainer = memo(({
             // Origin Trueskill from backend is 1-100 with many decimals
             return Math.round(skill*10) + 100
         }
+
+        const backgroundColor = rank === 1 ? "#FFF994" : rank === 2 ? Color.dimgray_100 : rank === 3 ? "#C39C78" : self ? Color.dimgray_100 : Color.lavenderblush;
 
         return (
             <View style={[styles.rankingContainer, {backgroundColor}]}>

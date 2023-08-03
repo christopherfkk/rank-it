@@ -94,6 +94,8 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
     console.log(feedbackData)
     // Perform the API request to send the feedback data to the backend
     // Example using fetch:
+
+    const access = await AsyncStorage.getItem('accessToken')
     fetch(`${apiConfig.BASE_URL}/postmatchfeedback/`, {
       method: 'POST',
       headers: {

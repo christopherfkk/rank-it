@@ -16,7 +16,8 @@ const StrengthButton = ({ imageSource, title, isPressed, onPress }) => {
         },
       ]}
     >
-      <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'center' }}>  {/* make this view occupy 25% of the button width */}
+
+      <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'center' }}>
         <Icon
           name={imageSource}
           size={20}
@@ -24,8 +25,8 @@ const StrengthButton = ({ imageSource, title, isPressed, onPress }) => {
           style={{ marginRight: 10 }}
         />
       </View>
-      <View style={{ flex: 0.7, alignItems: 'center', justifyContent: 'center' }}>  {/* make this view occupy 75% of the button width */}
-        <Text style={[styles.subheading, { color: isPressed ? 'darkgreen' : 'black' }]}>{title}</Text> {/* change text color based on `isPressed` */}
+      <View style={{ flex: 0.7, alignItems: 'center', justifyContent: 'center' }}>  
+        <Text style={[styles.subheading, { color: isPressed ? 'darkgreen' : 'black' }]}>{title}</Text> 
       </View>
     </TouchableOpacity>
   );
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 120, // Set a fixed width for the buttons
+    width: 180, // Set a fixed width for the buttons
     borderRadius: 8,
     paddingVertical: 3, // Adjust the vertical padding
     paddingHorizontal: 15, // Adjust the horizontal padding

@@ -25,7 +25,7 @@ const FeedbackBlurb = ({ onChangeFeedbackText }) => {
         multiline
         style={styles.input}
       />
-      <Text style={styles.characterCount}>{maxLength - text.length} characters remaining</Text>
+      <Text style={styles.characterCount}>{text.length}/{maxLength } characters</Text>
     </View>
   );
 };

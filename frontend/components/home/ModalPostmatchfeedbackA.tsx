@@ -93,7 +93,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
       console.error('Error sending feedback data:', error);
     });
 
-    // If it is not undefined (accessed via opponent profile), then set True
+    // If it is not undefined (accessed via)
     if (setRefresh) {
       setRefresh(true);
     }
@@ -134,12 +134,12 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
           />
           <View style={styles.spacing} />
           <FeedbackBlurb onChangeFeedbackText={(text) => setFeedbackText(text)}/>
-          <View style={styles.spacing} />
+          <View style={styles.spacing} /> 
           {matchScoresError && (
               <Text style={styles.errorText}>{errorMessage}</Text>
           )}
           <View style={styles.spacing} />
-          <PfButton1 onPress ={handleSubmit}/> 
+          <PfButton1 onPress ={handleSubmit}/>  
         </ScrollView>
       </SafeAreaView>
     </Modal>
