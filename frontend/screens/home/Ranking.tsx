@@ -4,10 +4,30 @@ import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import RankingContainer from "../../components/home/RankingContainer";
-import { Border, FontFamily, FontSize, Color, Home } from "../../GlobalStyles";
+import {Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
 
 const Ranking = () => {
+
+    let ws = new WebSocket('ws://127.0.0.1:8000/ws/ranking/');
+
+    ws.onopen = (e) => {
+        console.log('Websocket Opened');
+    };
+
+    ws.onmessage = (e) => {
+        console.log('Websocket Received');
+        console.log(JSON.parse(e.data));
+        setRanking(JSON.parse(e.data).ranking);
+    };
+
+    ws.onerror = (e) => {
+        console.log(e);
+    };
+
+    ws.onclose = (e) => {
+        console.log(e.code, e.reason);
+    };
 
     const navigation = useNavigation();
     const [ranking, setRanking] = useState([])
@@ -16,13 +36,13 @@ const Ranking = () => {
     const [refresh, setRefresh] = useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
 
-    const onRefresh = React.useCallback(() => {
-      setRefreshing(true);
-      setTimeout(() => {
-        setRefreshing(false);
-      }, 2000);
-    }, []);
-
+    // const onRefresh = React.useCallback(() => {
+    //     setRefreshing(true);
+    //     setTimeout(() => {
+    //         setRefreshing(false);
+    //     }, 2000);
+    // }, []);
+    //
     const fetchData = async () => {
 
         try {
@@ -49,14 +69,14 @@ const Ranking = () => {
         fetchData();
     }, []);
 
-    // change later to see whether we can remove the first useEffect()
-    useEffect(() => {
-        if (refresh) {
-            console.log('autorefresh')
-          fetchData(); // Fetch data when 'refresh' is true
-          setRefresh(false); // Set 'refresh' back to false after fetching data
-        }
-      }, [refresh]);
+    // // change later to see whether we can remove the first useEffect()
+    // useEffect(() => {
+    //     if (refresh) {
+    //         console.log('autorefresh')
+    //         fetchData(); // Fetch data when 'refresh' is true
+    //         setRefresh(false); // Set 'refresh' back to false after fetching data
+    //     }
+    // }, [refresh]);
 
     return (
         <SafeAreaView style={[Home.background]}>
@@ -95,9 +115,9 @@ const Ranking = () => {
                     showsVerticalScrollIndicator={true}
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.rankingScrollViewContent}
-                    refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> 
-                    }>
+                    // refreshControl={
+                    //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+                >
                     {ranking.map((rank, index) => (
                         <RankingContainer
                             key={index + 1}
@@ -106,7 +126,7 @@ const Ranking = () => {
                             opponentName={rank.user.first_name + " " + rank.user.last_name}
                             skill={rank.skill}
                             self={rank.user.id == userId}
-                            selfName = {userName}
+                            selfName={userName}
                             setRefresh={setRefresh}
                             onFrameTouchableOpacityPress={() =>
                                 navigation.navigate("Profile",

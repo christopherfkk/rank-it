@@ -20,6 +20,9 @@ trueskill = "*"
 channels = "*"
 daphne = "*"
 celery = "*"
+django-celery-beat = "*"
+django-celery-results = "*"
+redis = "*"
 
 [dev-packages]
 

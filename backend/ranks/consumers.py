@@ -1,9 +1,9 @@
 import json
-
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
-from .models import Room
+from .models import Skill
+from .serializer import SkillSerializer
 
 
 class RankingConsumer(WebsocketConsumer):
@@ -29,16 +29,7 @@ class RankingConsumer(WebsocketConsumer):
         )
 
     def receive(self, text_data=None, bytes_data=None):
-        print(f"Received text data {text_data}")
-        # Send chat message event to the room
-        async_to_sync(self.channel_layer.group_send)(
-            self.group_name,
-            {
-                'type': 'latest_ranking',
-                'ranking': text_data,
-            }
-        )
+        pass
 
     def latest_ranking(self, event):
-        print(f"Latest ranking {event}")
         self.send(text_data=json.dumps(event))

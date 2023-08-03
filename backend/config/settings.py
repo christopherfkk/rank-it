@@ -67,6 +67,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'drf_spectacular',
+
+    'django_celery_results',
+    'django_celery_beat',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -121,6 +124,8 @@ REST_AUTH = {
 ACCOUNT_ADAPTER = 'accounts.adapter.CustomAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'accounts.adapter.CustomSocialAccountAdapter'
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
 SPECTACULAR_SETTINGS = {
     "TITLE": "RankIt backend",
     "DESCRIPTION": "A Django REST API server for the RankIt mobile app",
@@ -129,18 +134,27 @@ SPECTACULAR_SETTINGS = {
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': "channels.layers.InMemoryChannelLayer",
-        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        # 'CONFIG': {
-        #     "hosts": [('127.0.0.1', 6379)],
-        # },
+        # 'BACKEND': "channels.layers.InMemoryChannelLayer",
+        # 'hosts': [('localhost', )],
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
     },
 }
 
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TIMEZONE = 'Asia/Tokyo'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BEAT_SCHEDULE = {
     'task-real': {
         'task': 'latest_ranking_task',
-        'schedule': 3 # this means, the task will run itself every second
+        'schedule': 10  # this means, the task will run itself every second
     },
 }
 
@@ -251,11 +265,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

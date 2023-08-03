@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import {
-  PhoneInput,
-  ICountry,
-  getCountryByCca2,
-} from 'react-native-international-phone-number';
+// import {
+//   PhoneInput,
+//   ICountry,
+//   getCountryByCca2,
+// } from 'react-native-international-phone-number';
 
 import RegTitle from "../../components/auth/RegTitle";
 import RegText from "../../components/auth/RegText";
