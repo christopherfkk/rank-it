@@ -6,8 +6,23 @@ import {format} from 'date-fns';
 import ConfirmationContainer from "../../components/home/ConfirmationContainer";
 import {Padding, Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 const MatchConfirm = () => {
+
+    const socket = useSelector((state: RootState) => state.webSocketStore.socket_notifs);
+
+    useEffect(() => {
+        if (socket) {
+            socket.onmessage = (e) => {
+                console.log('Websocket Notif Received');
+                console.log(JSON.parse(e.data).notification);
+                setNotification(JSON.parse(e.data).notification);
+            };
+        }
+    }, [socket]);
+
     const [notification, setNotification] = useState([]);
     const [access, setAccess] = useState();
     const [matches, setMatches] = useState([]);
@@ -40,7 +55,7 @@ const MatchConfirm = () => {
 
     useEffect(() => {
         fetchData();
-    }, []); 
+    }, []);
 
     useEffect(() => {
         const fetchMatchData = async () => {
@@ -77,10 +92,10 @@ const MatchConfirm = () => {
 
     useEffect(() => {
         if (refresh) {
-          fetchData(); // Fetch data when 'refresh' is true
-          setRefresh(false); // Set 'refresh' back to false after fetching data
+            fetchData(); // Fetch data when 'refresh' is true
+            setRefresh(false); // Set 'refresh' back to false after fetching data
         }
-      }, [refresh]);
+    }, [refresh]);
 
     return (
         <SafeAreaView style={[Home.background]}>
@@ -90,10 +105,11 @@ const MatchConfirm = () => {
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Confirmation</Text>
                 </View>
-                <Text>To record the match in the ranking, both players must confirm the post-match feedback after completing the game.</Text>
+                <Text>To record the match in the ranking, both players must confirm the post-match feedback after
+                    completing the game.</Text>
                 {/*SUBHEADING*/}
                 <View style={styles.subheading}>
-                <Text style={[styles.subheadingText, {width: "110%"}]}>
+                    <Text style={[styles.subheadingText, {width: "110%"}]}>
                         OPPONENT
                     </Text>
                     <Text style={[styles.subheadingText, {width: "70%"}]}>

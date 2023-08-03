@@ -102,20 +102,34 @@ const InnerApp = ({hideSplashScreen}) => {
 
     useEffect(() => {
         // Init websocket
-        const initWebSocket = () => {
-            console.log(isLogIn, isRegistered)
+        const initWebSocketRanks = () => {
             if (isLogIn && isRegistered) {
-                let socker = new WebSocket('ws://127.0.0.1:8000/ws/ranking/');
-                socker.onopen = (e) => {
-                    console.log('Websocket Opened');
+                let socket = new WebSocket('ws://127.0.0.1:8000/ws/ranking/');
+                socket.onopen = (e) => {
+                    console.log('Websocket Ranks Opened');
                     dispatch({
-                        type: WebSocketActionTypes.INIT,
-                        payload: socker
+                        type: WebSocketActionTypes.INIT_RANKS,
+                        payload: socket
                     });
                 };
             }
         }
-        initWebSocket();
+        const initWebSocketNotifs = async () => {
+            if (isLogIn && isRegistered) {
+                const userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
+                let socket = new WebSocket(`ws://127.0.0.1:8000/ws/notifications/user/${userInfo.id}/`);
+                socket.onopen = (e) => {
+                    console.log('Websocket Notifs Opened');
+                    dispatch({
+                        type: WebSocketActionTypes.INIT_NOTIFS,
+                        payload: socket
+                    });
+                };
+            }
+        }
+
+        initWebSocketRanks();
+        initWebSocketNotifs();
     }, [isLogIn, isRegistered]);
 
     return (

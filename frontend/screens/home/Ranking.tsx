@@ -11,12 +11,12 @@ import {RootState} from '../../store';
 
 const Ranking = () => {
 
-        const socket = useSelector((state: RootState) => state.webSocketStore.socket);
+        const socket = useSelector((state: RootState) => state.webSocketStore.socket_ranks);
 
         useEffect(() => {
             if (socket) {
                 socket.onmessage = (e) => {
-                    console.log('Websocket Received');
+                    console.log('Websocket Ranking Received');
                     console.log(JSON.parse(e.data).ranking);
                     setRanking(JSON.parse(e.data).ranking);
                 };
