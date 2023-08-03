@@ -2,105 +2,86 @@ import React, {useState, useEffect} from 'react';
 import {Text, StyleSheet, View, Pressable, ScrollView, RefreshControl, SafeAreaView} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useSelector} from 'react-redux';
 
 import RankingContainer from "../../components/home/RankingContainer";
 import {Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
+import {RootState} from '../../store';
 
 const Ranking = () => {
 
-    const file = useSelector((state: RootState) => state.fileStore.file);
-    const message = useSelector((state: RootState) => state.messageStore.message);
-    const dispatch = useDispatch();
+        const socket = useSelector((state: RootState) => state.webSocketStore.socket);
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
+        useEffect(() => {
+            if (socket) {
+                socket.onmessage = (e) => {
+                    console.log('Websocket Received');
+                    console.log(JSON.parse(e.data).ranking);
+                    setRanking(JSON.parse(e.data).ranking);
+                };
+            }
+        }, [socket]);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files && e.target.files[0];
-        dispatch({ type: FileActionTypes.UPLOAD, payload: selectedFile });
-        dispatch({ type: MessageActionTypes.SET, payload: 'File uploaded'});
+        const navigation = useNavigation();
+        const [ranking, setRanking] = useState([])
+        const [userId, setUserId] = useState()
+        const [userName, setUserName] = useState()
+        const [refresh, setRefresh] = useState(false);
+        const [refreshing, setRefreshing] = React.useState(false);
 
-    };
+        // const onRefresh = React.useCallback(() => {
+        //     setRefreshing(true);
+        //     setTimeout(() => {
+        //         setRefreshing(false);
+        //     }, 2000);
+        // }, []);
+        //
+        const fetchData = async () => {
 
-    let ws = new WebSocket('ws://127.0.0.1:8000/ws/ranking/');
+            try {
+                const user = JSON.parse(await AsyncStorage.getItem('userInfo'))
+                setUserId(user.id)
+                setUserName(user.first_name)
 
-    ws.onopen = (e) => {
-        console.log('Websocket Opened');
-    };
+                const access = await AsyncStorage.getItem('accessToken')
+                const response = await fetch(`${apiConfig.BASE_URL}/ranks/skill/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Token ${access}`
+                    }
+                })
+                const data = await response.json();
+                setRanking(data)
+                console.log(data)
+            } catch {
+                console.error("NO RANKING: Can't fetch ranking")
+            }
+        };
 
-    ws.onmessage = (e) => {
-        console.log('Websocket Received');
-        console.log(JSON.parse(e.data));
-        setRanking(JSON.parse(e.data).ranking);
-    };
+        useEffect(() => {
+            fetchData();
+        }, []);
 
-    ws.onerror = (e) => {
-        console.log(e);
-    };
+// // change later to see whether we can remove the first useEffect()
+// useEffect(() => {
+//     if (refresh) {
+//         console.log('autorefresh')
+//         fetchData(); // Fetch data when 'refresh' is true
+//         setRefresh(false); // Set 'refresh' back to false after fetching data
+//     }
+// }, [refresh]);
 
-    ws.onclose = (e) => {
-        console.log(e.code, e.reason);
-    };
+        return (
+            <SafeAreaView style={[Home.background]}>
+                <View style={Home.body}>
 
-    const navigation = useNavigation();
-    const [ranking, setRanking] = useState([])
-    const [userId, setUserId] = useState()
-    const [userName, setUserName] = useState()
-    const [refresh, setRefresh] = useState(false);
-    const [refreshing, setRefreshing] = React.useState(false);
+                    {/*HEADER*/}
+                    <View style={styles.header}>
+                        <Text style={styles.headerText}>Ranking</Text>
+                    </View>
 
-    // const onRefresh = React.useCallback(() => {
-    //     setRefreshing(true);
-    //     setTimeout(() => {
-    //         setRefreshing(false);
-    //     }, 2000);
-    // }, []);
-    //
-    const fetchData = async () => {
-
-        try {
-            const user = JSON.parse(await AsyncStorage.getItem('userInfo'))
-            setUserId(user.id)
-            setUserName(user.first_name)
-
-            const access = await AsyncStorage.getItem('accessToken')
-            const response = await fetch(`${apiConfig.BASE_URL}/ranks/skill/`, {
-                method: "GET",
-                headers: {
-                    "Authorization": `Token ${access}`
-                }
-            })
-            const data = await response.json();
-            setRanking(data)
-            console.log(data)
-        } catch {
-            console.error("NO RANKING: Can't fetch ranking")
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    // // change later to see whether we can remove the first useEffect()
-    // useEffect(() => {
-    //     if (refresh) {
-    //         console.log('autorefresh')
-    //         fetchData(); // Fetch data when 'refresh' is true
-    //         setRefresh(false); // Set 'refresh' back to false after fetching data
-    //     }
-    // }, [refresh]);
-
-    return (
-        <SafeAreaView style={[Home.background]}>
-            <View style={Home.body}>
-
-                {/*HEADER*/}
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Ranking</Text>
-                </View>
-
-                {/* LOCATION TABS
+                    {/* LOCATION TABS
                 <View style={styles.location}>
                     <Pressable style={styles.locationTab}>
                         <Text style={styles.locationTabText}>Tokyo</Text>
@@ -110,49 +91,50 @@ const Ranking = () => {
                     </Pressable>
                 </View> */}
 
-                {/*SUBHEADING*/}
-                <View style={styles.subheading}>
-                    <Text style={[styles.subheadingText, {width: "20%"}]}>
-                        RANK
-                    </Text>
-                    <Text style={[styles.subheadingText, {width: "50%"}]}>
-                        ATHLETE
-                    </Text>
-                    <Text style={[styles.subheadingText, {width: "30%"}]}>
-                        SKILL RATING
-                    </Text>
-                </View>
+                    {/*SUBHEADING*/}
+                    <View style={styles.subheading}>
+                        <Text style={[styles.subheadingText, {width: "20%"}]}>
+                            RANK
+                        </Text>
+                        <Text style={[styles.subheadingText, {width: "50%"}]}>
+                            ATHLETE
+                        </Text>
+                        <Text style={[styles.subheadingText, {width: "30%"}]}>
+                            SKILL RATING
+                        </Text>
+                    </View>
 
-                <ScrollView
-                    style={styles.ranking}
-                    showsVerticalScrollIndicator={true}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.rankingScrollViewContent}
-                    // refreshControl={
-                    //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
-                >
-                    {ranking.map((rank, index) => (
-                        <RankingContainer
-                            key={index + 1}
-                            opponentData={rank.user}
-                            rank={index + 1}
-                            opponentName={rank.user.first_name + " " + rank.user.last_name}
-                            skill={rank.skill}
-                            self={rank.user.id == userId}
-                            selfName={userName}
-                            setRefresh={setRefresh}
-                            onFrameTouchableOpacityPress={() =>
-                                navigation.navigate("Profile",
-                                    {otherUserId: rank.user.id, self: rank.user.id == userId}
-                                )
-                            }
-                        />
-                    ))}
-                </ScrollView>
-            </View>
-        </SafeAreaView>
-    );
-};
+                    <ScrollView
+                        style={styles.ranking}
+                        showsVerticalScrollIndicator={true}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={styles.rankingScrollViewContent}
+                        // refreshControl={
+                        //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+                    >
+                        {ranking.map((rank, index) => (
+                            <RankingContainer
+                                key={index + 1}
+                                opponentData={rank.user}
+                                rank={index + 1}
+                                opponentName={rank.user.first_name + " " + rank.user.last_name}
+                                skill={rank.skill}
+                                self={rank.user.id == userId}
+                                selfName={userName}
+                                setRefresh={setRefresh}
+                                onFrameTouchableOpacityPress={() =>
+                                    navigation.navigate("Profile",
+                                        {otherUserId: rank.user.id, self: rank.user.id == userId}
+                                    )
+                                }
+                            />
+                        ))}
+                    </ScrollView>
+                </View>
+            </SafeAreaView>
+        );
+    }
+;
 
 const styles = StyleSheet.create({
     // rankingPage: {

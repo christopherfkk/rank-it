@@ -3,7 +3,7 @@ import {NavigationContainer, useNavigation} from "@react-navigation/native";
 import {useFonts} from "expo-font";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useRegContext, RegContextProvider} from './RegContext';
-import {Provider} from 'react-redux';
+import {Provider, useDispatch} from 'react-redux';
 import store from './store';
 
 import Login from "./screens/auth/Login";
@@ -22,6 +22,7 @@ import PfName from "./screens/setup/PfName";
 import PfLevel from "./screens/setup/PfLevel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs";
+import {WebSocketActionTypes} from './reducers/webSocketReducer';
 
 const Stack = createNativeStackNavigator();
 
@@ -65,6 +66,7 @@ const InnerApp = ({hideSplashScreen}) => {
     const {state} = useRegContext();
     const [isRegistered, setIsRegistered] = useState(false);
     const [isLogIn, setIsLogIn] = useState(false);
+    const dispatch = useDispatch();
 
 
     useEffect(() => {
@@ -75,9 +77,9 @@ const InnerApp = ({hideSplashScreen}) => {
                 .catch((error) => console.log(`NOT LOGGED IN: Asyn Storage getItem error ${error}`));
             if (accessToken) {
                 setIsLogIn(true);
-                console.log("LOGGED IN: Access token found");
+                console.log("LOGGED IN: Token found");
             } else {
-                console.log("NOT LOGGED IN: No access token found");
+                console.log("NOT LOGGED IN: No token found");
             }
         };
 
@@ -97,6 +99,24 @@ const InnerApp = ({hideSplashScreen}) => {
         checkRegistrationStatus();
 
     }, []);
+
+    useEffect(() => {
+        // Init websocket
+        const initWebSocket = () => {
+            console.log(isLogIn, isRegistered)
+            if (isLogIn && isRegistered) {
+                let socker = new WebSocket('ws://127.0.0.1:8000/ws/ranking/');
+                socker.onopen = (e) => {
+                    console.log('Websocket Opened');
+                    dispatch({
+                        type: WebSocketActionTypes.INIT,
+                        payload: socker
+                    });
+                };
+            }
+        }
+        initWebSocket();
+    }, [isLogIn, isRegistered]);
 
     return (
         <NavigationContainer>

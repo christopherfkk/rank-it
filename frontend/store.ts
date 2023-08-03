@@ -1,11 +1,11 @@
 import { createStore, combineReducers } from 'redux';
 
-import fileReducer from './reducers/webSocketReducer';
+import webSocketReducer from './reducers/webSocketReducer';
 // ... import more reducers
 
 // Combine reducers
 const rootReducer = combineReducers({
-    websocketStore: websocketReducer,
+    webSocketStore: webSocketReducer,
     // ... declare more store: reducers
 });
 
