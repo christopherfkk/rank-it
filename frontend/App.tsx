@@ -3,7 +3,8 @@ import {NavigationContainer, useNavigation} from "@react-navigation/native";
 import {useFonts} from "expo-font";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useRegContext, RegContextProvider} from './RegContext';
-
+import {Provider, useDispatch} from 'react-redux';
+import store from './store';
 
 import Login from "./screens/auth/Login";
 import Signup from "./screens/auth/Signup";
@@ -21,6 +22,7 @@ import PfName from "./screens/setup/PfName";
 import PfLevel from "./screens/setup/PfLevel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs";
+import {WebSocketActionTypes} from './reducers/webSocketReducer';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,9 +57,11 @@ const App = () => {
     }
 
     return (
-        <RegContextProvider>
-            <InnerApp hideSplashScreen={hideSplashScreen}/>
-        </RegContextProvider>
+        <Provider store={store}>
+            <RegContextProvider>
+                <InnerApp hideSplashScreen={hideSplashScreen}/>
+            </RegContextProvider>
+        </Provider>
     );
 };
 
@@ -66,6 +70,7 @@ const InnerApp = ({hideSplashScreen}) => {
     const {state} = useRegContext();
     const [isRegistered, setIsRegistered] = useState(false);
     const [isLogIn, setIsLogIn] = useState(false);
+    const dispatch = useDispatch();
 
 
     useEffect(() => {
@@ -76,9 +81,9 @@ const InnerApp = ({hideSplashScreen}) => {
                 .catch((error) => console.log(`NOT LOGGED IN: Asyn Storage getItem error ${error}`));
             if (accessToken) {
                 setIsLogIn(true);
-                console.log("LOGGED IN: Access token found");
+                console.log("LOGGED IN: Token found");
             } else {
-                console.log("NOT LOGGED IN: No access token found");
+                console.log("NOT LOGGED IN: No token found");
             }
         };
 
@@ -98,6 +103,38 @@ const InnerApp = ({hideSplashScreen}) => {
         checkRegistrationStatus();
 
     }, []);
+
+    useEffect(() => {
+        // Init websocket
+        const initWebSocketRanks = () => {
+            if (isLogIn && isRegistered) {
+                let socket = new WebSocket('ws://127.0.0.1:8000/ws/ranking/');
+                socket.onopen = (e) => {
+                    console.log('Websocket Ranks Opened');
+                    dispatch({
+                        type: WebSocketActionTypes.INIT_RANKS,
+                        payload: socket
+                    });
+                };
+            }
+        }
+        const initWebSocketNotifs = async () => {
+            if (isLogIn && isRegistered) {
+                const userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
+                let socket = new WebSocket(`ws://127.0.0.1:8000/ws/notifications/user/${userInfo.id}/`);
+                socket.onopen = (e) => {
+                    console.log('Websocket Notifs Opened');
+                    dispatch({
+                        type: WebSocketActionTypes.INIT_NOTIFS,
+                        payload: socket
+                    });
+                };
+            }
+        }
+
+        initWebSocketRanks();
+        initWebSocketNotifs();
+    }, [isLogIn, isRegistered]);
 
     return (
         <NavigationContainer>

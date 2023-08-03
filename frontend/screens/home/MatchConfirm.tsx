@@ -7,10 +7,25 @@ import {format} from 'date-fns';
 import ConfirmationContainer from "../../components/home/ConfirmationContainer";
 import {Padding, Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 const MatchConfirm = () => {
-    // const [notification, setNotification] = useState([]);
-    // const [access, setAccess] = useState();
+
+    const socket = useSelector((state: RootState) => state.webSocketStore.socket_notifs);
+
+    useEffect(() => {
+        if (socket) {
+            socket.onmessage = (e) => {
+                console.log('Websocket Notif Received');
+                console.log(JSON.parse(e.data).notification);
+                setNotification(JSON.parse(e.data).notification);
+            };
+        }
+    }, [socket]);
+
+    const [notification, setNotification] = useState([]);
+    const [access, setAccess] = useState();
     const [matches, setMatches] = useState([]);
     const [refresh, setRefresh]  = useState(false)
     const [selfId, setSelfId] = useState()
@@ -52,7 +67,6 @@ const MatchConfirm = () => {
         if (notifications.length === 0) {
             setMatches([])
             return; // Check if there are notifications
-
         }
         try {
             const allMatches = []; // Initialize an array to accumulate all matches
@@ -97,10 +111,11 @@ const MatchConfirm = () => {
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Confirmation</Text>
                 </View>
-                <Text>To record the match in the ranking, both players must confirm the post-match feedback after completing the game.</Text>
+                <Text>To record the match in the ranking, both players must confirm the post-match feedback after
+                    completing the game.</Text>
                 {/*SUBHEADING*/}
                 <View style={styles.subheading}>
-                <Text style={[styles.subheadingText, {width: "110%"}]}>
+                    <Text style={[styles.subheadingText, {width: "110%"}]}>
                         OPPONENT
                     </Text>
                     <Text style={[styles.subheadingText, {width: "70%"}]}>
