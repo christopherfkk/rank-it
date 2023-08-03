@@ -9,6 +9,19 @@ import apiConfig from '../../apiConfig';
 
 const Ranking = () => {
 
+    const file = useSelector((state: RootState) => state.fileStore.file);
+    const message = useSelector((state: RootState) => state.messageStore.message);
+    const dispatch = useDispatch();
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFile = e.target.files && e.target.files[0];
+        dispatch({ type: FileActionTypes.UPLOAD, payload: selectedFile });
+        dispatch({ type: MessageActionTypes.SET, payload: 'File uploaded'});
+
+    };
+
     let ws = new WebSocket('ws://127.0.0.1:8000/ws/ranking/');
 
     ws.onopen = (e) => {

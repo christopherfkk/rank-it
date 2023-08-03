@@ -3,7 +3,8 @@ import {NavigationContainer, useNavigation} from "@react-navigation/native";
 import {useFonts} from "expo-font";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useRegContext, RegContextProvider} from './RegContext';
-
+import {Provider} from 'react-redux';
+import store from './store';
 
 import Login from "./screens/auth/Login";
 import Signup from "./screens/auth/Signup";
@@ -51,9 +52,11 @@ const App = () => {
     }
 
     return (
-        <RegContextProvider>
-            <InnerApp hideSplashScreen={hideSplashScreen}/>
-        </RegContextProvider>
+        <Provider store={store}>
+            <RegContextProvider>
+                <InnerApp hideSplashScreen={hideSplashScreen}/>
+            </RegContextProvider>
+        </Provider>
     );
 };
 
