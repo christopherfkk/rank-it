@@ -10,6 +10,11 @@ Install the requirements from `backend/Pipfile`.
 cd backend
 pipenv install
 ```
+Install redis
+```bash
+brew install redis
+redis-server
+```
 
 Activate the virtual environment and run.
 ```bash

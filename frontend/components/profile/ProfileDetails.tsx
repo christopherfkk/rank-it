@@ -1,6 +1,5 @@
 import React, {useMemo, memo, Dispatch, SetStateAction} from "react";
-import {Text, StyleSheet, View, TouchableOpacity, TextInput} from "react-native";
-import {Image} from "expo-image";
+import {Text, StyleSheet, View, TouchableOpacity, TextInput, Image} from "react-native";
 import {Color, FontFamily, Padding, FontSize, Border, ProfileStyles} from "../../GlobalStyles";
 
 type ProfileDetailsType = {
