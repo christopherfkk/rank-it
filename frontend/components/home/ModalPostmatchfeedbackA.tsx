@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import StrengthGrid from "./StrengthGrid"
 import PfButton1 from "./SubmitButton";
-import { Color, FontFamily, FontSize } from "../../GlobalStyles";
+import { Color, FontFamily } from "../../GlobalStyles";
 import InsertMatchScores from "./InsertMatchScores";
 import SlidersComponent from "./Slider";
 import FeedbackBlurb from "./FeedbackBlurb";
@@ -37,6 +37,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
   const [sportsmanshipValue, setSportsmanshipValue] = useState(3);
   const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(3);
   const [feedbackText, setFeedbackText] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleButtonsPressed = (pressedButtons) => {
     setPressedButtonsList(pressedButtons);
@@ -45,7 +46,12 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
   const handleSubmit = async () => {
     // Create the data object to send to the backend
     if (submitterScore === "" || opponentScore === "") {
-      console.error("Match scores are mandatory. Please provide both your score and opponent's score.");
+      setErrorMessage("Match scores are mandatory. Please provide both your score and opponent's score.");
+      setMatchScoresError(true);
+      return;
+    } 
+    else if (submitterScore === opponentScore) {
+      setErrorMessage("Your scores cannot be identical");
       setMatchScoresError(true);
       return;
     }
@@ -87,8 +93,10 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
       console.error('Error sending feedback data:', error);
     });
 
-    // Close the modal after submitting
-    setRefresh(true);
+    // If it is not undefined (accessed via opponent profile), then set True
+    if (setRefresh) {
+      setRefresh(true);
+    }
     onClose?.();
   };
     
@@ -128,7 +136,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
           <FeedbackBlurb onChangeFeedbackText={(text) => setFeedbackText(text)}/>
           <View style={styles.spacing} />
           {matchScoresError && (
-              <Text style={styles.errorText}>Please provide both your score and opponent's score.</Text>
+              <Text style={styles.errorText}>{errorMessage}</Text>
           )}
           <View style={styles.spacing} />
           <PfButton1 onPress ={handleSubmit}/> 

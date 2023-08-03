@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
-import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView} from "react-native";
+import React, {useEffect, useState, useCallback} from "react";
+import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator} from "react-native";
 import {Image} from "expo-image";
-import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {RouteProp} from "@react-navigation/native";
 
 import {Padding, Color, FontSize, FontFamily, Border, Home, ProfileStyles} from "../../GlobalStyles";
@@ -25,7 +25,8 @@ type ProfileType = {
 const Profile = ({route}: ProfileType) => {
 
     const navigation = useNavigation()
-    const isFocused = useIsFocused();
+
+    const [isLoading, setIsLoading] = useState(true);
 
     // Check if route.params is defined before destructuring
     const {otherUserId, self} = route.params || {otherUserId: null, self: true};
@@ -50,31 +51,32 @@ const Profile = ({route}: ProfileType) => {
         setEditedBioText(bioText); // Assuming you have `bioText` state in the `Profile` component
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-
-            const selfUserId = JSON.parse(await AsyncStorage.getItem('userInfo')).id
-            const userId = self ? selfUserId : otherUserId;
-
-            try {
-                const access = await AsyncStorage.getItem('accessToken')
-                const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}/`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": `Token ${access}`
-                    }
-                })
-                const data = await response.json();
-                setProfile(data)
-                console.log(data)
-            } catch {
-                console.error("NO PROFILE: Can't fetch profile")
-            }
-        };
-        if (isFocused) {
+    useFocusEffect(
+        useCallback(() => {
+            const fetchData = async () => {
+                setIsLoading(true);
+                const selfUserId = JSON.parse(await AsyncStorage.getItem('userInfo')).id
+                const userId = self ? selfUserId : otherUserId;
+                try {
+                    const access = await AsyncStorage.getItem('accessToken')
+                    const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}/`, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": `Token ${access}`
+                        }
+                    })
+                    const data = await response.json();
+                    setProfile(data)
+                    console.log(data)
+                } catch {
+                    console.error("NO PROFILE: Can't fetch profile")
+                }
+                setIsLoading(false);
+            };
             fetchData();
-        }
-    }, [isFocused, self]);
+            
+        }, [self])
+    );
 
     const handleSaveButtonPress = async () => {
         try {
@@ -142,6 +144,14 @@ const Profile = ({route}: ProfileType) => {
         // Close the modal when the "Close" button is pressed
         setShowFeedbackModal(false);
     };
+
+    if (isLoading) {
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ActivityIndicator size="large" color= {Color.crimson_100} />
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={[Home.background]}>

@@ -4,7 +4,6 @@ import {
     Text,
     TextInput,
     Pressable,
-    StyleSheet,
     SafeAreaView,
     ImageBackground,
     TouchableOpacity
@@ -14,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useRegContext, ACTIONS} from '../../RegContext';
 
 import apiConfig from '../../apiConfig';
-import {Color, FontFamily, FontSize, Auth} from "../../GlobalStyles";
+import { Auth } from "../../GlobalStyles";
 import GoogleSignInButton from "../../components/auth/GoogleSignInButton";
 
 

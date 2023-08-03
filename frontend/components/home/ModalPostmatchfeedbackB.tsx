@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   Modal
 } from "react-native";
-import { Image } from "expo-image";
 import StrengthGrid from "./StrengthGrid"
 import PfButton1 from "./SubmitButton";
 import { Color, FontFamily, FontSize } from "../../GlobalStyles";
@@ -27,17 +26,20 @@ type ModalPostmatchfeedbackType = {
   opponentId: number;
   matchId:number;
   notifId: number;
+  selfName: string;
+  selfId: string;
   setRefresh: Function;}
 
-const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId, notifId, setRefresh}: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId, notifId, setRefresh, selfName, selfId}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
-  
+
   const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
   const [opponentScore, setOpponentScore] = useState(""); // State for "Opponent" score
   const [pressedButtonsList, setPressedButtonsList] = useState([]);
   const [sportsmanshipValue, setSportsmanshipValue] = useState(3);
-  const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(5);
+  const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(3);
   const [feedbackText, setFeedbackText] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleButtonsPressed = (pressedButtons) => {
     setPressedButtonsList(pressedButtons);
@@ -56,7 +58,6 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
             body: JSON.stringify({status: "Read"})
         })
         const data = await response.json();
-        console.log(response)
         console.log(data)
     } catch {
         console.error("NO READ: Can't update notification")
@@ -66,18 +67,20 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
   const handleSubmit = async () => {
     // Create the data object to send to the backend
     if (submitterScore === "" || opponentScore === "") {
-      console.error("Match scores are mandatory. Please provide both your score and opponent's score.");
+      setErrorMessage("Match scores are mandatory. Please provide both your score and opponent's score.");
+      setMatchScoresError(true);
+      return;
+    } 
+    else if (submitterScore === opponentScore) {
+      setErrorMessage("Your scores cannot be identical");
       setMatchScoresError(true);
       return;
     }
     setMatchScoresError(false);
 
-    const userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
-    const access = await AsyncStorage.getItem('accessToken')
-    
     const feedbackData = {
         "match_id": matchId,  
-        "reporter_id": userInfo.id,
+        "reporter_id": selfId,
         "opponent_id": opponentId,  
         "strengths": pressedButtonsList, 
         "reporter_is_submitter": false,
@@ -86,7 +89,7 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
         "peer_sportsmanship_rating_given": sportsmanshipValue,  // 1-5
         "match_competitiveness_rating": matchCompetitivenessValue, // 1-5
         "peer_skill_level_given": null,  
-        "peer_feedback_blurb_given": ""  
+        "peer_feedback_blurb_given": feedbackText 
     }
     console.log(feedbackData)
     // Perform the API request to send the feedback data to the backend
@@ -109,8 +112,8 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
     });
 
     await updateRead(notifId)
+
     setRefresh(true);
-    // Close the modal after submitting
     onClose?.();
   };
     
@@ -130,6 +133,8 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
           <InsertMatchScores
             onChangeYourScore={(score) => setSubmitterScore(score)}
             onChangeOpponentScore={(score) => setOpponentScore(score)}
+            opponentName = {name}
+            selfName = {selfName}
           />
           <StrengthGrid onButtonsPressed={handleButtonsPressed}/>
           <SlidersComponent
@@ -142,7 +147,7 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
           />
           <FeedbackBlurb onChangeFeedbackText={(text) => setFeedbackText(text)}/>
           {matchScoresError && (
-              <Text style={styles.errorText}>Please provide both your score and opponent's score.</Text>
+              <Text style={styles.errorText}>{errorMessage}</Text>
           )}
           <Text style={styles.errorText}>In case your scores are not the same, they will be invalidated and your match will be cancelled. </Text>
           <PfButton1 onPress ={handleSubmit}/> 
@@ -172,9 +177,12 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   heading1: {
-    fontSize: 30,
+    fontSize: 40,
     letterSpacing: 1.2,
     fontFamily: FontFamily.bebasNeueRegular,
+  },
+  spacing: {
+    height: 20, // Set the desired vertical spacing between components
   },
 });
 export default ModalPostmatchfeedbackB;

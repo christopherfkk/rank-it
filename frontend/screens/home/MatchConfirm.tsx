@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {Text, StyleSheet, View, ScrollView, SafeAreaView} from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {format} from 'date-fns';
 
@@ -26,7 +27,9 @@ const MatchConfirm = () => {
     const [notification, setNotification] = useState([]);
     const [access, setAccess] = useState();
     const [matches, setMatches] = useState([]);
-    const [refresh, setRefresh] = useState(false);
+    const [refresh, setRefresh]  = useState(false)
+    const [selfId, setSelfId] = useState()
+    const [selfName, setSelfName] = useState()
 
     const formatDate = (datetime) => {
         const date = new Date(datetime);
@@ -37,7 +40,9 @@ const MatchConfirm = () => {
         try {
             // Fetch the accessToken
             const accessToken = await AsyncStorage.getItem('accessToken');
-            setAccess(accessToken);
+            const selfInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
+            setSelfName(selfInfo.first_name)
+            // setAccess(accessToken);
 
             // Fetch the notifications
             const response = await fetch(`${apiConfig.BASE_URL}/notifications/notification/`, {
@@ -47,55 +52,56 @@ const MatchConfirm = () => {
                 }
             });
             const data = await response.json();
-            setNotification(data);
+            console.log('data', data)
+            // setNotification(data);
+
+            return { accessToken, notifications: data };
+
         } catch {
             console.error("Error fetching notifications");
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchMatchData = async () => {
-            if (notification.length === 0) {
-                setMatches([])
-                return; // Check if there are notifications
-
-            }
-            try {
-                const allMatches = []; // Initialize an array to accumulate all matches
-
-                for (const notif of notification) {
-                    const response = await fetch(`${apiConfig.BASE_URL}/match/${notif.notification_object.id}`, {
-                        method: "GET",
-                        headers: {
-                            "Authorization": `Token ${access}`
-                        }
-                    });
-                    const matchData = await response.json();
-
-                    //add notif id in allMatches in case match.id != notif.id
-                    matchData.notifId = notif.id;
-                    allMatches.push(matchData); // Add the match to the array
-                }
-
-                setMatches(allMatches); // Set the matches state with all accumulated matches
-            } catch (error) {
-                console.error('Error fetching match data:', error);
-            }
-        };
-
-        fetchMatchData();
-    }, [notification, access]);
-
-    useEffect(() => {
-        if (refresh) {
-            fetchData(); // Fetch data when 'refresh' is true
-            setRefresh(false); // Set 'refresh' back to false after fetching data
+    const fetchMatchData = async (accessToken, notifications) => {
+        console.log(notifications)
+        if (notifications.length === 0) {
+            setMatches([])
+            return; // Check if there are notifications
         }
-    }, [refresh]);
+        try {
+            const allMatches = []; // Initialize an array to accumulate all matches
+
+            for (const notif of notifications) {
+                const response = await fetch(`${apiConfig.BASE_URL}/match/${notif.notification_object.id}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Token ${accessToken}`
+                    }
+                });
+                const matchData = await response.json();
+
+                //add notif id in allMatches in case match.id != notif.id
+                matchData.notifId = notif.id;
+                allMatches.push(matchData); // Add the match to the array
+            }
+
+            setMatches(allMatches); // Set the matches state with all accumulated matches
+        } catch (error) {
+            console.error('Error fetching match data:', error);
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchData().then(({ accessToken, notifications }) => {
+                if(accessToken){ // Checks if access token is available before executing fetchMatchData
+                    console.log(accessToken)
+                    fetchMatchData(accessToken, notifications);
+                    setRefresh(false)
+                }
+            });
+        }, [refresh]) // The function will be re-run if any variables in this array change
+    );
 
     return (
         <SafeAreaView style={[Home.background]}>
@@ -127,9 +133,11 @@ const MatchConfirm = () => {
                         <ConfirmationContainer
                             key={index + 1}
                             matchData={match}
-                            name={match.submitter.first_name + " " + match.submitter.last_name}
+                            opponentName={match.submitter.first_name + " " + match.submitter.last_name}
                             date={formatDate(match.updated_at)}
                             setRefresh={setRefresh}
+                            selfId = {selfId}
+                            selfName = {selfName}
                         />
                     ))}
                 </ScrollView>

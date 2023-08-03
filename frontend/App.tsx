@@ -9,7 +9,7 @@ import store from './store';
 import Login from "./screens/auth/Login";
 import Signup from "./screens/auth/Signup";
 import ResetPassword from "./screens/auth/ResetPassword";
-import LoadingPage from "./screens/LoadingPage";
+import Splash from "./screens/Splash";
 import Profile from "./screens/home/Profile";
 import PfStart from "./screens/setup/PfStart";
 import PfAvailability from "./screens/setup/PfAvailability";
@@ -44,12 +44,16 @@ const App = () => {
 
     React.useEffect(() => {
         setTimeout(() => {
-            setHideSplashScreen(true);
+            if (fontsLoaded) {
+                setHideSplashScreen(true);
+            }
         }, 1000);
-    }, []);
+    }, [fontsLoaded]);
+
+
 
     if (!fontsLoaded && !error) {
-        return null;
+        return <Splash/>;
     }
 
     return (
@@ -170,8 +174,8 @@ const InnerApp = ({hideSplashScreen}) => {
                         options={{headerShown: false}}
                     />
                     <Stack.Screen
-                        name="LoadingPage"
-                        component={LoadingPage}
+                        name="Splash"
+                        component={Splash}
                         options={{headerShown: false}}
                     />
                     <Stack.Screen
@@ -231,7 +235,7 @@ const InnerApp = ({hideSplashScreen}) => {
                     {/*/>*/}
                 </Stack.Navigator>
             ) : (
-                <LoadingPage/>
+                <Splash/>
             )}
         </NavigationContainer>
     );
