@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-@yuv)v1@%m3scgfx3zjk#gq0#wke1um$@&kmek803z82$e3iih
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.vercel.app', '*']
 
 # Application definition
 
@@ -175,6 +175,7 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:19007',
     'http://127.0.0.1:19007',
     'https://rank-it-web.vercel.app',
+    'http://172.16.144.63:19000',
 )
 
 CSRF_TRUSTED_ORIGINS = [
@@ -185,6 +186,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:19007',
     'http://127.0.0.1:19007',
     'https://rank-it-web.vercel.app',
+    'http://172.16.144.63:19000',
 ]
 
 ROOT_URLCONF = 'config.urls'
