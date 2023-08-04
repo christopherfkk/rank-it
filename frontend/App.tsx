@@ -24,7 +24,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs";
 import {WebSocketActionTypes} from './reducers/webSocketReducer';
 import PfPickAvatar from './screens/setup/PfPickAvatar';
-import ApiConfig from './apiConfig';
+import apiConfig from './apiConfig';
 
 const Stack = createNativeStackNavigator();
 
@@ -77,8 +77,6 @@ const InnerApp = ({hideSplashScreen}) => {
 
     useEffect(() => {
 
-        console.log("URL", ApiConfig.BASE_URL)
-
         // Check if logged in
         const checkLoginStatus = async () => {
             const accessToken = await AsyncStorage.getItem("accessToken")
@@ -112,7 +110,7 @@ const InnerApp = ({hideSplashScreen}) => {
         // Init websocket
         const initWebSocketRanks = () => {
             if (isLogIn && isRegistered) {
-                let socket = new WebSocket('ws://127.0.0.1:8000/ws/ranking/');
+                let socket = new WebSocket(`${apiConfig.WEB_SOCKET_BASE_URL}/ws/ranking/`);
                 socket.onopen = (e) => {
                     console.log('Websocket Ranks Opened');
                     dispatch({
@@ -125,7 +123,7 @@ const InnerApp = ({hideSplashScreen}) => {
         const initWebSocketNotifs = async () => {
             if (isLogIn && isRegistered) {
                 const userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
-                let socket = new WebSocket(`ws://127.0.0.1:8000/ws/notifications/user/${userInfo.id}/`);
+                let socket = new WebSocket(`${apiConfig.WEB_SOCKET_BASE_URL}/ws/notifications/user/${userInfo.id}/`);
                 socket.onopen = (e) => {
                     console.log('Websocket Notifs Opened');
                     dispatch({
