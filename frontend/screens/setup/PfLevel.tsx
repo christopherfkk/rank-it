@@ -27,6 +27,8 @@ const PfLevel = () => {
             const accountSetUpData = new FormData();
             accountSetUpData.append('first_name', state.firstName);
             accountSetUpData.append('last_name', state.lastName);
+            accountSetUpData.append('avatar_image_name', state.pickedAvatarName);
+            console.log("WHATUOP", state.pickedAvatarName)
             accountSetUpData.append('level', selectedLevel);
 
             // Get PUT request paramters

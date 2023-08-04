@@ -206,7 +206,7 @@ class PostMatchFeedback(models.Model):
         blank=True,
     )
     # Strengths
-    strengths = models.ManyToManyField(Strength, blank=True, null=True)
+    strengths = models.ManyToManyField(Strength, blank=True)
 
     def __str__(self):
         return \

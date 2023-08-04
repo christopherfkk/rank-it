@@ -11,6 +11,7 @@ const initialState = {
     lastName: null,
     firstName: null,
     location: null,
+    pickedAvatarName: null
   };
 
   const ACTIONS = {
@@ -23,6 +24,7 @@ const initialState = {
     SET_LAST_NAME: 'SET_LAST_NAME',
     SET_FIRST_NAME: 'SET_FIRST_NAME',
     SET_LOCATION: 'SET_LOCATION',
+    SET_PICKED_AVATAR: 'SET_PICKED_AVATAR'
   };
 
 
@@ -47,6 +49,8 @@ const reducer = (state, action) => {
         return { ...state, firstName: action.payload };
       case 'SET_LOCATION':
         return { ...state, location: action.payload };
+      case 'SET_PICKED_AVATAR':
+        return { ...state, pickedAvatarName: action.payload };
       default:
         return state;
     }
@@ -68,7 +72,7 @@ const RegContextProvider = ({ children }) => {
     };
 
     saveData();
-    // console.log(state); // Log the state whenever it changes
+    console.log(state); // Log the state whenever it changes
   }, [state]);
 
   return (

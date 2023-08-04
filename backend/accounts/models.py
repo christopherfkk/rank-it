@@ -150,6 +150,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         blank=True,
         null=True,
     )
+    avatar_image_name = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+    )
     blurb = models.TextField(
         null=True
     )
