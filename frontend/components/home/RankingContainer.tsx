@@ -76,7 +76,7 @@ const RankingContainer = memo(({
                             {showSkill(skill)}
                         </Text>
                     </View>
-                    <View style={styles.button}>
+                    {/* <View style={styles.button}> */}
                         {/* START CHALLENGE BUTTON */}
                         {/* {self ?
                             null :
@@ -89,7 +89,7 @@ const RankingContainer = memo(({
                                 pfButtonMarginLeft="unset"
                                 onPress={handleRegButtonPress}
                             />} */}
-                    </View>
+                    {/* </View> */}
                 </TouchableOpacity>
                 <ModalPostmatchfeedbackA
                     visible={showFeedbackModal}
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         width: "70%",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         height: 35,
     },
     button: {
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         marginRight: "2%",
     },
     rankText: {
-        width: "15%",
+        width: "60%",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     name: {
-        width: "40%",
+        width: "100%",
         fontFamily: FontFamily.manropeBold,
         fontSize: FontSize.size_3xs,
         color: Color.lightLabelPrimary,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     skillText: {
-        width: "35%",
+        width: "100%",
         fontSize: FontSize.size_3xs,
         fontFamily: FontFamily.manropeBold,
         alignItems: "center",
