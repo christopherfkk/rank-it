@@ -78,7 +78,6 @@ const MatchConfirm = () => {
                     }
                 });
                 const matchData = await response.json();
-                console.log(matchData)
                 //add notif id in allMatches in case match.id != notif.id
                 matchData.notifId = notif.id;
                 allMatches.push(matchData); // Add the match to the array
