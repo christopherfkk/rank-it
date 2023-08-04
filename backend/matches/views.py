@@ -150,10 +150,12 @@ class MatchViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         feedback_serializer = PostMatchFeedbackSerializer(post_match_feedback)
 
-        return Response({
-            "match": serializer.data,
-            "post_match_feedback": feedback_serializer.data
-        })
+        match_dict = serializer.data
+        post_match_dict = {"post_match_feedback": feedback_serializer.data}
+        match_dict.update(post_match_dict)
+
+        return Response(match_dict)
+
 
 class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
     """
