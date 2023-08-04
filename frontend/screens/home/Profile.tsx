@@ -184,7 +184,6 @@ const Profile = ({route}: ProfileType) => {
     return (
         <SafeAreaView style={[Home.background]}>
             <View style={Home.body}>
-            <BackButton onPress={() => navigation.navigate("Ranking")} />
                 <ScrollView
                     style={styles.profile}
                     showsVerticalScrollIndicator={true}
@@ -198,7 +197,7 @@ const Profile = ({route}: ProfileType) => {
                         location="CB Gym, Tokyo"
                         skill={profile.level}
                     />
-
+                    {!self ? <BackButton onPress={() => navigation.navigate("Ranking")} />: null}
                     {self ?
                         // Edit Profile Button
                         <Pressable
