@@ -24,6 +24,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs";
 import {WebSocketActionTypes} from './reducers/webSocketReducer';
 import PfPickAvatar from './screens/setup/PfPickAvatar';
+import ApiConfig from './apiConfig';
 
 const Stack = createNativeStackNavigator();
 
@@ -75,6 +76,10 @@ const InnerApp = ({hideSplashScreen}) => {
 
 
     useEffect(() => {
+
+        console.log("URL", ApiConfig.BASE_URL)
+        const apiUrl = process.env.EXPO_PUBLIC_BASE_URL;
+        console.log("URL", apiUrl)
 
         // Check if logged in
         const checkLoginStatus = async () => {
