@@ -6,6 +6,7 @@ import ProfileNav from './components/nav/ProfileNav';
 import Ranking from './screens/home/Ranking';
 import Profile from './screens/home/Profile';
 import MatchConfirm from './screens/home/MatchConfirm';
+import Instructions from './screens/home/Instructions';
 import {StyleSheet, View} from 'react-native';
 import {Border, Color, FontFamily} from './GlobalStyles';
 import Icon from 'react-native-vector-icons/FontAwesome5'; // Import your desired icon library
@@ -74,6 +75,22 @@ function BottomTabs({navigation}: any) {
                     tabBarIcon: ({focused}) => (
                         <Icon
                             name="user"
+                            size={20}
+                            color={focused ? Color.crimson_200 : 'black'}
+                        />
+                    ),
+                }}
+            />
+                <Tab.Screen
+                name="Instructions"
+                component={Instructions}
+                options={{
+                    headerShown: false,
+                    tabBarLabel: () => null,
+                    // tabBarIcon: RankingNav.type,
+                    tabBarIcon: ({focused}) => (
+                        <Icon
+                            name="book"
                             size={20}
                             color={focused ? Color.crimson_200 : 'black'}
                         />
