@@ -31,7 +31,8 @@ interface InitNotifsAction {
 // ... define more Action OpenPopupAction | ClosePopupAction
 type webSocketAction = InitRanksAction | InitNotifsAction // | ... more Action
 
-const webSocketReducer = (state: WebSocketState = { socket_ranks: null, socket_notifs: null, isPopupOpen: false }, action: webSocketAction): WebSocketState => {
+//, isPopupOpen: false
+const webSocketReducer = (state: WebSocketState = { socket_ranks: null, socket_notifs: null }, action: webSocketAction): WebSocketState => {
     switch (action.type) {
         case WebSocketActionTypes.INIT_RANKS:
             return { ...state, socket_ranks: action.payload };
