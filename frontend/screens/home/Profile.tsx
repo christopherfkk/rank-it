@@ -16,6 +16,7 @@ import ProfileDetails from "../../components/profile/ProfileDetails";
 import ChallengeButton from '../../components/home/ChallengeButton';
 import ModalPostmatchfeedbackA from '../../components/home/ModalPostmatchfeedbackA';
 import ModalReminder from "../../components/home/ModalReminder";
+import BackButton from '../../components/home/BackButton';
 
 type ProfileParamList = {
     Profile: {
@@ -83,7 +84,7 @@ const Profile = ({route}: ProfileType) => {
                 setSelfName(user.first_name)
 
                 const userId = self ? selfUserId : otherUserId;
-                
+
                 try {
                     const access = await AsyncStorage.getItem('accessToken')
                     const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}/`, {
@@ -183,6 +184,7 @@ const Profile = ({route}: ProfileType) => {
     return (
         <SafeAreaView style={[Home.background]}>
             <View style={Home.body}>
+            <BackButton onPress={() => navigation.navigate("Ranking")} />
                 <ScrollView
                     style={styles.profile}
                     showsVerticalScrollIndicator={true}

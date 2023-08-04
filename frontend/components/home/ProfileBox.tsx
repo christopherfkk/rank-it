@@ -19,15 +19,15 @@ const ProfileBox = ({ name, avatar, level }: ProfileBoxProps) => {
             <View style={styles.location}>
               <Image
                style={styles.iconLocation}
-               source={require("../../assets/profile/iconLocation.png")}
+               source={require("../../assets/icon-location.png")}
               />
               <Text style={styles.locationText}>CB Gym</Text>
             </View>
     
             <View style={styles.location}>
               <Image
-              style={styles.iconLocation}
-              source={require("../../assets/profile/iconBadminton.png")}
+              style={styles.iconBadminton}
+              source={require("../../assets/icon-badminton.png")}
               />
               <Text style={styles.locationText}>{level}</Text>
             </View>
@@ -76,9 +76,14 @@ const styles = StyleSheet.create({
     marginLeft: 5, 
   },
   iconLocation: {
-    overflow: "hidden",
     height: 10,
-    width: 10,
+    width: 8,
+    marginRight: 5,
+  },
+  iconBadminton: {
+    height: 8,
+    width: 8,
+    marginRight: 5,
   },
 });
 
