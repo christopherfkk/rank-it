@@ -1,16 +1,21 @@
-import React, { useState, useCallback} from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator} from "react-native";
 import {Image} from "expo-image";
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {RouteProp} from "@react-navigation/native";
-
+import {useDispatch, useSelector} from 'react-redux';
 import { Color,  Home, ProfileStyles } from "../../GlobalStyles";
+
+import apiConfig from '../../apiConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {RootState} from '../../store';
+
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import ChallengeButton from '../../components/home/ChallengeButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import apiConfig from '../../apiConfig';
 import ModalPostmatchfeedbackA from '../../components/home/ModalPostmatchfeedbackA';
+import ModalReminder from "../../components/home/ModalReminder";
 
 type ProfileParamList = {
     Profile: {
@@ -27,6 +32,22 @@ const Profile = ({route}: ProfileType) => {
     const navigation = useNavigation()
 
     const [isLoading, setIsLoading] = useState(true);
+
+    const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
+
+    const socket = useSelector((state: RootState) => state.webSocketStore.socket_notifs);
+
+    useEffect(() => {
+        if (socket) {
+            socket.onmessage = (e) => {
+                setUnconfirmedMatch(true)
+            };
+        }
+    }, [socket]);
+
+    const handleClosePopup = () => {
+        setUnconfirmedMatch(false)
+    };
 
     // Check if route.params is defined before destructuring
     const {otherUserId, self} = route.params || {otherUserId: null, self: true};
@@ -45,6 +66,7 @@ const Profile = ({route}: ProfileType) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [editedBioText, setEditedBioText] = useState("");
     const [bioText, setBioText] = useState(profile.blurb);
+    const [selfName, setSelfName] = useState();
 
     const handleEditButtonPress = () => {
         setIsEditMode(true);
@@ -55,8 +77,13 @@ const Profile = ({route}: ProfileType) => {
         useCallback(() => {
             const fetchData = async () => {
                 setIsLoading(true);
-                const selfUserId = JSON.parse(await AsyncStorage.getItem('userInfo')).id
+
+                const user = JSON.parse(await AsyncStorage.getItem('userInfo'))
+                const selfUserId =user.id
+                setSelfName(user.first_name)
+
                 const userId = self ? selfUserId : otherUserId;
+                
                 try {
                     const access = await AsyncStorage.getItem('accessToken')
                     const response = await fetch(`${apiConfig.BASE_URL}/accounts/${userId}/`, {
@@ -189,11 +216,10 @@ const Profile = ({route}: ProfileType) => {
                     <ModalPostmatchfeedbackA
                         visible={showFeedbackModal}
                         onClose={handleCloseModal}
-                        name={profile.first_name + " " + profile.last_name}
+                        opponentName={profile.first_name + " " + profile.last_name}
                         level={profile.level ?? 'null'}
                         opponentId={profile.id}
-                        // selfName = {}
-                        // opponentName = {}
+                        selfName={selfName}
                         />
 
                     {/* MORE PROFILE DETAILS */}
@@ -230,6 +256,12 @@ const Profile = ({route}: ProfileType) => {
 
                 </ScrollView>
             </View>
+            {/* Notification Popup */}
+            <ModalReminder
+                visible={unconfirmedMatch}
+                onClose={handleClosePopup}
+                // Add more props if your ModalReminder component needs them
+            />
         </SafeAreaView>
     );
 };

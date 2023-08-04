@@ -78,7 +78,7 @@ const RankingContainer = memo(({
                     </View>
                     <View style={styles.button}>
                         {/* START CHALLENGE BUTTON */}
-                        {self ?
+                        {/* {self ?
                             null :
                             <ChallengeButton
                                 pfButtonWidth={"100%"}
@@ -88,7 +88,7 @@ const RankingContainer = memo(({
                                 pfButtonFlex={1}
                                 pfButtonMarginLeft="unset"
                                 onPress={handleRegButtonPress}
-                            />}
+                            />} */}
                     </View>
                 </TouchableOpacity>
                 <ModalPostmatchfeedbackA

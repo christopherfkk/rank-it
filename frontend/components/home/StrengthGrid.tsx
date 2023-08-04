@@ -22,7 +22,7 @@ const StrengthButton = ({ imageSource, title, isPressed, onPress }) => {
           name={imageSource}
           size={20}
           color={isPressed ? 'darkgreen' : 'black'}
-          style={{ marginRight: 10 }}
+          style={{ marginRight: 5 }}
         />
       </View>
       <View style={{ flex: 0.7, alignItems: 'center', justifyContent: 'center' }}>  

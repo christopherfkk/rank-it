@@ -4,6 +4,8 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useSelector} from 'react-redux';
 
+import ModalReminder from "../../components/home/ModalReminder";
+
 import RankingContainer from "../../components/home/RankingContainer";
 import {Border, FontFamily, FontSize, Color, Home} from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
@@ -22,6 +24,22 @@ const Ranking = () => {
                 };
             }
         }, [socket]);
+
+        const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
+
+        const notif = useSelector((state: RootState) => state.webSocketStore.socket_notifs);
+
+        useEffect(() => {
+            if (notif) {
+                notif.onmessage = (e) => {
+                    setUnconfirmedMatch(true)
+                };
+            }
+        }, [notif]);
+    
+        const handleClosePopup = () => {
+            setUnconfirmedMatch(false)
+        };
 
         const navigation = useNavigation();
         const [ranking, setRanking] = useState([])
@@ -122,6 +140,12 @@ const Ranking = () => {
                             />
                         ))}
                     </ScrollView>
+                                {/* Notification Popup */}
+            <ModalReminder
+                visible={unconfirmedMatch}
+                onClose={handleClosePopup}
+                // Add more props if your ModalReminder component needs them
+            />
                 </View>
             </SafeAreaView>
         );

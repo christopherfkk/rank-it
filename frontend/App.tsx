@@ -127,6 +127,14 @@ const InnerApp = ({hideSplashScreen}) => {
                     dispatch({
                         type: WebSocketActionTypes.INIT_NOTIFS,
                         payload: socket
+                
+                    });
+                };
+                socket.onmessage = (e) => {
+                    console.log('Detect notification')
+                    // Dispatch an action when the condition is fulfilled
+                    dispatch({
+                        type: WebSocketActionTypes.OPEN_POPUP,
                     });
                 };
             }

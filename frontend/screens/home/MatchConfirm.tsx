@@ -25,7 +25,6 @@ const MatchConfirm = () => {
     }, [socket]);
 
     const [notification, setNotification] = useState([]);
-    const [access, setAccess] = useState();
     const [matches, setMatches] = useState([]);
     const [refresh, setRefresh]  = useState(false)
     const [selfId, setSelfId] = useState()
@@ -63,7 +62,7 @@ const MatchConfirm = () => {
     };
 
     const fetchMatchData = async (accessToken, notifications) => {
-        console.log(notifications)
+        console.log('Notifications', notifications)
         if (notifications.length === 0) {
             setMatches([])
             return; // Check if there are notifications
@@ -79,7 +78,7 @@ const MatchConfirm = () => {
                     }
                 });
                 const matchData = await response.json();
-
+                console.log(matchData)
                 //add notif id in allMatches in case match.id != notif.id
                 matchData.notifId = notif.id;
                 allMatches.push(matchData); // Add the match to the array
@@ -95,7 +94,6 @@ const MatchConfirm = () => {
         useCallback(() => {
             fetchData().then(({ accessToken, notifications }) => {
                 if(accessToken){ // Checks if access token is available before executing fetchMatchData
-                    console.log(accessToken)
                     fetchMatchData(accessToken, notifications);
                     setRefresh(false)
                 }
