@@ -27,7 +27,7 @@ interface InitNotifsAction {
 
 // interface ClosePopupAction {
 //     type: WebSocketActionTypes.CLOSE_POPUP;
-}
+// }
 // ... define more Action OpenPopupAction | ClosePopupAction
 type webSocketAction = InitRanksAction | InitNotifsAction // | ... more Action
 
