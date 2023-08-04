@@ -38,7 +38,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png",
+      "favicon": "./assets/rank-it-logo.png",
       "bundler": "metro"
     }
   }

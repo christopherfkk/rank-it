@@ -292,6 +292,27 @@ export const Reg = {
         alignSelf: "stretch",
         justifyContent: "center",
     },
+    avatarBoxShadowBox: {
+        backgroundColor: "#000000",
+        width: "100%",
+        paddingVertical: 8,
+        paddingHorizontal: Padding.p_mini,
+        borderWidth: 1,
+        borderColor: "#fff2f2",
+        borderStyle: "solid",
+        shadowOpacity: 1,
+        elevation: 4,
+        shadowRadius: 4,
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowColor: "rgba(0, 0, 0, 0.25)",
+        borderRadius: Border.br_11xs,
+        justifyContent: "center",
+        alignSelf: "stretch"
+    },
+
     errorBox: {
         borderColor: "red", // Show a red border for the input when there's an error
     },

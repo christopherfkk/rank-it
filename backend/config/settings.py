@@ -134,11 +134,9 @@ SPECTACULAR_SETTINGS = {
 
 CHANNEL_LAYERS = {
     'default': {
-        # 'BACKEND': "channels.layers.InMemoryChannelLayer",
-        # 'hosts': [('localhost', )],
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [os.environ.get('KV_URI', '')],
         },
     },
 }
@@ -225,17 +223,17 @@ DATABASES = {
         'HOST': 'db',
         'PORT': 5432
     },
-    'no-docker': {
+    'local': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite')
     },
-    'supabase': {
+    'vercel': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get("DB_NAME"),
-        'USER': os.environ.get("DB_USER"),
-        'PASSWORD': os.environ.get("DB_PASSWORD"),
-        'HOST': os.environ.get("DB_HOST"),
-        'PORT': os.environ.get("DB_PORT"),
+        'NAME': os.environ.get("POSTGRES_DATABASE"),
+        'USER': os.environ.get("POSTGRES_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
+        'HOST': os.environ.get("POSTGRES_HOST"),
+        'PORT': os.environ.get("POSTGRES_PORT"),
     }
 }
 

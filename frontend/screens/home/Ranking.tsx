@@ -128,6 +128,7 @@ const Ranking = () => {
                                 opponentData={rank.user}
                                 rank={index + 1}
                                 opponentName={rank.user.first_name + " " + rank.user.last_name}
+                                avatar_image_name={rank.user.avatar_image_name}
                                 skill={rank.skill}
                                 self={rank.user.id == userId}
                                 selfName={userName}

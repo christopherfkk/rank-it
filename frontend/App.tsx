@@ -23,6 +23,8 @@ import PfLevel from "./screens/setup/PfLevel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BottomTabs from "./BottomTabs";
 import {WebSocketActionTypes} from './reducers/webSocketReducer';
+import PfPickAvatar from './screens/setup/PfPickAvatar';
+import ApiConfig from './apiConfig';
 
 const Stack = createNativeStackNavigator();
 
@@ -74,6 +76,8 @@ const InnerApp = ({hideSplashScreen}) => {
 
 
     useEffect(() => {
+
+        console.log("URL", ApiConfig.BASE_URL)
 
         // Check if logged in
         const checkLoginStatus = async () => {
@@ -152,7 +156,7 @@ const InnerApp = ({hideSplashScreen}) => {
                         !isLogIn
                             ? 'Login'
                             : !isRegistered
-                                ? 'Login' //PfStart
+                                ? 'PfStart' //PfStart
                                 : 'BottomTabs' //BottomTabs
                     }
                     screenOptions={{headerShown: false}}
@@ -229,6 +233,11 @@ const InnerApp = ({hideSplashScreen}) => {
                     <Stack.Screen
                         name="PfName"
                         component={PfName}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name="PfPickAvatar"
+                        component={PfPickAvatar}
                         options={{headerShown: false}}
                     />
                     <Stack.Screen

@@ -17,6 +17,7 @@ import ChallengeButton from '../../components/home/ChallengeButton';
 import ModalPostmatchfeedbackA from '../../components/home/ModalPostmatchfeedbackA';
 import ModalReminder from "../../components/home/ModalReminder";
 import BackButton from '../../components/home/BackButton';
+import {avatarImages} from '../setup/avatarImages';
 
 type ProfileParamList = {
     Profile: {
@@ -62,6 +63,7 @@ const Profile = ({route}: ProfileType) => {
         overall_sportsmanship_rating: "",
         top_strengths: [],
         overall_match_competitiveness_rating: "",
+        avatar_image_name: "",
     })
 
     const [isEditMode, setIsEditMode] = useState(false);
@@ -192,7 +194,7 @@ const Profile = ({route}: ProfileType) => {
                 >
                     {/* PHOTO AND SOME DETAILS */}
                     <ProfileHeader
-                        avatar={require("../../assets/empty-avatar.png")}
+                        avatar={avatarImages[profile.avatar_image_name]}
                         fullName={profile.first_name + " " + profile.last_name}
                         location="CB Gym, Tokyo"
                         skill={profile.level}
