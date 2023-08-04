@@ -143,6 +143,17 @@ class MatchViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(match)
         return Response(serializer.data)
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        post_match_feedback = PostMatchFeedback.objects.filter(match=instance).first()
+
+        serializer = self.get_serializer(instance)
+        feedback_serializer = PostMatchFeedbackSerializer(post_match_feedback)
+
+        return Response({
+            "match": serializer.data,
+            "post_match_feedback": feedback_serializer.data
+        })
 
 class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
     """
