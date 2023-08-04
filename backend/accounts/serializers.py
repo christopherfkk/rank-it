@@ -16,6 +16,7 @@ class AccountSerializer(serializers.ModelSerializer):
             'id', 'email', 'username', 'first_name', 'last_name', 'level',
             'matches_played', 'matches_won', 'overall_sportsmanship_rating',
             'overall_match_competitiveness_rating', 'top_strengths', 'blurb',
+            'avatar_image_name',
         )
 
     top_strengths = serializers.SerializerMethodField()

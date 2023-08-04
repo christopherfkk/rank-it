@@ -3,6 +3,7 @@ import {Text, StyleSheet, ImageBackground, View, TouchableOpacity,} from "react-
 import ModalPostmatchfeedbackA from "./ModalPostmatchfeedbackA"
 import {Color, FontFamily, FontSize, Border, Padding} from "../../GlobalStyles";
 import ChallengeButton from '../home/ChallengeButton';
+import {avatarImages} from '../../screens/setup/avatarImages';
 
 type RankingContainerType = {
     /** Text props */
@@ -10,6 +11,7 @@ type RankingContainerType = {
     selfName: string;
     opponentName: string;
     avatar?: string;
+    avatar_image_name: string;
     skill: number;
     self: boolean;
     opponentData: any;
@@ -24,6 +26,7 @@ const RankingContainer = memo(({
                                    selfName,
                                    opponentName,
                                    avatar,
+                                   avatar_image_name,
                                    skill,
                                    opponentData,
                                    setRefresh,
@@ -44,7 +47,7 @@ const RankingContainer = memo(({
 
         const showSkill = (skill) => {
             // Origin Trueskill from backend is 1-100 with many decimals
-            return Math.round(skill*10) + 100
+            return Math.round(skill * 10) + 100
         }
 
         const backgroundColor = rank === 1 ? "#FFF994" : rank === 2 ? Color.dimgray_100 : rank === 3 ? "#C39C78" : self ? Color.dimgray_100 : Color.lavenderblush;
@@ -65,8 +68,8 @@ const RankingContainer = memo(({
                         <ImageBackground
                             style={styles.avatar}
                             imageStyle={styles.avatar_image}
-                            resizeMode="cover"
-                            source={require("../../assets/empty-avatar.png")}
+                            resizeMode="contain"
+                            source={avatarImages[avatar_image_name]}
                         />
 
                         <Text style={styles.name}>
@@ -94,8 +97,8 @@ const RankingContainer = memo(({
                 <ModalPostmatchfeedbackA
                     visible={showFeedbackModal}
                     onClose={handleCloseModal}
-                    setRefresh = {setRefresh}
-                    selfName = {selfName}
+                    setRefresh={setRefresh}
+                    selfName={selfName}
                     opponentName={opponentName}
                     level={opponentData.level ?? 'null'}
                     opponentId={opponentData.id}/>
@@ -137,6 +140,7 @@ const styles = StyleSheet.create({
         color: Color.darkslategray,
     },
     avatar: {
+        borderRadius: 200,
         width: "10%",
         height: "100%",
         alignItems: "center",
