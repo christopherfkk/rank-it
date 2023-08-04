@@ -12,13 +12,13 @@ import BackButton from "./BackButton";
 import RegButton from "../setup/RegButton"
 import { useNavigation } from '@react-navigation/native';
 
-type ModalPostmatchfeedbackType = {
+type ModalPMFReminderType = {
   visible: boolean; // Add the 'visible' property to the type
   onClose?: () => void;
   nMatchesUnconfirmed: number;
 };
 
-const ModalPostmatchfeedbackA = ({ visible, onClose, nMatchesUnconfirmed}: ModalPostmatchfeedbackType) => {
+const ModalPMFReminder = ({ visible, onClose, nMatchesUnconfirmed}: ModalPMFReminderType) => {
   const navigation = useNavigation();
 
   return (
@@ -33,7 +33,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, nMatchesUnconfirmed}: Modal
           <RegButton  
             navigation={navigation} 
             screenName='MatchConfirm' 
-            buttonText='Confirm Matches'/>  
+            buttonText='Confirm'/>  
       </SafeAreaView>
     </Modal>
   );
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
     height: 20, // Set the desired vertical spacing between components
   },
 });
-export default ModalPostmatchfeedbackA;
+export default ModalPMFReminder;

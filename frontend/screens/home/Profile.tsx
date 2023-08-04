@@ -1,10 +1,10 @@
-import React, {useEffect, useState, useCallback} from "react";
+import React, { useState, useCallback} from "react";
 import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator} from "react-native";
 import {Image} from "expo-image";
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {RouteProp} from "@react-navigation/native";
 
-import {Padding, Color,  Home, ProfileStyles} from "../../GlobalStyles";
+import { Color,  Home, ProfileStyles } from "../../GlobalStyles";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import ChallengeButton from '../../components/home/ChallengeButton';
