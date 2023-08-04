@@ -78,8 +78,6 @@ const InnerApp = ({hideSplashScreen}) => {
     useEffect(() => {
 
         console.log("URL", ApiConfig.BASE_URL)
-        const apiUrl = process.env.EXPO_PUBLIC_BASE_URL;
-        console.log("URL", apiUrl)
 
         // Check if logged in
         const checkLoginStatus = async () => {
