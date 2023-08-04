@@ -1,12 +1,11 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React, {useState} from 'react';
-import RankingNav from './components/nav/RankingNav';
-import MatchesNav from './components/nav/MatchesNav';
-import ProfileNav from './components/nav/ProfileNav';
+// import RankingNav from './components/nav/RankingNav';
+// import MatchesNav from './components/nav/MatchesNav';
+// import ProfileNav from './components/nav/ProfileNav';
 import Ranking from './screens/home/Ranking';
 import Profile from './screens/home/Profile';
 import MatchConfirm from './screens/home/MatchConfirm';
-import {StyleSheet, View} from 'react-native';
 import {Border, Color, FontFamily} from './GlobalStyles';
 import Icon from 'react-native-vector-icons/FontAwesome5'; // Import your desired icon library
 import {default as IconEntypo} from 'react-native-vector-icons/Entypo';
@@ -43,7 +42,7 @@ function BottomTabs({navigation}: any) {
                 }}
             />
             <Tab.Screen
-                name="Match"
+                name="MatchConfirm"
                 component={MatchConfirm}
                 options={{
                     headerShown: false,

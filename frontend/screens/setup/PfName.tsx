@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import {
   Text,
-  StyleSheet,
-  TextInput,
-  ImageBackground,
   View,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
