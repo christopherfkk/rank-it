@@ -47,7 +47,7 @@ const RankingContainer = memo(({
             return Math.round(skill*10) + 100
         }
 
-        const backgroundColor = rank === 1 ? "#FFF994" : rank === 2 ? Color.dimgray_100 : rank === 3 ? "#C39C78" : self ? Color.dimgray_100 : Color.lavenderblush;
+        const backgroundColor = self ? Color.dimgray_100 : Color.lavenderblush;
 
         return (
             <View style={[styles.rankingContainer, {backgroundColor}]}>
