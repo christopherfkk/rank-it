@@ -41,7 +41,7 @@ const MatchConfirm = () => {
             const accessToken = await AsyncStorage.getItem('accessToken');
             const selfInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
             setSelfName(selfInfo.first_name)
-            setSelfName(selfInfo.id)
+            setSelfId(selfInfo.id)
             // setAccess(accessToken);
 
             // Fetch the notifications
@@ -81,6 +81,7 @@ const MatchConfirm = () => {
                 console.log("matchData", matchData)
                 //add notif id in allMatches in case match.id != notif.id
                 matchData.notifId = notif.id;
+
                 allMatches.push(matchData); // Add the match to the array
             }
 

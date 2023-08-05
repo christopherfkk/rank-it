@@ -28,13 +28,15 @@ type ModalPostmatchfeedbackType = {
   notifId: number;
   selfName: string;
   selfId: string;
+  preOpponentScore: string;
+  preSubmitterScore: string;
   setRefresh: Function;}
 
-const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId, notifId, setRefresh, selfName, selfId}: ModalPostmatchfeedbackType) => {
+const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, matchId, notifId, setRefresh, selfName, selfId, preOpponentScore, preSubmitterScore}: ModalPostmatchfeedbackType) => {
   const [matchScoresError, setMatchScoresError] = useState(false);
 
-  const [submitterScore, setSubmitterScore] = useState(""); // State for "You" score
-  const [opponentScore, setOpponentScore] = useState(""); // State for "Opponent" score
+  const [submitterScore, setSubmitterScore] = useState(preSubmitterScore); // State for "You" score
+  const [opponentScore, setOpponentScore] = useState(preOpponentScore); // State for "Opponent" score
   const [pressedButtonsList, setPressedButtonsList] = useState([]);
   const [sportsmanshipValue, setSportsmanshipValue] = useState(3);
   const [matchCompetitivenessValue, setMatchCompetitivenessValue] = useState(3);
@@ -44,6 +46,7 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
   const handleButtonsPressed = (pressedButtons) => {
     setPressedButtonsList(pressedButtons);
   };
+  console.log(name)
 
   const updateRead = async (notifId) => {
 
@@ -70,7 +73,7 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
       setErrorMessage("Match scores are mandatory. Please provide both your score and opponent's score.");
       setMatchScoresError(true);
       return;
-    } 
+    }
     else if (submitterScore === opponentScore) {
       setErrorMessage("Your scores cannot be identical");
       setMatchScoresError(true);
@@ -137,6 +140,8 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
             onChangeOpponentScore={(score) => setOpponentScore(score)}
             opponentName = {name}
             selfName = {selfName}
+            preSubmitterScore = {preSubmitterScore}
+            preOpponentScore = {preOpponentScore}
           />
           <StrengthGrid onButtonsPressed={handleButtonsPressed}/>
           <SlidersComponent

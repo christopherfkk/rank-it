@@ -63,6 +63,8 @@ const ConfirmationContainer = memo(
           opponentId={matchData.submitter.id}
           matchId={matchData.id}
           notifId = {matchData.notifId}
+          preSubmitterScore = {matchData.post_match_feedback.opponent_score} //reversed
+          preOpponentScore = {matchData.post_match_feedback.submitter_score} //reversed
           setRefresh = {setRefresh}
         />
       </View> //instead of opponentId, they reversed

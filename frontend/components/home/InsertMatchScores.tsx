@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Image, StyleSheet } from 'react-native';
 import { Color, FontFamily, FontSize } from "../../GlobalStyles";
 
-const InsertMatchScores = ({ onChangeYourScore, onChangeOpponentScore, selfName, opponentName}) => {
-  const [yourScore, setYourScore] = useState('');
-  const [opponentScore, setOpponentScore] = useState('');
+const InsertMatchScores = ({ onChangeYourScore, onChangeOpponentScore,
+                             selfName, opponentName,
+                             preSubmitterScore, preOpponentScore}) => {
+  const [yourScore, setYourScore] = useState(preSubmitterScore);
+  const [opponentScore, setOpponentScore] = useState(preOpponentScore);
   const [scoreError, setScoreError] = useState(false);
-
+  console.log(preSubmitterScore, preOpponentScore, 'score')
   const handleYourScoreChange = (text) => {
     // Allow only numeric input
     const numericValue = text.replace(/[^0-9]/g, '');
@@ -47,7 +49,7 @@ const InsertMatchScores = ({ onChangeYourScore, onChangeOpponentScore, selfName,
           <Text style={styles.subheading}>{selfName}</Text>
           <TextInput
             style={[styles.timeBorder, scoreError && styles.errorBorder]} // Apply error border style if there's an error
-            placeholder="Score"
+            placeholder= "Score"
             keyboardType="numeric"
             placeholderTextColor="#737373"
             maxLength={2}
