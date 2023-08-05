@@ -213,5 +213,4 @@ class PostMatchFeedback(models.Model):
             f"""
             PostMatchFeedback completed by {self.reporter.username}
             for match between {self.match.submitter.username} & {self.match.opponent.username}
-            on {self.match.match_offer.start_datetime}
             """
