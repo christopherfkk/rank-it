@@ -133,11 +133,12 @@ const Ranking = () => {
                                 self={rank.user.id == userId}
                                 selfName={userName}
                                 setRefresh={setRefresh}
-                                onFrameTouchableOpacityPress={() =>
+                                onFrameTouchableOpacityPress={() => {
+                                    console.log("touch", rank)
                                     navigation.navigate("Profile",
                                         {otherUserId: rank.user.id, self: rank.user.id == userId}
                                     )
-                                }
+                                }}
                             />
                         ))}
                     </ScrollView>

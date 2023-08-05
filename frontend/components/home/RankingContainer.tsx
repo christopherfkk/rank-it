@@ -84,7 +84,7 @@ const RankingContainer = memo(({
                             null :
                             <ChallengeButton
                                 button = 'challenge'
-                                onPress={() =>handleRegButtonPress}
+                                onPress={() =>handleRegButtonPress()}
                             />}
                     {/* </View> */}
                 </TouchableOpacity>
