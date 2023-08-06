@@ -122,7 +122,9 @@ const Ranking = () => {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.rankingScrollViewContent}
                     >
-                        {ranking.map((rank, index) => (
+                    {ranking
+                        .filter((rank) => rank.user.first_name !== null && rank.user.last_name !== null)
+                        .map((rank, index)  => (
                             <RankingContainer
                                 key={index + 1}
                                 opponentData={rank.user}
@@ -134,7 +136,6 @@ const Ranking = () => {
                                 selfName={userName}
                                 setRefresh={setRefresh}
                                 onFrameTouchableOpacityPress={() => {
-                                    console.log("touch", rank)
                                     navigation.navigate("Profile",
                                         {otherUserId: rank.user.id, self: rank.user.id == userId}
                                     )
