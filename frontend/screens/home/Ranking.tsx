@@ -33,6 +33,7 @@ const Ranking = () => {
   const socket = useSelector((state: RootState) => state.webSocketStore.socket_ranks);
 
   useEffect(() => {
+    console.log('hihihi');
     if (socket) {
       socket.onmessage = (e) => {
         console.log('Websocket Ranking Received');
@@ -40,7 +41,13 @@ const Ranking = () => {
         setRanking(JSON.parse(e.data).ranking);
       };
     }
-  }, [socket]);
+    return () => {
+      // Cleanup function to remove the event listener when the component unmounts
+      if (socket) {
+        socket.onmessage = null;
+      }
+    };
+  });
 
   const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
 
