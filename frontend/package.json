@@ -53,6 +53,7 @@
     "@babel/core": "^7.12.9",
     "babel-plugin-transform-inline-environment-variables": "^0.4.4",
     "install": "^0.13.0",
+    "metro-cache": "^0.77.0",
     "npm": "^9.8.1"
   },
   "private": true
