@@ -152,10 +152,10 @@ const Instructions = () => {
 };
 
 const styles = StyleSheet.create({
-  // ... (Existing styles)
   header: {
     width: "100%",
     alignItems: "center",
+    justifyItems: "center",
     paddingTop: "5%",
   },
   headerText: {
