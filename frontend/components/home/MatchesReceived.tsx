@@ -8,16 +8,11 @@ import {
   View,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import MatchesReceived from "components/home/MatchesReceived";
-import Received from "./Received";
 import MatchesPending from "./MatchesPending";
-import Pending from "./Pending";
 import MatchesUpcoming from "./MatchesUpcoming";
-import Upcoming from "./Upcoming";
 import TrendingDestinations1 from "./TrendingDestinations1";
 import TrendingDestinations from "./TrendingDestinations";
-import Profile1 from "./Profile1";
-import Profile from "./Profile";
+import Icon from 'react-native-vector-icons/FontAwesome5'; // Import your desired icon library
 import { Image } from "expo-image";
 import { Color, FontFamily, FontSize, Padding, Border } from "../../GlobalStyles";
 
@@ -30,8 +25,6 @@ const MatchesReceived = memo(({ style }: MatchesReceivedType) => {
   const [profileInfoContainerData, setProfileInfoContainerData] = useState([
     <TrendingDestinations1 />,
     <TrendingDestinations />,
-    <Profile1 />,
-    <Profile />,
   ]);
 
   return (
@@ -47,7 +40,12 @@ const MatchesReceived = memo(({ style }: MatchesReceivedType) => {
           component={MatchesReceived}
           options={{
             tabBarLabel: "received",
-            tabBarIcon: () => <Received />,
+            tabBarIcon: ({focused}) => (
+              <Icon
+                  name="medal"
+                  size={20}
+                  color={focused ? Color.crimson_200 : 'black'}
+              />)
           }}
         />
         <TopTab.Screen
@@ -55,7 +53,12 @@ const MatchesReceived = memo(({ style }: MatchesReceivedType) => {
           component={MatchesPending}
           options={{
             tabBarLabel: "pending",
-            tabBarIcon: () => <Pending />,
+            tabBarIcon: ({focused}) => (
+              <Icon
+                  name="medal"
+                  size={20}
+                  color={focused ? Color.crimson_200 : 'black'}
+              />)
           }}
         />
         <TopTab.Screen
@@ -63,7 +66,12 @@ const MatchesReceived = memo(({ style }: MatchesReceivedType) => {
           component={MatchesUpcoming}
           options={{
             tabBarLabel: "upcoming",
-            tabBarIcon: () => <Upcoming />,
+            tabBarIcon: ({focused}) => (
+              <Icon
+                  name="medal"
+                  size={20}
+                  color={focused ? Color.crimson_200 : 'black'}
+              />)
           }}
         />
       </TopTab.Navigator>
