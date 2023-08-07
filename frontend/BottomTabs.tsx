@@ -5,7 +5,7 @@ import Profile from './screens/home/Profile';
 import MatchConfirm from './screens/home/MatchConfirm';
 import Instructions from './screens/home/Instructions';
 import {Border, Color, FontFamily} from './GlobalStyles';
-import Icon from 'react-native-vector-icons/FontAwesome5'; // Import your desired icon library
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {default as IconEntypo} from 'react-native-vector-icons/Entypo';
 
 // Create bottom tab navigation
@@ -14,7 +14,6 @@ const Tab = createBottomTabNavigator();
 function BottomTabs({navigation}: any) {
     return (
         <Tab.Navigator>
-            // Icon turns red when focused
             <Tab.Screen
                 name="Ranking"
                 component={Ranking}
@@ -61,7 +60,6 @@ function BottomTabs({navigation}: any) {
                 }}
             />
 
-            // Navigates to the correct profile when pressed 
             <Tab.Screen
                 name="Profile"
                 component={Profile}
