@@ -32,6 +32,13 @@ interface RankingData {
 const Ranking = () => {
   const socket = useSelector((state: RootState) => state.webSocketStore.socket_ranks);
 
+  const navigation = useNavigation();
+  const [ranking, setRanking] = useState<RankingData[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [refresh, setRefresh] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     console.log('hihihi');
     if (socket) {
@@ -39,6 +46,7 @@ const Ranking = () => {
         console.log('Websocket Ranking Received');
         console.log(JSON.parse(e.data).ranking);
         setRanking(JSON.parse(e.data).ranking);
+        console.log(ranking)
       };
     }
     return () => {
@@ -47,7 +55,12 @@ const Ranking = () => {
         socket.onmessage = null;
       }
     };
-  });
+  },[]);
+
+  useEffect(() => {
+    console.log('Updated Ranking:', ranking);
+  }, [ranking]);
+
 
   const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
 
@@ -64,13 +77,6 @@ const Ranking = () => {
   const handleClosePopup = () => {
     setUnconfirmedMatch(false);
   };
-
-  const navigation = useNavigation();
-  const [ranking, setRanking] = useState<RankingData[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string | null>(null);
-  const [refresh, setRefresh] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
     setIsLoading(true);

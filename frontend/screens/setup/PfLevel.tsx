@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, ImageBackground, View } from "react-native";
+import { Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import RegSelectButton from "../../components/setup/RegSelectButton";
 
-import { FontFamily, Color, Padding, Reg } from "../../GlobalStyles";
+import { Reg } from "../../GlobalStyles";
 import RegBackground from "../../components/setup/RegBackground";
 import RegButton from "../../components/setup/RegButton"
 import { useRegContext, ACTIONS } from '../../RegContext';
@@ -63,6 +63,12 @@ const PfLevel = () => {
     <View style={Reg.background}>
       <RegBackground>
         <Text style={Reg.heading1}>What's your Badminton skill level?</Text>
+
+        {/* Introduction */}
+        <Text style={Reg.introText}>
+          Please select your skill level in badminton from the options below:
+        </Text>
+        
         <RegSelectButton
           onPress={(level) => setSelectedLevel(level)}
           selectedOption={selectedLevel}
@@ -80,7 +86,7 @@ const PfLevel = () => {
         />
         <RegButton
           navigation={navigation}
-          screenName="BottomTabs" // Replace "OtherScreen" with the next screen name
+          screenName="BottomTabs" 
           onPress={() => {
             storeUserLevelInfo(selectedLevel); // Store the selected level
             submitUserInfo();

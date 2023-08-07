@@ -34,6 +34,7 @@ const RankingContainer = memo(({
                                    self
                                }: RankingContainerType) => {
         const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
         const handleRegButtonPress = () => {
             // Show the modal when RegButton is pressed
             setShowFeedbackModal(true);
@@ -78,15 +79,15 @@ const RankingContainer = memo(({
                             {showSkill(skill)}
                         </Text>
                     </View>
-                    {/* <View style={styles.button}> */}
+                    <View style={styles.button}>
                         {/* START CHALLENGE BUTTON */}
                         {self ?
                             null :
                             <ChallengeButton
                                 button = 'challenge'
-                                onPress={() =>handleRegButtonPress()}
+                                onPress={handleRegButtonPress}
                             />}
-                    {/* </View> */}
+                   </View>
                 </TouchableOpacity>
                 <ModalPostmatchfeedbackA
                     visible={showFeedbackModal}
