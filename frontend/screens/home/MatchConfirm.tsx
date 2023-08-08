@@ -7,14 +7,25 @@ import { format } from 'date-fns';
 import ConfirmationContainer from "../../components/home/ConfirmationContainer";
 import { Padding, Border, FontFamily, FontSize, Color, Home } from "../../GlobalStyles";
 import apiConfig from '../../apiConfig';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 const MatchConfirm = () => {
+
+
 
   const [notification, setNotification] = useState([]);
   const [matches, setMatches] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [selfId, setSelfId] = useState();
   const [selfName, setSelfName] = useState();
+  const messages = useSelector((state: RootState) => state.webSocketStore.messages);
+
+  useEffect(() => {
+    if (messages && messages.length > 0) {
+        setNotification(notification);
+    }
+}, [messages]);
 
   const formatDate = (datetime) => {
     const date = new Date(datetime);

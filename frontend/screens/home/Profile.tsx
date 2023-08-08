@@ -48,11 +48,12 @@ const Profile = ({ route }: ProfileType) => {
   const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
   const messages = useSelector((state: RootState) => state.webSocketStore.messages);
 
-  useEffect(() => {
-    if (messages && messages.length > 0) {
-        setUnconfirmedMatch(true);
-    }
-}, [messages]);
+//   useEffect(() => {
+//     if (messages && messages.length > 0) {
+//       console.log('profile')
+//         setUnconfirmedMatch(true);
+//     }
+// }, [messages]);
 
   const handleClosePopup = () => {
     setUnconfirmedMatch(false)
