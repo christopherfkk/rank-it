@@ -12,7 +12,8 @@ def send_notification(
         actor: CustomUser,
         notifiers: List[CustomUser],
         status: Notification.Status = Notification.Status.UNREAD,):
-
+        
+    print('details', entity, description, entity_id, actor, notifiers, status)
     with transaction.atomic():
         notif_type = NotificationType.objects.get(
             description=description,

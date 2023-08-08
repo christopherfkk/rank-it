@@ -206,6 +206,7 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
                 request.data.pop('opponent_id')
 
                 # Create Notification object
+                print('match', match.id, match.submitter,match.opponent)
                 send_notification(
                     NotificationType.Entity.MATCH,
                     NotificationType.Description.MATCH_CREATED,
