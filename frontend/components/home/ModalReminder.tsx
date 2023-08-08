@@ -25,6 +25,7 @@ const ModalPMFReminder = ({ visible, onClose}: ModalPMFReminderType) => {
   const handleConfirmButtonPress = () => {
     // Navigate to 'MatchConfirm' and close the modal
     navigation.navigate('MatchConfirm');
+    console.log('closemodal')
     onClose && onClose();
   };
 
