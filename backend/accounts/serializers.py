@@ -69,8 +69,8 @@ class CustomRegisterSerializer(RegisterSerializer):
             data['username'] = None
         return data
 
-    def custom_signup(self, request, user):
-        Skill.objects.create(user=user)
+    # def custom_signup(self, request, user):
+    #     Skill.objects.create(user=user)
 
 
 class TokenSerializer(serializers.ModelSerializer):

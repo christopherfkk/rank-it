@@ -24,10 +24,10 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save()
 
-        # Initialize skill object for the new user
-        Skill.objects.create(
-            user=user,
-        )
+        # # Initialize skill object for the new user
+        # Skill.objects.create(
+        #     user=user,
+        # )
 
         return user
 

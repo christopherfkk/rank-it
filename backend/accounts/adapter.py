@@ -45,8 +45,8 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def save_user(self, request, sociallogin, form=None):
         user = super().save_user(request, sociallogin, form=form)  # save the user first
 
-        if not Skill.objects.filter(user=user).exists():
-            Skill.objects.create(user=user)
+        # if not Skill.objects.filter(user=user).exists():
+        #     Skill.objects.create(user=user)
 
         # Get the avatar if the provider is Google
         if sociallogin.account.provider == 'google':
