@@ -11,9 +11,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
 const MatchConfirm = () => {
-
-
-
   const [notification, setNotification] = useState([]);
   const [matches, setMatches] = useState([]);
   const [refresh, setRefresh] = useState(false);
