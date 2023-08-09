@@ -1,13 +1,15 @@
 interface WebSocketState {
     socket_ranks: WebSocket | null;
     socket_notifs: WebSocket | null;
-    messages: any[];  // assuming messages are of type 'any' for now
+    messages: any[];
+    isPopUp: boolean;
 }
 
 export enum WebSocketActionTypes {
     INIT_RANKS = 'INIT_RANKS',
     INIT_NOTIFS = 'INIT_NOTIFS',
-    MESSAGES = 'MESSAGES'
+    MESSAGES = 'MESSAGES',
+    ISPOPUP = 'ISPOPUP'
 }
 
 interface InitRanksAction {
@@ -25,13 +27,19 @@ interface Messages {
     payload: any;
 }
 
-type webSocketAction = InitRanksAction | InitNotifsAction | Messages // | ... more Action
+interface IsPopUp {
+    type: WebSocketActionTypes.ISPOPUP;
+    payload: boolean;
+}
+
+type webSocketAction = InitRanksAction | InitNotifsAction | Messages | IsPopUp // | ... more Action
 
 //, isPopupOpen: false
 const initialState: WebSocketState = { 
     socket_ranks: null, 
     socket_notifs: null, 
-    messages: [] 
+    messages: [],
+    isPopUp: false
 };
 
 const webSocketReducer = (state: WebSocketState = initialState, action: webSocketAction): WebSocketState => {
@@ -42,6 +50,8 @@ const webSocketReducer = (state: WebSocketState = initialState, action: webSocke
             return { ...state, socket_notifs: action.payload };
         case WebSocketActionTypes.MESSAGES:
             return { ...state, messages: [...state.messages, action.payload] };
+        case WebSocketActionTypes.ISPOPUP:
+            return { ...state, isPopUp: action.payload };
         default:
             return state;
     }

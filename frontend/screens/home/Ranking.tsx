@@ -57,13 +57,13 @@ const Ranking = () => {
 
   const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
 
-  const messages = useSelector((state: RootState) => state.webSocketStore.messages);
+  const isPopUp = useSelector((state: RootState) => state.webSocketStore.isPopUp);
 
   useEffect(() => {
-    if (messages && messages.length > 0) {
-        setUnconfirmedMatch(true);
+    if (isPopUp === true) {
+      setUnconfirmedMatch(true);
     }
-}, [messages]);
+}, [isPopUp]);
     
 
   const handleClosePopup = () => {

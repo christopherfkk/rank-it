@@ -133,11 +133,14 @@ const InnerApp = ({hideSplashScreen}) => {
                     });
                 socket.onmessage = (e) => {
                     const notification = JSON.parse(e.data).notification;
+                    const created = JSON.parse(e.data).created;
                     // Dispatch the message to Redux
                     console.log('Detect App.tsx')
                     console.log('App.tsx',notification)
-                    dispatch({ type: WebSocketActionTypes.MESSAGES, payload: notification });
-                    };
+                    if (notification && notification.length !== 0) {
+                        dispatch({ type: WebSocketActionTypes.MESSAGES, payload: notification});
+                        dispatch({ type: WebSocketActionTypes.ISPOPUP, payload: created});
+                    }
                 };
             }
         }
