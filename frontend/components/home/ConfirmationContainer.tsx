@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
 import { Text, StyleSheet, ImageBackground, View, TouchableOpacity } from "react-native";
-import RegButton from "./ChallengeButton";
+import {avatarImages} from '../../screens/setup/avatarImages';
 import ModalPostmatchfeedbackB from "./ModalPostmatchfeedbackB";
 import { Color, FontFamily, FontSize, Border, Padding } from "../../GlobalStyles";
 
@@ -45,7 +45,7 @@ const ConfirmationContainer = memo(
               style={styles.avatar}
               imageStyle={styles.avatar_image}
               resizeMode="cover"
-              source={require("../../assets/empty-avatar.png")}
+              source={avatarImages[avatar]}
             />
               <Text style={styles.name}>{opponentName}</Text>
               <Text style={styles.skillText}>{date}</Text>
