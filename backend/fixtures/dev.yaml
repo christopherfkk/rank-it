@@ -93,11 +93,11 @@
 - model: accounts.CustomUser
   pk: 3
   fields:
-    email: jin@email.com
-    username: jin
+    email: hugo@email.com
+    username: hugo
     password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
-    first_name: Jin
-    last_name: Tanaka
+    first_name: Hugo
+    last_name: Siu
     level: Beginner
     avatar_image_name: man2
     blurb: Imma beat you no chill.
@@ -105,11 +105,11 @@
 - model: accounts.CustomUser
   pk: 4
   fields:
-    email: hiro@email.com
-    username: hiro
+    email: bentley@email.com
+    username: bentley
     password: pbkdf2_sha256$600000$ymH6HddGKGcvntD8SKT8Qc$dnCh54X/rbfxMMRb+8YV+9NAVGc2GZMs3+qhYd+5/Us=
-    first_name: Hiro
-    last_name: San
+    first_name: Bentley
+    last_name: Chen
     level: Beginner
     avatar_image_name: man1
     blurb: Alright blooda.
