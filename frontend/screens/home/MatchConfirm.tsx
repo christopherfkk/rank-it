@@ -13,16 +13,30 @@ import { RootState } from '../../store';
 const MatchConfirm = () => {
   const [notification, setNotification] = useState([]);
   const [matches, setMatches] = useState([]);
+  const [access,setAccess] = useState(null)
   const [refresh, setRefresh] = useState(false);
   const [selfId, setSelfId] = useState();
   const [selfName, setSelfName] = useState();
   const messages = useSelector((state: RootState) => state.webSocketStore.messages);
 
   useEffect(() => {
+    const fetchAccessToken = async () => {
+        const token = await AsyncStorage.getItem('accessToken');
+        setAccess(token);
+    };
+
+    fetchAccessToken();
+}, []);
+
+  useEffect(() => {
     if (messages && messages.length > 0) {
-        setNotification(notification);
+      setNotification(messages);
     }
 }, [messages]);
+
+  useEffect(() => {
+    fetchMatchData(access, notification)
+  }, [notification])
 
   const formatDate = (datetime) => {
     const date = new Date(datetime);

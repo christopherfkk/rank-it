@@ -26,6 +26,6 @@ def push_latest_notification(sender, created, instance, **kwargs):
         message = {
             'type': 'latest_notification',
             'notification': data,
-            'created': True,
+            'created': False,
         }
         async_to_sync(channel_layer.group_send)(f'realtime-notification-{instance.notifier.id}', message)

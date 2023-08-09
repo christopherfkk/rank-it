@@ -146,4 +146,4 @@ class Notification(models.Model):
 
     def set_message(self):
         self.message = self.notification_object.get_message_template()
-        self.save()
+        # self.save()

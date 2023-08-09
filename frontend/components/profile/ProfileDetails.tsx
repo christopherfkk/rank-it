@@ -61,12 +61,12 @@ const ProfileDetails = memo(
 
             const displayCompetitveness = (competitiveness) => {
 
-                if (competitiveness < 3) {
-                    return `Easy: ${competitiveness}/10`
-                } else if (competitiveness > 7) {
-                    return `High: ${competitiveness}/10`
+                if (competitiveness < 2) {
+                    return `Easy: ${competitiveness}/5`
+                } else if (competitiveness > 4) {
+                    return `High: ${competitiveness}/5`
                 } else {
-                    return `Moderate: ${competitiveness}/10`
+                    return `Moderate: ${competitiveness}/5`
                 }
             }
 

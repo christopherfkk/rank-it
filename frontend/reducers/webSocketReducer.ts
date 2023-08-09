@@ -32,7 +32,7 @@ interface IsPopUp {
     payload: boolean;
 }
 
-type webSocketAction = InitRanksAction | InitNotifsAction | Messages | IsPopUp // | ... more Action
+type webSocketAction = InitRanksAction | InitNotifsAction | Messages | IsPopUp 
 
 //, isPopupOpen: false
 const initialState: WebSocketState = { 
@@ -49,7 +49,7 @@ const webSocketReducer = (state: WebSocketState = initialState, action: webSocke
         case WebSocketActionTypes.INIT_NOTIFS:
             return { ...state, socket_notifs: action.payload };
         case WebSocketActionTypes.MESSAGES:
-            return { ...state, messages: [...state.messages, action.payload] };
+            return { ...state, messages: action.payload };
         case WebSocketActionTypes.ISPOPUP:
             return { ...state, isPopUp: action.payload };
         default:

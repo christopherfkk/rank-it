@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ModalReminder from '../../components/home/ModalReminder';
 import RankingContainer from '../../components/home/RankingContainer';
@@ -58,16 +58,19 @@ const Ranking = () => {
   const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
 
   const isPopUp = useSelector((state: RootState) => state.webSocketStore.isPopUp);
+  const messages = useSelector((state: RootState) => state.webSocketStore.messages);
 
   useEffect(() => {
     if (isPopUp === true) {
+      console.log('isPopup', isPopUp)
       setUnconfirmedMatch(true);
     }
-}, [isPopUp]);
+}, [isPopUp, messages]);
     
 
   const handleClosePopup = () => {
     setUnconfirmedMatch(false);
+    // dispatch({ type: WebSocketActionTypes.ISPOPUP, payload: false});
   };
 
   const fetchData = async () => {

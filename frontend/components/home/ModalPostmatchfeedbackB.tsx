@@ -46,7 +46,6 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
   const handleButtonsPressed = (pressedButtons) => {
     setPressedButtonsList(pressedButtons);
   };
-  console.log(name)
 
   const updateRead = async (notifId) => {
 
@@ -61,7 +60,6 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
             body: JSON.stringify({status: "Read"})
         })
         const data = await response.json();
-        console.log(data)
     } catch {
         console.error("NO READ: Can't update notification")
     }
@@ -94,7 +92,6 @@ const ModalPostmatchfeedbackB = ({ visible, onClose, name, level, opponentId, ma
         "peer_skill_level_given": null,  
         "peer_feedback_blurb_given": feedbackText 
     }
-    console.log(feedbackData)
     // Perform the API request to send the feedback data to the backend
     // Example using fetch:
 
