@@ -8,14 +8,24 @@ from .serializers import NotificationSerializer
 
 
 @receiver(post_save, sender=Notification)
-def push_latest_notification(sender, instance, **kwargs):
+def push_latest_notification(sender, created, instance, **kwargs):
     queryset = Notification.objects.filter(notifier=instance.notifier, status="Unread")
     serializer = NotificationSerializer(queryset, many=True)
     data = serializer.data
 
     channel_layer = get_channel_layer()
-    message = {
-        'type': 'latest_notification',
-        'notification': data,
-    }
-    async_to_sync(channel_layer.group_send)(f'realtime-notification-{instance.notifier.id}', message)
+    if created and len(data) > 0:
+        message = {
+            'type': 'latest_notification',
+            'notification': data,
+            'created': True,
+        }
+        async_to_sync(channel_layer.group_send)(f'realtime-notification-{instance.notifier.id}', message)
+
+    elif not created and len(data) > 0:
+        message = {
+            'type': 'latest_notification',
+            'notification': data,
+            'created': True,
+        }
+        async_to_sync(channel_layer.group_send)(f'realtime-notification-{instance.notifier.id}', message)
