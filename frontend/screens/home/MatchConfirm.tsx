@@ -11,23 +11,21 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
 const MatchConfirm = () => {
-  const socket = useSelector((state: RootState) => state.webSocketStore.socket_notifs);
 
-  useEffect(() => {
-    if (socket) {
-      socket.onmessage = (e) => {
-        console.log('Websocket Notif Received');
-        console.log(JSON.parse(e.data).notification);
-        setNotification(JSON.parse(e.data).notification);
-      };
-    }
-  }, [socket]);
+
 
   const [notification, setNotification] = useState([]);
   const [matches, setMatches] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [selfId, setSelfId] = useState();
   const [selfName, setSelfName] = useState();
+  const messages = useSelector((state: RootState) => state.webSocketStore.messages);
+
+  useEffect(() => {
+    if (messages && messages.length > 0) {
+        setNotification(notification);
+    }
+}, [messages]);
 
   const formatDate = (datetime) => {
     const date = new Date(datetime);
@@ -122,6 +120,7 @@ const MatchConfirm = () => {
               opponentName={match.submitter.first_name + " " + match.submitter.last_name}
               date={formatDate(match.updated_at)}
               setRefresh={setRefresh}
+              avatar={match.submitter.avatar_image_name}
               selfId={selfId}
               selfName={selfName}
             />

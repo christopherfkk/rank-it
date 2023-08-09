@@ -2,6 +2,28 @@ import React from 'react';
 import { Text, StyleSheet, View, ScrollView, SafeAreaView, Image } from 'react-native';
 import { FontFamily, FontSize, Color, Home } from '../../GlobalStyles';
 
+//https://docs.expo.dev/versions/latest/sdk/view-pager/ 
+
+// import PagerView from 'react-native-pager-view';
+
+// const MyPager = () => {
+//   return (
+//     <View style={{ flex: 1 }}>
+//       <PagerView style={styles.viewPager} initialPage={0}>
+//         <View style={styles.page} key="1">
+//           <Text>First page</Text>
+//           <Text>Swipe ➡️</Text>
+//         </View>
+//         <View style={styles.page} key="2">
+//           <Text>Second page</Text>
+//         </View>
+//         <View style={styles.page} key="3">
+//           <Text>Third page</Text>
+//         </View>
+//       </PagerView>
+//     </View>
+//   );
+// };
 const Instructions = () => {
   return (
     <SafeAreaView style={[Home.background]}>

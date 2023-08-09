@@ -40,13 +40,11 @@ const Ranking = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('hihihi');
     if (socket) {
       socket.onmessage = (e) => {
         console.log('Websocket Ranking Received');
         console.log(JSON.parse(e.data).ranking);
         setRanking(JSON.parse(e.data).ranking);
-        console.log(ranking)
       };
     }
     return () => {
@@ -57,22 +55,16 @@ const Ranking = () => {
     };
   },[]);
 
-  useEffect(() => {
-    console.log('Updated Ranking:', ranking);
-  }, [ranking]);
-
-
   const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
 
-  const notif = useSelector((state: RootState) => state.webSocketStore.socket_notifs);
+  const messages = useSelector((state: RootState) => state.webSocketStore.messages);
 
   useEffect(() => {
-    if (notif) {
-      notif.onmessage = () => {
+    if (messages && messages.length > 0) {
         setUnconfirmedMatch(true);
-      };
     }
-  }, [notif]);
+}, [messages]);
+    
 
   const handleClosePopup = () => {
     setUnconfirmedMatch(false);
