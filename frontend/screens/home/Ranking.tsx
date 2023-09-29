@@ -43,7 +43,6 @@ const Ranking = () => {
     if (socket) {
       socket.onmessage = (e) => {
         console.log('Websocket Ranking Received');
-        console.log(JSON.parse(e.data).ranking);
         setRanking(JSON.parse(e.data).ranking);
       };
     }
@@ -89,7 +88,6 @@ const Ranking = () => {
       });
       const data: RankingData[] = await response.json();
       setRanking(data);
-      console.log(data);
     } catch {
       console.error('NO RANKING: Can\'t fetch ranking');
     }
@@ -140,10 +138,13 @@ const Ranking = () => {
         </View>  */}
 
         {/* SUBHEADING */}
-        <View style={styles.subheading}>
-          <Text style={[styles.subheadingText, { width: '20%' }]}>RANK</Text>
-          <Text style={[styles.subheadingText, { width: '40%' }]}>ATHLETE</Text>
-          <Text style={[styles.subheadingText, { width: '40%' }]}>SKILL RATING</Text>
+        <View style={[styles.subheading, {width: "98%"}]}>
+          <View style={{ width: '70%', flexDirection: "row" }}>
+            <Text style={[styles.subheadingText, { width: '20%' }]}>RANK</Text>
+            <Text style={[styles.subheadingText, { width: '60%' }]}>ATHLETE</Text>
+            <Text style={[styles.subheadingText, { width: '20%' }]}>SKILL RATING</Text>
+          </View>
+          <View  style={{ width: '30%' }}></View>
         </View>
 
         <ScrollView
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
     paddingTop: '5%',
   },
   headerText: {
-    fontSize: FontSize.size_11xl,
+    fontSize: 28,
     color: Color.lightLabelPrimary,
     fontFamily: FontFamily.bebasNeueRegular,
   },
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
   locationTabText: {
     textAlign: 'center',
     fontFamily: FontFamily.manropeRegular,
-    fontSize: FontSize.size_3xs,
+    fontSize: 12,
     color: Color.lightLabelPrimary,
   },
   subheading: {
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
   },
   subheadingText: {
     letterSpacing: 0.3,
-    fontSize: FontSize.size_3xs,
+    fontSize: 12,
     textAlign: 'center',
     color: Color.lightLabelPrimary,
     fontFamily: FontFamily.bebasNeueRegular,
@@ -239,6 +240,7 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
   },
   rankingScrollViewContent: {
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',

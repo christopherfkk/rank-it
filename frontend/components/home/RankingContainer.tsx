@@ -1,5 +1,5 @@
 import React, {memo, useState} from "react";
-import {Text, StyleSheet, ImageBackground, View, TouchableOpacity,} from "react-native";
+import {Text, StyleSheet, ImageBackground, View, TouchableOpacity, Image} from "react-native";
 import ModalPostmatchfeedbackA from "./ModalPostmatchfeedbackA"
 import {Color, FontFamily, FontSize, Border, Padding} from "../../GlobalStyles";
 import ChallengeButton from '../home/ChallengeButton';
@@ -53,7 +53,7 @@ const RankingContainer = memo(({
         const backgroundColor = self ? Color.dimgray_100 : Color.lavenderblush;
 
         return (
-            <View style={[styles.rankingContainer, {backgroundColor}]}>
+            <View style={[styles.rankingContainer, {backgroundColor, height: "10%",}]}>
                 <TouchableOpacity
                     style={styles.rankingContainer}
                     activeOpacity={self ? 1 : 0.3}
@@ -65,10 +65,9 @@ const RankingContainer = memo(({
                         <Text style={styles.rankText}>
                             {rank}
                         </Text>
-                        <ImageBackground
+                        <Image
                             style={styles.avatar}
-                            imageStyle={styles.avatar_image}
-                            resizeMode="contain"
+                            resizeMode="cover"
                             source={avatarImages[avatar_image_name]}
                         />
 
@@ -105,60 +104,56 @@ const RankingContainer = memo(({
 const styles = StyleSheet.create({
 
     rankingContainer: {
-        flex: 1,
         flexDirection: "row",
-        alignSelf: "stretch",
+        alignSelf: "center",
         alignItems: "center",
         justifyContent: "center",
         marginVertical: 5,
         borderRadius: Border.br_8xs,
+        width: "98%",
     },
     profile: {
         width: "70%",
+        height: "100%",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        height: 35,
     },
     button: {
         width: "30%",
-        height: "100%",
-        marginRight: "2%",
+        height: "90%",
     },
     rankText: {
-        width: "60%",
+        width: "10%",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        fontSize: FontSize.size_3xs,
+        fontSize: 15,
         fontFamily: FontFamily.manropeExtrabold,
         color: Color.darkslategray,
     },
     avatar: {
         borderRadius: 200,
-        width: "10%",
         height: "100%",
+        width: "10%",
         alignItems: "center",
+        alignSelf: "center",
         justifyContent: "center",
         overflow: "visible",
-    },
-    avatar_image: {
-        borderRadius: 75,
-        width: "100%",
-        height: "100%",
+        borderWidth: 1,
     },
     name: {
-        width: "100%",
+        width: "60%",
         fontFamily: FontFamily.manropeBold,
-        fontSize: FontSize.size_3xs,
+        fontSize: 15,
         color: Color.lightLabelPrimary,
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
     },
     skillText: {
-        width: "100%",
-        fontSize: FontSize.size_3xs,
+        width: "20%",
+        fontSize: 15,
         fontFamily: FontFamily.manropeBold,
         alignItems: "center",
         justifyContent: "center",

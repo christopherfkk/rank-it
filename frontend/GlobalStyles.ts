@@ -1,36 +1,32 @@
 /* fonts */
 export const FontFamily = {
-    manropeMedium: "Manrope_medium",
-    robotoCondensed: "Roboto Condensed",
-    bebasNeueRegular: "Bebas Neue_regular",
-    almaraiLight: "Almarai_light",
-    manropeBold: "Manrope_bold",
-    manropeSemibold: "Manrope_semibold",
-    montserratRegularItalic: "Montserrat_regular_italic",
-    manropeRegular: "Manrope_regular",
-    manropeExtrabold: "Manrope_extrabold",
-    almaraiRegular: "Almarai_regular",
-    almaraiExtrabold: "Almarai_extrabold",
+    almaraiLight: "almarai_light",
+    almaraiRegular: "almarai_regular",
+    bebasNeueRegular: "bebas_neue_regular",
+    manropeRegular: "manrope_regular",
+    manropeMedium: "manrope_medium",
+    manropeSemibold: "manrope_semibold",
+    manropeBold: "manrope_bold",
 };
 /* font sizes */
 export const FontSize = {
-    size_xs_6: 12,
-    size_sm_2: 13,
-    size_6xl: 25,
-    size_3xs: 10,
-    size_2xs: 11,
-    size_xl: 20,
-    size_5xl: 24,
-    size_xs: 12,
-    size_base: 16,
-    size_5xs: 8,
-    size_smi: 13,
-    size_11xl: 30,
-    size_9xl_9: 29,
-    size_sm: 14,
-    size_xs_5: 12,
-    size_31xl: 50,
-    size_21xl: 40,
+    size_xs_6: 15,
+    size_sm_2: 16,
+    size_6xl: 30,
+    size_3xs: 13,
+    size_2xs: 14,
+    size_xl: 23,
+    size_5xl: 27,
+    size_xs: 15,
+    size_base: 21,
+    size_5xs: 11,
+    size_smi: 16,
+    size_11xl: 33,
+    size_9xl_9: 32,
+    size_sm: 17,
+    size_xs_5: 15,
+    size_31xl: 53,
+    size_21xl: 43,
 };
 /* Colors */
 export const Color = {
@@ -342,15 +338,12 @@ export const Home = {
     },
     body: {
         // paddingHorizontal: Padding.p_9xl,
-        paddingVertical: Padding.p_4xs,
         justifyContent: "center",
         alignItems: "center",
-        overflow: "hidden",
         flex: 1,
         alignSelf: "center", // INSTEAD OF STRETCH
         width: "95%", // ADD THIS
         maxWidth: 500, // ADD THIS
-        // borderWidth: 1,
     },
 }
 

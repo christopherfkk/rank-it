@@ -59,7 +59,6 @@ const Profile = ({ route }: ProfileType) => {
     setUnconfirmedMatch(false)
   };
 
-  const { otherUserId, self } = route.params || { otherUserId: null, self: true };
   const [profile, setProfile] = useState({
     id: "",
     first_name: "",
@@ -72,6 +71,8 @@ const Profile = ({ route }: ProfileType) => {
     overall_match_competitiveness_rating: "",
     avatar_image_name: "",
   });
+
+  const { otherUserId, self } = route.params || { otherUserId: null, self: true };
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedBioText, setEditedBioText] = useState("");
@@ -110,7 +111,7 @@ const Profile = ({ route }: ProfileType) => {
         setIsLoading(false);
       };
       fetchData();
-    }, [self])
+    }, [route])
   );
 
   const handleSaveButtonPress = async () => {
@@ -152,7 +153,6 @@ const Profile = ({ route }: ProfileType) => {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
       })
       .catch((error) => {
         throw error;

@@ -204,12 +204,12 @@ const styles = StyleSheet.create({
         overflow: "scroll",
     },
     analyticName: {
-        fontSize: 12,
+        fontSize: 15,
         fontWeight: "600",
         fontFamily: FontFamily.manropeSemibold,
     },
     analyticPhrase: {
-        fontSize: 10,
+        fontSize: 13,
     },
     button: {
         flexDirection: "row",

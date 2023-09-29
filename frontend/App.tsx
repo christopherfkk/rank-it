@@ -31,17 +31,13 @@ const Stack = createNativeStackNavigator();
 const App = () => {
     const [hideSplashScreen, setHideSplashScreen] = React.useState(false);
     const [fontsLoaded, error] = useFonts({
-        Manrope_regular: require("./assets/fonts/Manrope_regular.ttf"),
-        Manrope_medium: require("./assets/fonts/Manrope_medium.ttf"),
-        Manrope_semibold: require("./assets/fonts/Manrope_semibold.ttf"),
-        Manrope_bold: require("./assets/fonts/Manrope_bold.ttf"),
-        Manrope_extrabold: require("./assets/fonts/Manrope_extrabold.ttf"),
-        "Roboto Condensed_extrabold": require("./assets/fonts/Roboto_Condensed_extrabold.ttf"),
-        "Bebas Neue_regular": require("./assets/fonts/Bebas_Neue_regular.ttf"),
-        Almarai_light: require("./assets/fonts/Almarai_light.ttf"),
-        Almarai_regular: require("./assets/fonts/Almarai_regular.ttf"),
-        Almarai_extrabold: require("./assets/fonts/Almarai_extrabold.ttf"),
-        Montserrat_regular_italic: require("./assets/fonts/Montserrat_regular_italic.ttf"),
+        almarai_light: require("./assets/fonts/almarai_light.ttf"),
+        almarai_regular: require("./assets/fonts/almarai_regular.ttf"),
+        bebas_neue_regular: require("./assets/fonts/bebas_neue_regular.ttf"),
+        manrope_regular: require("./assets/fonts/manrope_regular.ttf"),
+        manrope_medium: require("./assets/fonts/manrope_medium.ttf"),
+        manrope_semibold: require("./assets/fonts/manrope_semibold.ttf"),
+        manrope_bold: require("./assets/fonts/manrope_bold.ttf"),
     });
 
     React.useEffect(() => {
@@ -129,25 +125,27 @@ const InnerApp = ({hideSplashScreen}) => {
                     dispatch({
                         type: WebSocketActionTypes.INIT_NOTIFS,
                         payload: socket
-                
-                    })};
-                socket.onmessage = (e) => {
-                    const notification = JSON.parse(e.data).notification;
-                    const created = JSON.parse(e.data).created;
-                    // Dispatch the message to Redux
-                    console.log('Detect App.tsx')
-                    console.log('App.tsx',notification, created)
-                    if (notification && notification.length !== 0) {
-                        dispatch({ type: WebSocketActionTypes.MESSAGES, payload: notification});
-                        dispatch({ type: WebSocketActionTypes.ISPOPUP, payload: created});
-                    }
-                };
+
+                    });
+                    socket.onmessage = (e) => {
+                        const notification = JSON.parse(e.data).notification;
+                        const created = JSON.parse(e.data).created;
+                        // Dispatch the message to Redux
+                        console.log('Detect App.tsx')
+                        console.log('App.tsx', notification)
+                        if (notification && notification.length !== 0) {
+                            dispatch({type: WebSocketActionTypes.MESSAGES, payload: notification});
+                            dispatch({type: WebSocketActionTypes.ISPOPUP, payload: created});
+                        }
+                    };
+                }
             }
         }
 
         initWebSocketRanks();
         initWebSocketNotifs();
-    }, [isLogIn, isRegistered]);
+    }, [isLogIn, isRegistered]
+    )
 
     return (
         <NavigationContainer>
