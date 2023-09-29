@@ -31,13 +31,13 @@ const Stack = createNativeStackNavigator();
 const App = () => {
     const [hideSplashScreen, setHideSplashScreen] = React.useState(false);
     const [fontsLoaded, error] = useFonts({
-        almarai_light: require("./assets/fonts/almarai_light.ttf"),
-        almarai_regular: require("./assets/fonts/almarai_regular.ttf"),
-        bebas_neue_regular: require("./assets/fonts/bebas_neue_regular.ttf"),
-        manrope_regular: require("./assets/fonts/manrope_regular.ttf"),
-        manrope_medium: require("./assets/fonts/manrope_medium.ttf"),
-        manrope_semibold: require("./assets/fonts/manrope_semibold.ttf"),
-        manrope_bold: require("./assets/fonts/manrope_bold.ttf"),
+        almarai_light: require("./assets/fonts/almarai-light.ttf"),
+        almarai_regular: require("./assets/fonts/almarai-regular.ttf"),
+        bebas_neue_regular: require("./assets/fonts/bebas-neue-regular.ttf"),
+        manrope_regular: require("./assets/fonts/manrope-regular.ttf"),
+        manrope_medium: require("./assets/fonts/manrope-medium.ttf"),
+        manrope_semibold: require("./assets/fonts/manrope-semibold.ttf"),
+        manrope_bold: require("./assets/fonts/manrope-bold.ttf"),
     });
 
     React.useEffect(() => {

@@ -201,7 +201,7 @@ const Profile = ({ route }: ProfileType) => {
               <Image
                 style={styles.editProfileIcon}
                 contentFit="contain"
-                source={require("../../assets/edit-profile-icon.png")}
+                source={require("../../assets/profile_page/icon-edit-profile.png")}
               />
               <Text style={ProfileStyles.buttonText}>
                 Edit Bio

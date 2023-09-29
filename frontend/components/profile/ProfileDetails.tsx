@@ -98,31 +98,31 @@ const ProfileDetails = memo(
 
 
                     <Analytic
-                        iconPath={require("../../assets/pf-sportsmanship-rating.png")}
+                        iconPath={require("../../assets/analytics/icon_sportsmanship_rating.png")}
                         name="Sportsmanship"
                         analytic={`Star Rating: ${sportsmanshipRating}/5`}
                     />
 
                     <Analytic
-                        iconPath={require("../../assets/pf-matches-played.png")}
+                        iconPath={require("../../assets/analytics/icon_matches_played.png")}
                         name="Matches Played"
                         analytic={`${nMatchesLogged} logged matches`}
                     />
 
                     <Analytic
-                        iconPath={require("../../assets/pf-highest-rank.png")}
+                        iconPath={require("../../assets/analytics/icon_highest_rank.png")}
                         name="Highest Rank Attained"
                         analytic={`${highestRankAttained}st in Tokyo`}
                     />
 
                     <Analytic
-                        iconPath={require("../../assets/pf-match-competitiveness.png")}
+                        iconPath={require("../../assets/analytics/icon_match_competitiveness.png")}
                         name="Match Competitiveness"
                         analytic={displayCompetitveness(competitiveness)}
                     />
 
                     <Analytic
-                        iconPath={require("../../assets/pf-strength.png")}
+                        iconPath={require("../../assets/analytics/icon_strength.png")}
                         name="Strengths"
                         analytic={strength != "" ? strength : "No strengths yet"}
                     />

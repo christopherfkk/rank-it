@@ -52,7 +52,7 @@ const Instructions = () => {
             1. Click on the "ranking/medal" icon found in the bottom bar. 
           </Text>
           <Image
-            source={require('../../assets/Instructions/Medal.png')}
+            source={require('../../assets/instructions/medal.png')}
             style={styles.medalImage}
             resizeMode="contain"
           />
@@ -63,7 +63,7 @@ const Instructions = () => {
           3. Click on “Challenge” found next to the profile of the person
           </Text>
           <Image
-            source={require('../../assets/Instructions/RankingPage.png')}
+            source={require('../../assets/instructions/ranking-page.png')}
             style={styles.RankingPageImage}
             resizeMode="contain"
           />
@@ -78,7 +78,7 @@ const Instructions = () => {
           </Text>
 
           <Image
-            source={require('../../assets/Instructions/Recordscore.png')}
+            source={require('../../assets/instructions/record-score.png')}
             style={styles.RecordscoreImage}
             resizeMode="contain"
           />
@@ -94,7 +94,7 @@ const Instructions = () => {
             1. Click on the "confirmation" icon. 
           </Text>
           <Image
-            source={require('../../assets/Instructions/Confirmationicon.png')}
+            source={require('../../assets/instructions/confirmation-icon.png')}
             style={styles.confirmationIcon}
             resizeMode="contain"
           />
@@ -107,7 +107,7 @@ const Instructions = () => {
           </Text>
 
           <Image
-            source={require('../../assets/Instructions/Confirmgame.png')}
+            source={require('../../assets/instructions/confirm-game.png')}
             style={styles.ConfirmgameImage}
             resizeMode="contain"
           />
@@ -120,7 +120,7 @@ const Instructions = () => {
           </Text>
 
           <Image
-            source={require('../../assets/Instructions/RecordPage2.png')}
+            source={require('../../assets/instructions/record-page.png')}
             style={styles.RankingPageImage}
             resizeMode="contain"
           />

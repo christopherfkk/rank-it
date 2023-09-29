@@ -113,7 +113,7 @@ const ModalPostmatchfeedbackA = ({ visible, onClose, selfName, opponentName, lev
             <Text style={styles.heading1}>Your Match with</Text>
           </View>
           <View style={styles.spacing} />
-          <ProfileBox name={opponentName} avatar={require("../../assets/empty-avatar.png")} level={level} />
+          <ProfileBox name={opponentName} avatar={require("../../assets/woman1.png")} level={level} />
           <View style={styles.spacing} />
           <InsertMatchScores
             onChangeYourScore={(score) => setSubmitterScore(score)}
