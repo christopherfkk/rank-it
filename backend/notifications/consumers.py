@@ -1,6 +1,10 @@
 import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
+from channels.layers import get_channel_layer
+
+from .models import Notification
+from .serializers import NotificationSerializer
 
 
 class NotificationConsumer(WebsocketConsumer):
@@ -31,7 +35,27 @@ class NotificationConsumer(WebsocketConsumer):
         )
 
     def receive(self, text_data=None, bytes_data=None):
-        pass
+        text_data_json = json.loads(text_data)
+        event_name = text_data_json["event"]
+        if event_name == "request_notifications":
+            send_latest_notifcation(int(text_data_json['userId']))
 
-    def latest_notification(self, event):
+    def latest_notifications(self, event):
         self.send(text_data=json.dumps(event))
+
+
+def send_latest_notifcation(user_id):
+    queryset = Notification.objects.filter(notifier__id=user_id, status="Unread")
+    serializer = NotificationSerializer(queryset, many=True)
+    data = serializer.data
+
+    channel_layer = get_channel_layer()
+
+    message = {
+        'type': 'latest_notifications',
+        'notification': data,
+        'created': False,
+    }
+    async_to_sync(channel_layer.group_send)(f'realtime-notification-{user_id}', message)
+    print("SENT LATEST NOTIFS")
+    print(data)

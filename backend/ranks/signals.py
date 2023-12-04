@@ -7,8 +7,7 @@ from .models import Skill
 from .serializer import SkillSerializer
 
 
-@receiver(post_save, sender=Skill)
-def push_latest_ranking(sender, instance, **kwargs):
+def send_latest_ranking():
     queryset = Skill.objects.order_by('-skill')
     serializer = SkillSerializer(queryset, many=True)
     data = serializer.data
@@ -19,3 +18,8 @@ def push_latest_ranking(sender, instance, **kwargs):
         'ranking': data,
     }
     async_to_sync(channel_layer.group_send)('realtime-ranking', message)
+
+
+@receiver(post_save, sender=Skill)
+def push_latest_ranking(sender, instance, **kwargs):
+    send_latest_ranking()

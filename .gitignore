@@ -6,7 +6,7 @@
 
 # Django
 *.sqlite
-avatars/
+backend/media/avatars/
 
 # MacOs
 .DS_Store
@@ -40,3 +40,5 @@ web-build/
 
 # Redis
 dump.rdb
+
+.App.tsx.swp

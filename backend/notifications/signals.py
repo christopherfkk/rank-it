@@ -16,7 +16,7 @@ def push_latest_notification(sender, created, instance, **kwargs):
     channel_layer = get_channel_layer()
     if created and len(data) > 0:
         message = {
-            'type': 'latest_notification',
+            'type': 'latest_notifications',
             'notification': data,
             'created': True,
         }
@@ -24,7 +24,7 @@ def push_latest_notification(sender, created, instance, **kwargs):
 
     elif not created and len(data) > 0:
         message = {
-            'type': 'latest_notification',
+            'type': 'latest_notifications',
             'notification': data,
             'created': False,
         }

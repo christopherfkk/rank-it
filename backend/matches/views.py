@@ -281,22 +281,22 @@ class PostMatchFeedbackViewSet(viewsets.ModelViewSet):
                     # Update user with other feedback
                     user = match.submitter if curr_feedback.get('reporter_is_submitter') else match.opponent
 
-                    if other_feedback.get('peer_skill_level_given'):
+                    if other_feedback.peer_skill_level_given:
                         user.n_skill_level_received += 1
                         user.overall_skill_level = (
                                 (user.overall_skill_level + other_feedback.peer_skill_level_given) /
                                 user.n_skill_level_received
                         )
-                    if other_feedback.get('peer_sportsmanship_rating_given'):
+                    if other_feedback.peer_sportsmanship_rating_given:
                         user.n_sportsmanship_rating_received += 1
                         user.overall_sportsmanship_rating = (
                                 (user.overall_sportsmanship_rating + other_feedback.peer_sportsmanship_rating_given) /
                                 user.n_sportsmanship_rating_received
                         )
-                    if other_feedback.get('match_competitiveness_rating'):
+                    if other_feedback.match_competitiveness_rating:
                         user.n_match_competitiveness_rating_received += 1
                         user.overall_match_competitiveness_rating = (
-                            (user.overall_match_competitiveness_rating + int(other_feedback.get('match_competitiveness_rating'))) /
+                            (user.overall_match_competitiveness_rating + int(other_feedback.match_competitiveness_rating)) /
                             user.n_match_competitiveness_rating_received
                         )
                     user.save()

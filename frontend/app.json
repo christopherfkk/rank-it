@@ -4,11 +4,11 @@
     "slug": "rank-it",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/rank-it-logo.png",
     "userInterfaceStyle": "light",
     "scheme": "myapp",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/rank-it-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -33,7 +33,7 @@
     "android": {
       "package": "com.rankit.rankit",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/rank-it-logo.png",
         "backgroundColor": "#FFFFFF"
       }
     },
