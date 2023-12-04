@@ -30,7 +30,7 @@ const BottomTabNavigator = () => {
                         <Icon
                             name="medal"
                             size={20}
-                            color={focused ? theme.colors.focused : theme.colors.unfocused}
+                            color={focused ? theme.colors.danger : theme.colors.foreground}
                         />
                     ),
                 }}
@@ -45,7 +45,7 @@ const BottomTabNavigator = () => {
                         <IconEntypo
                             name="add-to-list"
                             size={20}
-                            color={focused ? theme.colors.focused : theme.colors.unfocused}
+                            color={focused ? theme.colors.danger : theme.colors.foreground}
                         />
                     ),
                 }}
@@ -81,7 +81,7 @@ const BottomTabNavigator = () => {
                         <Icon
                             name="user"
                             size={20}
-                            color={focused ? theme.colors.focused : theme.colors.unfocused}
+                            color={focused ? theme.colors.danger : theme.colors.foreground}
                         />
                     ),
                 }}

@@ -91,10 +91,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     profile: {
-        width: "70%",
+        width: "100%",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         height: 35,
     },
     button: {

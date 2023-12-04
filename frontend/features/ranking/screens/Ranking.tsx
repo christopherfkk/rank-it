@@ -27,37 +27,13 @@ const Ranking = () => {
 
     const ranking = useAppSelector(selectRanking)
 
-    // const [unconfirmedMatch, setUnconfirmedMatch] = useState(false);
-
-    // useEffect(() => {
-    //     if (isPopUp === true) {
-    //         console.log('isPopup', isPopUp)
-    //         setUnconfirmedMatch(true);
-    //     }
-    // }, [isPopUp, messages]);
-
-    // const handleClosePopup = () => {
-    //     setUnconfirmedMatch(false);
-    //     // dispatch({ type: WebSocketActionTypes.ISPOPUP, payload: false});
-    // };
-
-    // if (isLoading) {
-    //     return (
-    //         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    //             <ActivityIndicator
-    //                 size="large"
-    //                 color={theme.colors.danger}/>
-    //         </View>
-    //     );
-    // }
-
     return (
         <SafeAreaView style={[styles.background]}>
-            <View style={styles.body}>
+            <View style={styles.container}>
                 {/* HEADER */}
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Ranking</Text>
-                </View>
+                    <Text style={styles.header}>
+                        Ranking
+                    </Text>
 
                 {/* LOCATION TABS */}
                 {/* <View style={styles.location}>
@@ -79,7 +55,7 @@ const Ranking = () => {
                           ATHLETE
                         </Text>
                         <Text style={[styles.subheadingText, {width: '20%'}]}>
-                          SKILL RATING
+                          SKILL
                         </Text>
                     </View>
                     <View style={{width: '30%'}}></View>
@@ -133,24 +109,22 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: theme.colors.background
     },
-    body: {
-        // paddingHorizontal: Padding.p_9xl,
+    header: {
+        width: '100%',
+        alignItems: 'center',
+        textAlign: 'center',
+        paddingTop: '5%',
+        fontSize: theme.textVariants.header.fontSize,
+        fontFamily: theme.textVariants.header.fontFamily,
+        color: theme.colors.foreground,
+    },
+    container: {
         justifyContent: "center",
         alignItems: "center",
         flex: 1,
         alignSelf: "center", // INSTEAD OF STRETCH
         width: "95%", // ADD THIS
         maxWidth: 500, // ADD THIS
-    },
-    header: {
-        width: '100%',
-        alignItems: 'center',
-        paddingTop: '5%',
-    },
-    headerText: {
-        fontSize: theme.textVariants.header.fontSize,
-        fontFamily: theme.textVariants.header.fontFamily,
-        color: theme.colors.foreground,
     },
     location: {
         width: '100%',

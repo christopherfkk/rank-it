@@ -1,5 +1,14 @@
 import React, {useState, useEffect} from "react";
-import {Pressable, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator,} from "react-native";
+import {
+    Pressable,
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    TouchableOpacity,
+    SafeAreaView,
+    ActivityIndicator,
+} from "react-native";
 import {Image} from "expo-image";
 import {useNavigation} from '@react-navigation/native';
 import {theme} from "../../../theme/GlobalStyles";
@@ -20,6 +29,7 @@ import {disconnect as disconnectNotifSocket} from '../../postmatchfeedback/reduc
 import handleLogout from '../../auth/api/logout';
 import handleSaveButtonPress from '../../auth/api/putBlurb';
 import getProfile from '../../auth/api/getProfile';
+import {Ionicons} from '@expo/vector-icons';
 
 
 const Profile = ({route}) => {
@@ -71,82 +81,80 @@ const Profile = ({route}) => {
 
     return (
         <SafeAreaView style={[styles.background]}>
-            <View style={styles.body}>
-                <ScrollView
-                    style={styles.profile}
-                    showsVerticalScrollIndicator={true}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.profileScrollViewContent}
-                >
-                    <ProfileHeader
-                        avatar={avatarImages[profile.avatar_image_name]}
-                        fullName={profile.first_name + " " + profile.last_name}
-                        location="CB Gym, Tokyo"
-                        skill={profile.level}
-                    />
-                    {!self ? <BackButton onPress={() => navigation.navigate("Ranking")}/> : null}
-                    {self ?
-                        <Pressable
-                            onPress={handleEditButtonPress}
-                            style={styles.button}
-                        >
-                            <Image
-                                style={styles.editProfileIcon}
-                                contentFit="contain"
-                                source={require("../../../assets/profile-page/icon-edit-profile.png")}
-                            />
+            <ScrollView
+                style={styles.profile}
+                showsVerticalScrollIndicator={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.profileScrollViewContent}
+            >
+                <ProfileHeader
+                    avatar={avatarImages[profile.avatar_image_name]}
+                    fullName={profile.first_name + " " + profile.last_name}
+                    location="CB Gym, Tokyo"
+                    skill={profile.level}
+                />
+                {
+                    !self ?
+                        <BackButton onPress={() => navigation.navigate("Ranking")}/>
+                        : null
+                }
+                {self ?
+                    <Pressable
+                        onPress={handleEditButtonPress}
+                        style={styles.button}
+                    >
+                        <Ionicons name="pencil" size={24} color="white"/>
+                        <Text style={styles.buttonText}>
+                            Edit Bio
+                        </Text>
+                    </Pressable> : null}
+
+                <ProfileDetails
+                    bioText={bioText}
+                    nMatchesLogged={profile.matches_played}
+                    highestRankAttained={"1"}
+                    sportsmanshipRating={profile.overall_sportsmanship_rating}
+                    strength={profile.top_strengths.join(", ")}
+                    competitiveness={profile.overall_match_competitiveness_rating}
+                    isEditMode={isEditMode}
+                    editedBioText={editedBioText}
+                    setEditedBioText={setEditedBioText}
+                    onSaveButtonPress={() => handleSaveButtonPress(userToken, userId, setIsEditMode, setBioText, editedBioText)}
+                />
+
+                <FeedbackA
+                    visible={showFeedbackModal}
+                    onClose={handleCloseModal}
+                    opponentName={profile.first_name + " " + profile.last_name}
+                    level={profile.level ?? 'null'}
+                    opponentId={profile.id}
+                    selfName={userName}
+                />
+
+                {self ?
+                    <View style={styles.button}>
+                        <TouchableOpacity onPress={() =>
+                            handleLogout(
+                                navigation,
+                                userToken,
+                                dispatch,
+                                signOut,
+                                disconnectRankingSocket,
+                                disconnectNotifSocket
+                            )}>
                             <Text style={styles.buttonText}>
-                                Edit Bio
+                                Logout
                             </Text>
-                        </Pressable> : null}
+                        </TouchableOpacity>
+                    </View>
+                    : null}
 
-                    <ProfileDetails
-                        bioText={bioText}
-                        nMatchesLogged={profile.matches_played}
-                        highestRankAttained={"1"}
-                        sportsmanshipRating={profile.overall_sportsmanship_rating}
-                        strength={profile.top_strengths.join(", ")}
-                        competitiveness={profile.overall_match_competitiveness_rating}
-                        isEditMode={isEditMode}
-                        editedBioText={editedBioText}
-                        setEditedBioText={setEditedBioText}
-                        onSaveButtonPress={() => handleSaveButtonPress(userToken, userId, setIsEditMode, setBioText, editedBioText)}
-                    />
-
-                    <FeedbackA
-                        visible={showFeedbackModal}
-                        onClose={handleCloseModal}
-                        opponentName={profile.first_name + " " + profile.last_name}
-                        level={profile.level ?? 'null'}
-                        opponentId={profile.id}
-                        selfName={userName}
-                    />
-
-                    {self ?
-                        <View style={styles.button}>
-                            <TouchableOpacity onPress={() =>
-                                handleLogout(
-                                    navigation,
-                                    userToken,
-                                    dispatch,
-                                    signOut,
-                                    disconnectRankingSocket,
-                                    disconnectNotifSocket
-                                )}>
-                                <Text style={styles.buttonText}>
-                                    Logout
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                        : null}
-
-                    {!self ?
-                        <ChallengeButton
-                            button="record"
-                            onPress={handleRegButtonPress}
-                        /> : null}
-                </ScrollView>
-            </View>
+                {!self ?
+                    <ChallengeButton
+                        button="record"
+                        onPress={handleRegButtonPress}
+                    /> : null}
+            </ScrollView>
         </SafeAreaView>
     );
 };
@@ -157,50 +165,37 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         flex: 1,
-        backgroundColor: theme.colors.background
+        backgroundColor: theme.colors.background,
     },
-    body: {
-        // paddingHorizontal: Padding.p_9xl,
-        justifyContent: "center",
-        alignItems: "center",
+    profile: {
+        alignSelf: "center",
         flex: 1,
-        alignSelf: "center", // INSTEAD OF STRETCH
-        width: "95%", // ADD THIS
-        maxWidth: 500, // ADD THIS
+        width: "95%",
+        maxWidth: 500,
+        paddingTop: "5%",
+    },
+    profileScrollViewContent: {
+        flex: 1,
+        width: "100%",
+        flexDirection: "column",
+        alignItems: "center",
+        overflow: "scroll",
     },
     button: {
         flexDirection: "row",
         gap: 5,
-        backgroundColor: theme.colors.background,
+        backgroundColor: theme.colors.danger,
         justifyContent: "center",
         alignItems: "center",
         width: "30%",
-        paddingVertical: "1%",
-        paddingHorizontal: "1%",
-        marginVertical: "2%"
+        height: "5%",
+        borderRadius: 20,
+        marginVertical: 10,
     },
     buttonText: {
         fontSize: theme.textVariants.body.fontSize,
         fontFamily: theme.textVariants.body.fontFamily,
-        color: theme.colors.foreground,
-    },
-    profile: {
-        width: "100%",
-        alignSelf: "stretch",
-        overflow: "scroll",
-    },
-    profileScrollViewContent: {
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        alignSelf: "stretch",
-        overflow: "scroll",
-        width: "100%",
-        backgroundColor: theme.colors.foreground,
-    },
-    editProfileIcon: {
-        height: 13,
-        width: 13,
+        color: theme.colors.background,
     },
 });
 

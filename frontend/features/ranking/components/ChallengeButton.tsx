@@ -14,10 +14,10 @@ const ChallengeButton = ({
 
     return (
         <Pressable
-            style={styles.pfButton}
+            style={styles.button}
             onPress={onPress}
         >
-            <Text style={styles.button}>
+            <Text style={styles.buttonText}>
                 {button}
             </Text>
         </Pressable>
@@ -25,19 +25,20 @@ const ChallengeButton = ({
 };
 
 const styles = StyleSheet.create({
-    button: {
+    buttonText: {
         flex: 1,
         textAlign: "center",
         fontSize: theme.textVariants.body.fontSize,
         fontFamily: theme.textVariants.body.fontFamily,
-        color: theme.colors.foreground,
+        color: theme.colors.danger,
     },
-    pfButton: {
+    button: {
         flex: 1,
-        backgroundColor: theme.colors.danger,
+        backgroundColor: theme.colors.background,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: 20,
     },
 });
 

@@ -17,7 +17,7 @@ const StrengthButton = ({imageSource, title, isPressed, onPress}) => {
             ]}
         >
 
-            <View style={{flex: 0.3, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{flex: 0.3, alignItems: 'center', justifyContent: 'center', paddingVertical: 20}}>
                 <Icon
                     name={imageSource}
                     size={20}
@@ -62,7 +62,7 @@ const StrengthGrid = ({onButtonsPressed}) => {
         {
             id: 6,
             imageSource: 'clock',
-            title: 'Reaction Time',
+            title: 'Reaction',
         },
     ];
 

@@ -7,42 +7,23 @@ import {
     Pressable,
     TouchableOpacity,
     Linking,
-    SafeAreaView
+    SafeAreaView,
+    StyleSheet
 } from "react-native";
 import { useState } from "react";
 import {useNavigation} from "@react-navigation/native";
-import { Auth } from "../../../theme/GlobalStyles";
+
+import { theme } from "../../../theme/GlobalStyles";
 import apiConfig from "../../../utils/apiConfig";
 import BackButton from '../../../components/BackButton';
-import GoogleSignInButton from "../components/GoogleSignInButton";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Signup = () => {
 
     const navigation = useNavigation();
-    const {state, dispatch} = useRegContext();
     const [email, setEmail] = useState("")
     const [password1, setPassword1] = useState("")
     const [password2, setPassword2] = useState("")
     const [error, setError] = useState("")
-
-    const storeUserInfo = async (userData: any, dispatch: any) => {
-        try {
-            await AsyncStorage.setItem('accessToken', userData.key);
-            await AsyncStorage.setItem('userInfo', JSON.stringify(userData.user));
-
-            // backend data of user is inserted
-            dispatch({type: ACTIONS.SET_PROFILE_PHOTO, payload: userData.user.avatar});
-            dispatch({type: ACTIONS.SET_BLURB, payload: userData.blurb});
-            dispatch({type: ACTIONS.SET_FIRST_NAME, payload: userData.user.first_name});
-            dispatch({type: ACTIONS.SET_LAST_NAME, payload: userData.user.last_name});
-            dispatch({type: ACTIONS.SET_GENDER, payload: userData.user.gender});
-            dispatch({type: ACTIONS.SET_PHONE_NUMBER, payload: userData.user.phone_number});
-
-        } catch (error) {
-            console.error("Error storing user info in AsyncStorage:", error);
-        }
-    };
     const handleRegister = () => {
         const registrationData = {
             email: email,
@@ -59,24 +40,12 @@ const Signup = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                // Handle the response from the backend
-                console.log(data);
+
                 const registerSuccess = data.key !== undefined;
 
                 if (registerSuccess) {
-                    storeUserInfo(data, dispatch)
-
-                    // Navigate after register
-                    if (data.user.first_name === null ||
-                        data.user.last_name === null ||
-                        data.user.level === null) {
-                        navigation.navigate("PfStart");
-                    } else {
-                        navigation.navigate("BottomTabs")
-                    }
-
+                    navigation.navigate("BottomTabNavigator")
                 } else {
-                    // Set the error state based on the response data from the backend
                     setError(Object.values(data).join(', '));
                 }
             })
@@ -87,20 +56,17 @@ const Signup = () => {
     };
 
     return (
-        <SafeAreaView style={Auth.background}>
-            <View style={Auth.body}>
-                <BackButton onPress={() => navigation.navigate("Login")}/>
-                <ImageBackground
-                    style={Auth.memberPhotoIcon}
-                    resizeMode="cover"
-                    source={require("../../../assets/rank-it-logo.png")}
+        <SafeAreaView style={styles.background}>
+            <View style={styles.container}>
+                <BackButton
+                    onPress={() => navigation.navigate("Login")}
                 />
-                <Text style={[Auth.heading1]}>
+                <Text style={styles.heading}>
                     Create an Account
                 </Text>
-                <View style={Auth.signupForm}>
+                <View style={styles.signupForm}>
                     <TextInput
-                        style={[Auth.textInputBoxStyle]}
+                        style={styles.textInputBoxStyle}
                         placeholder="Enter your email "
                         keyboardType="email-address"
                         autoCapitalize="none"
@@ -109,7 +75,7 @@ const Signup = () => {
                         contextMenuHidden // Disable context menu (copy-paste actions)
                     />
                     <TextInput
-                        style={[Auth.textInputBoxStyle]}
+                        style={styles.textInputBoxStyle}
                         placeholder="Enter your password"
                         keyboardType="default"
                         placeholderTextColor="#737373"
@@ -118,7 +84,7 @@ const Signup = () => {
                         contextMenuHidden // Disable context menu (copy-paste actions)
                     />
                     <TextInput
-                        style={[Auth.textInputBoxStyle]}
+                        style={styles.textInputBoxStyle}
                         placeholder="Confirm your password"
                         keyboardType="default"
                         placeholderTextColor="#737373"
@@ -128,18 +94,18 @@ const Signup = () => {
                     />
                 </View>
                 <TouchableOpacity
-                    style={[Auth.button]}
+                    style={styles.button}
                     activeOpacity={0.2}
                     onPress={handleRegister}
                 >
                     <TouchableOpacity activeOpacity={0.2} onPress={() => {
                     }}>
-                        <Text style={[Auth.buttonText]}>Sign-up</Text>
+                        <Text style={[styles.buttonText]}>Sign-up</Text>
                     </TouchableOpacity>
                 </TouchableOpacity>
 
                 {error ? (
-                    <Text style={Auth.errorText}>{error}</Text>
+                    <Text style={styles.errorText}>{error}</Text>
                 ) : null}
 
                 {/* <GoogleSignInButton/> */}
@@ -151,18 +117,91 @@ const Signup = () => {
                         )
                     }
                 >
-                    <Text style={[Auth.heading3]}>
-                        By continuing, you agree to the Terms and Conditions
+                    <Text style={[styles.body, {textDecorationLine: "underline"}]}>
+                        Terms and Conditions
                     </Text>
                 </Pressable>
-
-                {/* <View>
-          {user && <Text>user.name</Text>}
-        </View> */}
 
             </View>
         </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    background: {
+        backgroundColor: theme.colors.primary,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+        width: "90%",
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "center",
+    },
+    body: {
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
+        color: theme.colors.foreground,
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "center",
+    },
+    heading: {
+        fontFamily: theme.textVariants.header.fontFamily,
+        fontSize: theme.textVariants.header.fontSize,
+        color: theme.colors.foreground,
+        alignSelf: "center",
+        textAlign: "left",
+    },
+    signupForm: {
+        alignSelf: "stretch",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: 'column',
+        marginVertical: 30,
+        gap: 5,
+    },
+    textInputBoxStyle: {
+        backgroundColor: theme.colors.background,
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
+        alignSelf: "stretch",
+        justifyContent: "center",
+        borderStyle: "solid",
+        height: 50,
+        borderWidth: 2,
+        borderRadius: 20,
+        paddingHorizontal: 20
+    },
+    button: {
+        borderRadius: 20,
+        backgroundColor: theme.colors.focused,
+        width: "50%",
+        height: "5%",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 30
+    },
+    buttonText: {
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
+        color: theme.colors.background,
+        textAlign: "center",
+    },
+    logo: {
+        height: 200,
+        width: 200,
+    },
+    errorText: {
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
+        color: theme.colors.failure,
+    }
+});
 
 export default Signup;

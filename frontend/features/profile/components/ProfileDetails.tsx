@@ -1,8 +1,8 @@
 import React, {useMemo, memo, Dispatch, SetStateAction} from "react";
 import {Text, StyleSheet, View, TouchableOpacity, TextInput, Image} from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {theme} from "../../../theme/GlobalStyles";
+import Analytic from './Analytic';
 
 type ProfileDetailsType = {
     bioText?: string;
@@ -17,32 +17,6 @@ type ProfileDetailsType = {
     setEditedBioText: Dispatch<SetStateAction<string>>;
     onSaveButtonPress: () => void;
 };
-
-type AnalyticType = {
-    iconName: string;
-    name: string;
-    analytic: string;
-};
-
-const Analytic = ({iconName, name, analytic}: AnalyticType) => {
-    return (
-        <View style={styles.analytics}>
-            <Icon
-                name={iconName}
-                size={20}
-                color={theme.colors.foreground}
-            />
-            <View style={styles.analyticGroup}>
-                <Text style={styles.analyticName}>
-                    {name}
-                </Text>
-                <Text style={styles.analyticPhrase}>
-                    {analytic}
-                </Text>
-            </View>
-        </View>
-    )
-}
 
 const ProfileDetails = memo(
         ({
@@ -73,7 +47,7 @@ const ProfileDetails = memo(
             }
 
             return (
-                <View style={[styles.profileDetails]}>
+                <View style={[styles.container]}>
 
                     {/* BIO */}
                     <View style={styles.bio}>
@@ -102,31 +76,31 @@ const ProfileDetails = memo(
 
 
                     <Analytic
-                        iconName="book"
+                        iconName="heart"
                         name="Sportsmanship"
                         analytic={`Star Rating: ${sportsmanshipRating}/5`}
                     />
 
                     <Analytic
-                        iconName="book"
+                        iconName="golf-sharp"
                         name="Matches Played"
                         analytic={`${nMatchesLogged} logged matches`}
                     />
 
                     <Analytic
-                        iconName="book"
+                        iconName="medal"
                         name="Highest Rank Attained"
                         analytic={`${highestRankAttained}st in Tokyo`}
                     />
 
                     <Analytic
-                        iconName="book"
+                        iconName="flash-sharp"
                         name="Match Competitiveness"
                         analytic={displayCompetitveness(competitiveness)}
                     />
 
                     <Analytic
-                        iconName="book"
+                        iconName="infinite-sharp"
                         name="Strengths"
                         analytic={strength != "" ? strength : "No strengths yet"}
                     />
@@ -138,12 +112,11 @@ const ProfileDetails = memo(
 ;
 
 const styles = StyleSheet.create({
-    profileDetails: {
+    container: {
         width: "100%",
         backgroundColor: theme.colors.background,
         flexDirection: "column",
         overflow: "scroll",
-        paddingVertical: "3%",
     },
     bio: {
         justifyContent: "center",
@@ -154,6 +127,7 @@ const styles = StyleSheet.create({
         overflow: "scroll",
         alignItems: "center",
         backgroundColor: theme.colors.background,
+        paddingVertical: "2%",
     },
     bioHeader: {
         fontSize: theme.textVariants.header.fontSize,
@@ -186,30 +160,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: "2%",
     },
-    analytics: {
-        flexDirection: "row",
-        backgroundColor: theme.colors.background,
-        borderBottomWidth: 1,
-        borderColor: "#bababa",
-        borderStyle: "solid",
-        overflow: "scroll",
-    },
-    icon: {
-        height: 25,
-        width: 25,
-    },
-    analyticGroup: {
-        justifyContent: "center",
-        overflow: "scroll",
-    },
-    analyticName: {
-        fontSize: theme.textVariants.body.fontSize,
-        fontFamily: theme.textVariants.body.fontFamily,
-        color: theme.colors.foreground,
-    },
-    analyticPhrase: {
-        fontSize: 13,
-    },
     button: {
         flexDirection: "row",
         gap: 5,
@@ -219,7 +169,7 @@ const styles = StyleSheet.create({
         width: "30%",
         paddingVertical: "1%",
         paddingHorizontal: "1%",
-        marginVertical: "2%"
+        marginVertical: "2%",
     },
     buttonText: {
         fontSize: theme.textVariants.body.fontSize,

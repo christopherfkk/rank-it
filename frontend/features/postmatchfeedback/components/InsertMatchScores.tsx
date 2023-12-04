@@ -48,9 +48,9 @@ const InsertMatchScores = ({
             <Text style={styles.heading}>Match Scores</Text>
             <View style={styles.insertMatchScores}>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.subheading}>{selfName}</Text>
+                    <Text style={styles.subheading}>You</Text>
                     <TextInput
-                        style={[styles.timeBorder, scoreError && styles.errorBorder]} // Apply error border style if there's an error
+                        style={[styles.score, scoreError && styles.errorBorder]} // Apply error border style if there's an error
                         placeholder="Score"
                         keyboardType="numeric"
                         placeholderTextColor="#737373"
@@ -62,7 +62,7 @@ const InsertMatchScores = ({
                 <View style={styles.inputContainer}>
                     <Text style={styles.subheading}>{opponentName}</Text>
                     <TextInput
-                        style={[styles.timeBorder, scoreError && styles.errorBorder]} // Apply error border style if there's an error
+                        style={[styles.score, scoreError && styles.errorBorder]} // Apply error border style if there's an error
                         placeholder="Score"
                         keyboardType="numeric"
                         placeholderTextColor="#737373"
@@ -102,13 +102,10 @@ const styles = StyleSheet.create({
         fontFamily: theme.textVariants.body.fontFamily,
         color: theme.colors.foreground,
         textAlign: "center",
-        marginBottom: 2,
     },
     insertMatchScores: {
         flexDirection: "row",
         alignItems: "center",
-        paddingVertical: 8,
-        paddingHorizontal: 20,
         alignSelf: "stretch",
     },
     inputContainer: {
@@ -117,18 +114,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginHorizontal: 5,
     },
-    timeBorder: {
-        paddingVertical: 5,
-        borderRadius: 8,
-        fontWeight: "500",
-        fontSize: 9,
+    score: {
+        borderRadius: 10,
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
         borderWidth: 1,
         alignSelf: "stretch",
         alignItems: "center",
-        paddingHorizontal: 4,
+        textAlign: "center",
         borderColor: "#000",
         borderStyle: "solid",
-        backgroundColor: theme.colors.background
+        backgroundColor: theme.colors.background,
+        padding: 10,
     },
 });
 

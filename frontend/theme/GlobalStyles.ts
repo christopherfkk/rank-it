@@ -18,7 +18,7 @@ export const theme = {
         danger: palette.crimson,
         failure: palette.crimson,
         focused: palette.crimson,
-        unfocused: palette.black
+        unfocused: palette.gray
     },
     spacing: {
         s: 8,
@@ -33,7 +33,7 @@ export const theme = {
         },
         body: {
             fontFamily: 'almarai_regular',
-            fontSize: 16,
+            fontSize: 18,
         },
         body1: {
             fontFamily: 'bebas_neue_regular'

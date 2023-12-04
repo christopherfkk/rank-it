@@ -60,15 +60,13 @@ const FeedbackA = (
                     <BackButton
                         onPress={() => onClose()
                         }/>
-                    <View style={styles.heading1box}>
-                        <Text style={styles.heading1}>
-                            Your Match with
-                        </Text>
-                    </View>
+
+                    <Text style={styles.heading}>
+                        Your Match with {`\n${opponentName}`}
+                    </Text>
 
                     <ProfileBox
-                        name={opponentName}
-                        avatar={require("../../../assets/avatars/woman1.png")}  // TODO
+                        avatar={require("../../../assets/avatars/man1.png")}  // TODO
                         level={level}
                     />
                     <InsertMatchScores
@@ -132,17 +130,18 @@ const styles = StyleSheet.create({
         fontFamily: theme.textVariants.body.fontFamily,
         color: theme.colors.failure,
         textAlign: "center",
-    },
-    heading1box: {
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 100,
     },
-    heading1: {
+    heading: {
         letterSpacing: 1.2,
         fontSize: theme.textVariants.header.fontSize,
         fontFamily: theme.textVariants.header.fontFamily,
-        color: theme.colors.failure,
+        color: theme.colors.foreground,
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        marginTop: "10%",
     },
 });
 export default FeedbackA;

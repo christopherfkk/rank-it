@@ -1,17 +1,12 @@
 import * as React from "react";
-import { TouchableOpacity, Image, StyleSheet, Text} from "react-native";
+import { TouchableOpacity, StyleSheet} from "react-native";
 import { theme } from '../theme/GlobalStyles'
+import { Ionicons } from '@expo/vector-icons'; // You may need to install this package
 
 const BackButton = ({ onPress }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress = {onPress}>
-      <Image
-        style={styles.image}
-        resizeMode="cover"
-        source={require("../assets/left-back-button.png")}
-      />
-
-      <Text style={styles.text}>Back</Text>
+    <TouchableOpacity onPress={onPress} style={{ position: 'absolute', top: 10, left: 10 }}>
+      <Ionicons name="arrow-back" size={24} color="black" />
     </TouchableOpacity>
   );
 };
@@ -19,28 +14,8 @@ const BackButton = ({ onPress }) => {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 9,
-  },
-  text: {
-    color: "#007AFF",
-    fontFamily: theme.textVariants.body.fontFamily,
-    fontSize: theme.textVariants.body.fontSize,
-    fontStyle: "normal",
-    fontWeight: "400",
-    lineHeight: 22,
-    letterSpacing: -0.408,
-    marginLeft: 5,
-  },
-  image: {
-    width: 6,
-    height: 10,
+    top: 10,
+    left: 10,
   },
 });
 

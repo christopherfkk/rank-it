@@ -35,23 +35,28 @@ const MatchConfirm = () => {
 
     const formatDate = (datetime) => {
         const date = new Date(datetime);
-        const formattedDate = format(date, "MMMM dd, yyyy 'at' HH:mm"); // Customize the date and time format as you like
+        const formattedDate = format(date, "MMMM dd, yyyy"); // Customize the date and time format as you like
         return formattedDate;
     };
 
     return (
         <SafeAreaView style={[styles.background]}>
-            <View style={styles.body}>
+            <View style={styles.container}>
+
                 <View style={styles.header}>
-                    <Text style={styles.headerText}>Confirmation</Text>
+                    <Text style={styles.headerText}>
+                        Confirmation
+                    </Text>
                 </View>
-                <Text>To record the match in the ranking, both players must confirm the post-match feedback after
-                    completing the game.</Text>
+                <Text style={styles.subheading}>
+                    To record the match in the ranking, both players must confirm the post-match feedback after
+                    completing the game.
+                </Text>
                 <View style={styles.subheading}>
-                    <Text style={[styles.subheadingText, {width: "110%"}]}>
+                    <Text style={[styles.subheadingText, {width: "60%"}]}>
                         OPPONENT
                     </Text>
-                    <Text style={[styles.subheadingText, {width: "70%"}]}>
+                    <Text style={[styles.subheadingText, {width: "40%"}]}>
                         TIME OF MATCH
                     </Text>
                 </View>
@@ -89,8 +94,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: theme.colors.background
     },
-    body: {
-        // paddingHorizontal: Padding.p_9xl,
+    container: {
         justifyContent: "center",
         alignItems: "center",
         flex: 1,
@@ -138,8 +142,8 @@ const styles = StyleSheet.create({
         color: theme.colors.foreground,
     },
     subheading: {
-        alignSelf: "flex-start",
-        width: "70%",
+        alignSelf: "stretch",
+        width: "100%",
         flexDirection: "row",
         marginBottom: "1%",
         marginTop: "3%"

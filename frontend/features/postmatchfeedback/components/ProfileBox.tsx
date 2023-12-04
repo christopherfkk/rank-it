@@ -1,9 +1,9 @@
 import React from "react";
 import {View, Text, StyleSheet, Image} from "react-native";
 import {theme} from "../../../theme/GlobalStyles";
+import {Ionicons} from '@expo/vector-icons';
 
 type ProfileBoxProps = {
-    name: string;
     avatar: any; // Change the type according to the actual type of the avatar
     level: string;
 };
@@ -14,20 +14,22 @@ const ProfileBox = ({name, avatar, level}: ProfileBoxProps) => {
             <Image style={styles.memberPhotoIcon} source={avatar}/>
 
             <View style={styles.profileBox}>
-                <Text style={styles.fullName}>{name}</Text>
-
                 <View style={styles.location}>
-                    <Image
-                        style={styles.iconLocation}
-                        source={require("../../../assets/google-icon.png")}
+                    <Ionicons
+                        name={"location"}
+                        size={30}
+                        color={theme.colors.foreground}
                     />
-                    <Text style={styles.locationText}>CB Gym</Text>
+                    <Text style={styles.locationText}>
+                        CB Gym
+                    </Text>
                 </View>
 
                 <View style={styles.location}>
-                    <Image
-                        style={styles.iconBadminton}
-                        source={require("../../../assets/google-icon.png")}
+                    <Ionicons
+                        name={"analytics"}
+                        size={30}
+                        color={theme.colors.foreground}
                     />
                     <Text style={styles.locationText}>{level}</Text>
                 </View>
@@ -45,9 +47,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     memberPhotoIcon: {
-        borderRadius: 211,
-        width: 50,
-        height: 50,
+        borderRadius: 200,
+        width: 80,
+        height: 80,
     },
     profileBox: {
         alignSelf: "stretch",
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
         fontSize: theme.textVariants.body.fontSize,
         fontFamily: theme.textVariants.body.fontFamily,
         color: theme.colors.foreground,
-        textAlign: "left",
+        textAlign: "center",
         marginBottom: 6
     },
     location: {
@@ -72,16 +74,6 @@ const styles = StyleSheet.create({
         fontFamily: theme.textVariants.body.fontFamily,
         color: theme.colors.foreground,
         marginLeft: 5,
-    },
-    iconLocation: {
-        height: 10,
-        width: 8,
-        marginRight: 5,
-    },
-    iconBadminton: {
-        height: 8,
-        width: 8,
-        marginRight: 5,
     },
 });
 
