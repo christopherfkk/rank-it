@@ -8,7 +8,7 @@ import NextButton from "../components/NextButton"
 import {theme} from "../../../theme/GlobalStyles";
 import {getPrevSetupScreen, pageAfter} from '../utils/pageOrder';
 import {useAppDispatch} from '../../../app/hooks';
-import BackButton from '../../../components/BackButton';
+import BackButton from '../../../app/components/BackButton';
 
 const PfLevel = () => {
 

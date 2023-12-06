@@ -13,7 +13,7 @@ import { useState } from "react";
 import {useNavigation} from "@react-navigation/native";
 
 import { theme } from "../../../theme/GlobalStyles";
-import BackButton from '../../../components/BackButton';
+import BackButton from '../../../app/components/BackButton';
 import handleRegister from '../api/signup';
 import {useAppDispatch} from '../../../app/hooks';
 import {signIn} from '../reducers/userAuthReducer';

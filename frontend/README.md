@@ -1,11 +1,41 @@
-# Recommended next steps:
-Note: Make sure you have installed native code dependencies [here](https://reactnative.dev/docs/environment-setup#installing-dependencies)
+# Folder Structure
+The frontend folder separates into app-wide elements and feature specific elements. Under `/app`,
+there are componenets like `/components/BackButton.tsx` or `/screens/Spash.tsx` or `/middleware/loggerMiddlware.ts`
+which is used across the app. Under `/features`, there another set of apis, components, middlware, that is
+more specific to the feature. This layout makes adding features easier and more readable.
 
-### To preview and run the project on your device:
-1. Open project folder in <u>Visual Studio Code</u>
-2. Run  `npm install`  in the terminal
-3. Run  `npx expo start`  in the terminal
-4. Run on For iOS device (only on MacOS)
-    1. Press  `i`  to view on iOS simulator or follow the instructions [here](https://docs.expo.dev/workflow/run-on-device/) to run on a physical device.
-5. Run on For android device
-    1. Press  `a`  to view on Android Virtual Device or follow the instructions [here](https://docs.expo.dev/workflow/run-on-device/) to run on a physical device.
+    .
+    ├── app                            # app-wide elements
+    │   ├── components                 
+    │   ├── hooks
+    │   ├── interfaces
+    │   ├── middleware
+    │   ├── screens
+    │   └──  store.ts                  # redux store
+    ├── assets                         # icons, logos, images              
+    ├── features                       # feature-specific elements
+    │   ├── auth
+    │   │    ├── api       
+    │   │    ├── components         
+    │   │    ├── middleware
+    │   │    ├── reducers
+    │   │    ├── screens
+    │   │    └── utils
+    │   ├── postmatchfeedback
+    │   │    ├── api
+    │   │    ├── components
+    │   │    ├── middleware
+    │   │    ├── reducers
+    │   │    ├── screens
+    │   │    └── utils
+    │   └── ...
+    ├── navigation
+    │   ├── AuthStackNavigator.tsx
+    │   └── ...
+    ├── theme
+    │   └── GlobalStyles.ts 
+    ├── utils
+    │   └── apiConfig.ts 
+    └── ...
+
+

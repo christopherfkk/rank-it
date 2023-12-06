@@ -8,7 +8,7 @@ import Background from "../components/Background";
 import SelectButton from "../components/SelectButton";
 import NextButton from "../components/NextButton"
 import {useAppDispatch} from '../../../app/hooks';
-import BackButton from '../../../components/BackButton';
+import BackButton from '../../../app/components/BackButton';
 
 const PfGender = () => {
 

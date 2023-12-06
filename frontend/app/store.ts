@@ -6,7 +6,7 @@ import userAuthSlice from '../features/auth/reducers/userAuthReducer';
 import rankingSlice from '../features/ranking/reducers/rankingSocketReducer';
 import notificationSlice from '../features/postmatchfeedback/reducers/notifSocketReducer';
 
-import loggerMiddleware from '../middleware/loggerMiddleware';
+import loggerMiddleware from './middleware/loggerMiddleware';
 import rankingSocketMiddleware from '../features/ranking/middleware/rankingSocketMiddleware';
 import notifSocketMiddleware from '../features/postmatchfeedback/middleware/notifSocketMiddleware';
 

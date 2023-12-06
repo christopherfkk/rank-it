@@ -1,6 +1,6 @@
 import * as React from "react";
 import {ImageBackground, StyleSheet, View, SafeAreaView} from "react-native";
-import {theme} from "../theme/GlobalStyles";
+import {theme} from "../../theme/GlobalStyles";
 
 const LoadingPage = () => {
     return (
@@ -9,7 +9,7 @@ const LoadingPage = () => {
                 <ImageBackground
                     style={styles.Icon}
                     resizeMode="cover"
-                    source={require("../assets/rank-it-logo.png")}
+                    source={require("../../assets/rank-it-logo.png")}
                 />
             </View>
         </View>

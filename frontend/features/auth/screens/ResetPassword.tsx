@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Auth } from "../../../theme/GlobalStyles";
 import apiConfig from '../../../utils/apiConfig';
-import BackButton from '../../../components/BackButton';
+import BackButton from '../../../app/components/BackButton';
 
 const ResetPassword = () => {
   const navigation = useNavigation();

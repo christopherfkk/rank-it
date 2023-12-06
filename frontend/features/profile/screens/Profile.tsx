@@ -16,7 +16,7 @@ import {theme} from "../../../theme/GlobalStyles";
 import ProfileHeader from "../components/ProfileHeader";
 import ProfileDetails from "../components/ProfileDetails";
 import ChallengeButton from '../../ranking/components/ChallengeButton';
-import BackButton from '../../../components/BackButton';
+import BackButton from '../../../app/components/BackButton';
 import FeedbackA from '../../postmatchfeedback/modals/FeedbackA';
 
 import {avatarImages} from '../../setup/utils/avatarImages';
@@ -65,6 +65,10 @@ const Profile = ({route}) => {
         setIsEditMode(true);
         setEditedBioText(bioText);
     };
+
+    useEffect(() => {
+        setBioText(profile.blurb);
+    }, [profile]);
 
     useEffect(() => {
         getProfile(profileUserId, userToken, setProfile)

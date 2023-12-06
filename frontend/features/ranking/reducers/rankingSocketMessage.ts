@@ -1,4 +1,4 @@
-import User from '../../../interfaces/User';
+import User from '../../../app/interfaces/User';
 
 interface RankingData {
     user: User;

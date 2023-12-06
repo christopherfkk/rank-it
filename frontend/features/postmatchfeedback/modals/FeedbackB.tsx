@@ -14,7 +14,7 @@ import {theme} from "../../../theme/GlobalStyles";
 import InsertMatchScores from "../components/InsertMatchScores";
 import SlidersComponent from "../components/Slider";
 import FeedbackBlurb from "../components/FeedbackBlurb";
-import BackButton from "../../../components/BackButton";
+import BackButton from "../../../app/components/BackButton";
 import ProfileBox from "../components/ProfileBox";
 import {useAppSelector} from '../../../app/hooks';
 import {selectId, selectToken} from '../../auth/reducers/userAuthReducer';

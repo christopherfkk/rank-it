@@ -6,7 +6,7 @@ import SubmitButton from "../components/SubmitButton";
 import InsertMatchScores from "../components/InsertMatchScores";
 import SlidersComponent from "../components/Slider";
 import FeedbackBlurb from "../components/FeedbackBlurb";
-import BackButton from "../../../components/BackButton";
+import BackButton from "../../../app/components/BackButton";
 import ProfileBox from "../components/ProfileBox";
 import {theme} from "../../../theme/GlobalStyles";
 

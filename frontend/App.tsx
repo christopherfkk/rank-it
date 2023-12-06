@@ -8,7 +8,7 @@ import {store} from './app/store';
 import AuthStackNavigator from "./navigation/AuthStackNavigator";
 import SetupStackNavigator from './navigation/SetupStackNavigator';
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
-import Splash from "./screens/Splash";
+import Splash from "./app/screens/Splash";
 import {useAppDispatch, useAppSelector} from './app/hooks';
 import {selectIsSignedIn} from './features/auth/reducers/userAuthReducer';
 

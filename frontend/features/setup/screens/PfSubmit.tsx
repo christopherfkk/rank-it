@@ -6,7 +6,7 @@ import {theme} from "../../../theme/GlobalStyles";
 import {getPrevSetupScreen, pageAfter} from '../utils/pageOrder';
 import Background from "../components/Background";
 import NextButton from '../components/NextButton';
-import BackButton from '../../../components/BackButton';
+import BackButton from '../../../app/components/BackButton';
 import {useAppSelector} from '../../../app/hooks';
 import {selectId, selectToken} from '../../auth/reducers/userAuthReducer';
 import {selectInfo} from '../../auth/reducers/userInfoReducer';

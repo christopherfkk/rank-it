@@ -38,6 +38,7 @@ const Login = () => {
                         autoCapitalize="none"
                         placeholderTextColor="#737373"
                         contextMenuHidden // Disable context menu (copy-paste actions)
+                        spellCheck={false}
                         onChangeText={(text: string) => setEmail(text)}
                     />
                     <TextInput

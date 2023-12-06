@@ -8,7 +8,7 @@ import {
     Modal
 } from "react-native";
 import {theme} from "../../../theme/GlobalStyles";
-import BackButton from "../../../components/BackButton";
+import BackButton from "../../../app/components/BackButton";
 import NextButton from "../../setup/components/NextButton"
 import {useNavigation} from '@react-navigation/native';
 

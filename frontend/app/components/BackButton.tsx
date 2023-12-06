@@ -1,6 +1,6 @@
 import * as React from "react";
 import {TouchableOpacity, StyleSheet} from "react-native";
-import {theme} from '../theme/GlobalStyles'
+import {theme} from '../../theme/GlobalStyles'
 import {Ionicons} from '@expo/vector-icons'; // You may need to install this package
 
 const BackButton = ({onPress, color = "black"}) => {

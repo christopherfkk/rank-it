@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet, View, ScrollView, SafeAreaView, Image} from 'react-native';
-import {theme} from '../theme/GlobalStyles';
+import {theme} from '../../theme/GlobalStyles';
 
 //https://docs.expo.dev/versions/latest/sdk/view-pager/ 
 
@@ -52,7 +52,7 @@ const Instructions = () => {
                         1. Click on the "ranking/medal" icon found in the bottom bar.
                     </Text>
                     <Image
-                        source={require('../assets/instructions/medal.png')}
+                        source={require('../../assets/instructions/medal.png')}
                         style={styles.medalImage}
                         resizeMode="contain"
                     />
@@ -63,7 +63,7 @@ const Instructions = () => {
                         3. Click on “Challenge” found next to the profile of the person
                     </Text>
                     <Image
-                        source={require('../assets/instructions/ranking-page.png')}
+                        source={require('../../assets/instructions/ranking-page.png')}
                         style={styles.RankingPageImage}
                         resizeMode="contain"
                     />
@@ -78,7 +78,7 @@ const Instructions = () => {
                     </Text>
 
                     <Image
-                        source={require('../assets/instructions/record-score.png')}
+                        source={require('../../assets/instructions/record-score.png')}
                         style={styles.RecordscoreImage}
                         resizeMode="contain"
                     />
@@ -95,7 +95,7 @@ const Instructions = () => {
                         1. Click on the "confirmation" icon.
                     </Text>
                     <Image
-                        source={require('../assets/instructions/confirmation-icon.png')}
+                        source={require('../../assets/instructions/confirmation-icon.png')}
                         style={styles.confirmationIcon}
                         resizeMode="contain"
                     />
@@ -108,7 +108,7 @@ const Instructions = () => {
                     </Text>
 
                     <Image
-                        source={require('../assets/instructions/confirm-game.png')}
+                        source={require('../../assets/instructions/confirm-game.png')}
                         style={styles.ConfirmgameImage}
                         resizeMode="contain"
                     />
@@ -122,7 +122,7 @@ const Instructions = () => {
                     </Text>
 
                     <Image
-                        source={require('../assets/instructions/record-page.png')}
+                        source={require('../../assets/instructions/record-page.png')}
                         style={styles.RankingPageImage}
                         resizeMode="contain"
                     />
