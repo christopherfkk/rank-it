@@ -12,7 +12,7 @@ import {theme} from "../../../theme/GlobalStyles";
 
 import handleSubmit from '../api/postFeedbackA';
 import {useAppSelector} from '../../../app/hooks';
-import {selectId, selectToken} from '../../../reducers/userAuthReducer';
+import {selectId, selectToken} from '../../auth/reducers/userAuthReducer';
 
 
 type ModalPostmatchfeedbackType = {

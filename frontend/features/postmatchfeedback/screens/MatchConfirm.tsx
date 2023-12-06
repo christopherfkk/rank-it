@@ -6,8 +6,8 @@ import ConfirmationContainer from "../components/ConfirmationContainer";
 import {theme} from "../../../theme/GlobalStyles";
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {requestNotifications, selectNotification} from '../reducers/notifSocketReducer';
-import {selectInfo} from '../../../reducers/userInfoReducer';
-import {selectId, selectToken} from '../../../reducers/userAuthReducer';
+import {selectInfo} from '../../auth/reducers/userInfoReducer';
+import {selectId, selectToken} from '../../auth/reducers/userAuthReducer';
 
 import fetchMatchData from '../api/getMatchData';
 

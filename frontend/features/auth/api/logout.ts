@@ -1,8 +1,6 @@
 import apiConfig from '../../../utils/apiConfig';
-import {disconnect as disconnectRankingSocket} from '../../ranking/reducers/rankingSocketReducer';
-import {disconnect as disconnectNotifSocket} from '../../postmatchfeedback/reducers/notifSocketReducer';
 
-const handleLogout = (navigation, userToken, dispatch, signOut, disconnectRankingSocket, disconnectNotifSocket) => {
+const handleLogout = (navigation, userToken, dispatch, signOut, disconnectRankingSocket, disconnectNotifSocket, clearUserInfo) => {
 
     fetch(`${apiConfig.BASE_URL}/accounts/logout/`, {
         method: "POST",
@@ -15,6 +13,7 @@ const handleLogout = (navigation, userToken, dispatch, signOut, disconnectRankin
                 dispatch(signOut())
                 dispatch(disconnectRankingSocket())
                 dispatch(disconnectNotifSocket())
+                dispatch(clearUserInfo())
                 navigation.navigate("AuthStackNavigator");
             }
             return response.json();

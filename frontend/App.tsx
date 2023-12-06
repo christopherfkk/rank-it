@@ -10,7 +10,7 @@ import SetupStackNavigator from './navigation/SetupStackNavigator';
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import Splash from "./screens/Splash";
 import {useAppDispatch, useAppSelector} from './app/hooks';
-import {selectIsSignedIn} from './reducers/userAuthReducer';
+import {selectIsSignedIn} from './features/auth/reducers/userAuthReducer';
 
 import {startConnecting as startConnectingRankingSocket} from './features/ranking/reducers/rankingSocketReducer';
 import {startConnecting as startConnectingNotifSocket} from './features/postmatchfeedback/reducers/notifSocketReducer';

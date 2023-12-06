@@ -21,10 +21,11 @@ import FeedbackA from '../../postmatchfeedback/modals/FeedbackA';
 
 import {avatarImages} from '../../setup/utils/avatarImages';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
-import {selectInfo} from '../../../reducers/userInfoReducer';
-import {selectId, selectToken, signOut} from '../../../reducers/userAuthReducer';
+import {selectInfo} from '../../auth/reducers/userInfoReducer';
+import {selectId, selectToken, signOut} from '../../auth/reducers/userAuthReducer';
 import {disconnect as disconnectRankingSocket} from '../../ranking/reducers/rankingSocketReducer';
 import {disconnect as disconnectNotifSocket} from '../../postmatchfeedback/reducers/notifSocketReducer';
+import {clearUserInfo} from '../../auth/reducers/userInfoReducer';
 
 import handleLogout from '../../auth/api/logout';
 import handleSaveButtonPress from '../../auth/api/putBlurb';
@@ -140,7 +141,8 @@ const Profile = ({route}) => {
                                 dispatch,
                                 signOut,
                                 disconnectRankingSocket,
-                                disconnectNotifSocket
+                                disconnectNotifSocket,
+                                clearUserInfo,
                             )}>
                             <Text style={styles.buttonText}>
                                 Logout

@@ -6,7 +6,8 @@ import {theme} from "../../../theme/GlobalStyles";
 import handleLogin from "../api/login"
 
 import {useAppDispatch} from '../../../app/hooks';
-import {signIn} from '../../../reducers/userAuthReducer';
+import {signIn} from '../reducers/userAuthReducer';
+import {storeUserInfo} from '../reducers/userInfoReducer';
 
 
 const Login = () => {
@@ -54,7 +55,7 @@ const Login = () => {
                     style={styles.button}
                     activeOpacity={0.2}
                     onPress={() =>
-                        handleLogin(navigation, dispatch, signIn, email, password, setError)
+                        handleLogin(navigation, dispatch, signIn, storeUserInfo, email, password, setError)
                 }>
                     <Text style={styles.buttonText}>
                         Login

@@ -17,7 +17,7 @@ import FeedbackBlurb from "../components/FeedbackBlurb";
 import BackButton from "../../../components/BackButton";
 import ProfileBox from "../components/ProfileBox";
 import {useAppSelector} from '../../../app/hooks';
-import {selectId, selectToken} from '../../../reducers/userAuthReducer';
+import {selectId, selectToken} from '../../auth/reducers/userAuthReducer';
 
 import handleSubmit from '../api/postFeedbackB';
 

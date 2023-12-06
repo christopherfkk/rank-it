@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiConfig from '../../../utils/apiConfig';
 import { useAppSelector } from '../../../app/hooks';
-import { selectInfo } from '../../../reducers/userInfoReducer';
+import { selectInfo } from '../../auth/reducers/userInfoReducer';
 
 export const submitUserInfo = async () => {
 

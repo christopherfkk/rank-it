@@ -2,7 +2,7 @@ import React from "react";
 import {TouchableOpacity, Text, StyleSheet} from "react-native";
 
 import {theme} from "../../../theme/GlobalStyles";
-import {updateInfo} from '../../../reducers/userInfoReducer';
+import {updateInfo} from '../../auth/reducers/userInfoReducer';
 
 const NextButton = ({
                         navigation,

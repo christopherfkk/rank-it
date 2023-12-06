@@ -1,8 +1,8 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
 import webSocketSlice from '../reducers/webSocketReducer';
-import userInfoSlice from '../reducers/userInfoReducer';
-import userAuthSlice from '../reducers/userAuthReducer';
+import userInfoSlice from '../features/auth/reducers/userInfoReducer';
+import userAuthSlice from '../features/auth/reducers/userAuthReducer';
 import rankingSlice from '../features/ranking/reducers/rankingSocketReducer';
 import notificationSlice from '../features/postmatchfeedback/reducers/notifSocketReducer';
 

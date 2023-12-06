@@ -9,7 +9,7 @@ import MatchConfirm from '../features/postmatchfeedback/screens/MatchConfirm';
 import Instructions from '../screens/Instructions';
 import { theme } from '../theme/GlobalStyles';
 import {useAppSelector} from '../app/hooks';
-import {selectId} from '../reducers/userAuthReducer';
+import {selectId} from '../features/auth/reducers/userAuthReducer';
 
 
 const Tab = createBottomTabNavigator();

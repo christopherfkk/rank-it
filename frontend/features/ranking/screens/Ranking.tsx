@@ -15,7 +15,7 @@ import {theme} from '../../../theme/GlobalStyles';
 import {useAppSelector} from '../../../app/hooks';
 
 import {selectRanking} from '../reducers/rankingSocketReducer';
-import {selectId} from '../../../reducers/userAuthReducer';
+import {selectId} from '../../auth/reducers/userAuthReducer';
 
 const Ranking = () => {
 

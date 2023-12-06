@@ -1,7 +1,6 @@
 import apiConfig from '../../../utils/apiConfig';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const handleLogin = (navigation, dispatch, signIn, email, password, setError) => {
+const handleLogin = (navigation, dispatch, signIn, storeUserInfo, email, password, setError) => {
 
         if (email && password) {
 
@@ -28,6 +27,7 @@ const handleLogin = (navigation, dispatch, signIn, email, password, setError) =>
                     if (loginSuccess) {
 
                         dispatch(signIn([data.key, data.user.id]))
+                        dispatch(storeUserInfo(data.user))
 
                         // Navigate to account setup if first name / last name / level is not defined
                         if (data.user.first_name === null || data.user.last_name === null || data.user.level === null)
