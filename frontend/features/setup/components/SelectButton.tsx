@@ -1,25 +1,31 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import {TouchableOpacity, StyleSheet, Text} from "react-native";
 
-import { theme } from "../../../theme/GlobalStyles";
+import {theme} from "../../../theme/GlobalStyles";
 
 const SelectButton = ({onPress, selectedOption, optionLabel}) => {
     const isActive = selectedOption === optionLabel;
 
     return (
         <TouchableOpacity
-            style={[styles.avatarBoxShadowBox, isActive && styles.activeButton]}
-            onPress={() => {onPress(optionLabel)}}
+            style={[styles.textboxShadowBox, isActive && styles.activeButton]}
+            onPress={() => {
+                onPress(optionLabel)
+            }}
         >
-          {optionLabel}
+            <Text style={[styles.textboxText, isActive && styles.activeText]}>
+                {optionLabel}
+            </Text>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
-    avatarBoxShadowBox: {
-        backgroundColor: "#000000",
-        width: "100%",
+    textboxShadowBox: {
+        height: "5%",
+        width: "75%",
+        paddingVertical: 8,
+        paddingHorizontal: 8,
         borderWidth: 1,
         borderColor: "#fff2f2",
         borderStyle: "solid",
@@ -32,11 +38,21 @@ const styles = StyleSheet.create({
         },
         shadowColor: "rgba(0, 0, 0, 0.25)",
         borderRadius: 20,
+        marginTop: 18,
+        alignSelf: "center",
         justifyContent: "center",
-        alignSelf: "stretch"
+    },
+    textboxText: {
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
+        color: theme.colors.primary,
+        textAlign: "center",
+    },
+    activeText: {
+        color: theme.colors.danger,
     },
     activeButton: {
-        backgroundColor: theme.colors.background,
+        backgroundColor: theme.colors.primary,
         borderColor: theme.colors.primary,
     },
 });

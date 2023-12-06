@@ -1,29 +1,22 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiConfig from '../../../utils/apiConfig';
 import { useAppSelector } from '../../../app/hooks';
 import { selectInfo } from '../../auth/reducers/userInfoReducer';
 
-export const submitUserInfo = async () => {
+export const submitUserInfo = (userToken, userId, userInfo) => {
 
-    const userInfo = useAppSelector(selectInfo);
+    if (userInfo['first_name'] && userInfo['last_name'] && userInfo['level']) {
 
-    if (userInfo['firstName'] && userInfo['lastName'] && userInfo['level']) {
-
-        // Create FormData beacuse content-type should be multipart/form-data
         const accountSetUpData = new FormData();
-        accountSetUpData.append('first_name', userInfo['firstName']);
-        accountSetUpData.append('last_name', userInfo['lastName']);
-        accountSetUpData.append('avatar_image_name', userInfo['pickedAvatarName']);
+        accountSetUpData.append('first_name', userInfo['first_name']);
+        accountSetUpData.append('last_name', userInfo['last_name']);
+        accountSetUpData.append('avatar_image_name', userInfo['avatar_image_name']);
         accountSetUpData.append('level', userInfo['level']);
 
-        // Get PUT request paramters
-        const userId = JSON.parse(await AsyncStorage.getItem('userInfo')).id;
-        const accessToken = await AsyncStorage.getItem('accessToken');
 
         fetch(`${apiConfig.BASE_URL}/accounts/${userId}/setup/`, {
             method: "PUT",
             headers: {
-                "Authorization": `Token ${accessToken}`
+                "Authorization": `Token ${userToken}`
             },
             body: accountSetUpData,
         })

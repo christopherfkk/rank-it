@@ -8,6 +8,7 @@ import PfBlurb from '../features/setup/screens/PfBlurb';
 import PfName from '../features/setup/screens/PfName';
 import PfPickAvatar from '../features/setup/screens/PfPickAvatar';
 import PfLevel from '../features/setup/screens/PfLevel';
+import PfSubmit from '../features/setup/screens/PfSubmit';
 
 const Stack = createNativeStackNavigator();
 const SetupStackNavigator = () => {
@@ -50,6 +51,11 @@ const SetupStackNavigator = () => {
             <Stack.Screen
                 name="PfLevel"
                 component={PfLevel}
+                options={{headerShown: false}}
+            />
+            <Stack.Screen
+                name="PfSubmit"
+                component={PfSubmit}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-    ImageBackground,
     Text,
     TextInput,
     View,
@@ -14,8 +13,10 @@ import { useState } from "react";
 import {useNavigation} from "@react-navigation/native";
 
 import { theme } from "../../../theme/GlobalStyles";
-import apiConfig from "../../../utils/apiConfig";
 import BackButton from '../../../components/BackButton';
+import handleRegister from '../api/signup';
+import {useAppDispatch} from '../../../app/hooks';
+import {signIn} from '../reducers/userAuthReducer';
 
 const Signup = () => {
 
@@ -24,36 +25,8 @@ const Signup = () => {
     const [password1, setPassword1] = useState("")
     const [password2, setPassword2] = useState("")
     const [error, setError] = useState("")
-    const handleRegister = () => {
-        const registrationData = {
-            email: email,
-            password1: password1,
-            password2: password2
-        };
-        // Perform your API call or network request here to send email and password to the backend
-        fetch(`${apiConfig.BASE_URL}/accounts/registration/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(registrationData),
-        })
-            .then((response) => response.json())
-            .then((data) => {
 
-                const registerSuccess = data.key !== undefined;
-
-                if (registerSuccess) {
-                    navigation.navigate("BottomTabNavigator")
-                } else {
-                    setError(Object.values(data).join(', '));
-                }
-            })
-            .catch((error) => {
-                // Handle network or other fetch-related errors
-                setError(`Network Request Failed ${error}`);
-            });
-    };
+    const dispatch = useAppDispatch()
 
     return (
         <SafeAreaView style={styles.background}>
@@ -96,12 +69,9 @@ const Signup = () => {
                 <TouchableOpacity
                     style={styles.button}
                     activeOpacity={0.2}
-                    onPress={handleRegister}
+                    onPress={() => handleRegister(email, password1, password2, navigation, setError, dispatch, signIn)}
                 >
-                    <TouchableOpacity activeOpacity={0.2} onPress={() => {
-                    }}>
                         <Text style={[styles.buttonText]}>Sign-up</Text>
-                    </TouchableOpacity>
                 </TouchableOpacity>
 
                 {error ? (

@@ -6,8 +6,9 @@ import SelectButton from "../components/SelectButton";
 import Background from "../components/Background";
 import NextButton from "../components/NextButton"
 import {theme} from "../../../theme/GlobalStyles";
-import {pageAfter} from '../utils/pageOrder';
+import {getPrevSetupScreen, pageAfter} from '../utils/pageOrder';
 import {useAppDispatch} from '../../../app/hooks';
+import BackButton from '../../../components/BackButton';
 
 const PfLevel = () => {
 
@@ -18,12 +19,16 @@ const PfLevel = () => {
     return (
         <View style={styles.background}>
             <Background>
+                <BackButton
+                    onPress={() => navigation.navigate(getPrevSetupScreen("PfLevel"))}
+                    color={"white"}
+                />
 
                 <Text style={styles.heading}>
                     What's your Badminton skill level?
                 </Text>
 
-                <Text style={styles.heading}>
+                <Text style={styles.body}>
                     Please select your skill level in badminton from the options below:
                 </Text>
 
@@ -66,6 +71,13 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: theme.textVariants.header.fontSize,
         fontFamily: theme.textVariants.header.fontFamily,
+        textAlign: "center",
+        color: theme.colors.primary,
+        alignSelf: "stretch",
+    },
+    body: {
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
         textAlign: "center",
         color: theme.colors.primary,
         alignSelf: "stretch",

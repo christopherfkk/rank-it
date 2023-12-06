@@ -6,8 +6,9 @@ import { theme } from "../../../theme/GlobalStyles";
 import SelectAvatarButton from "../components/SelectAvatarButton";
 import Background from "../components/Background";
 import NextButton from "../components/NextButton"
-import {pageAfter} from '../utils/pageOrder';
+import {getPrevSetupScreen, pageAfter} from '../utils/pageOrder';
 import {useAppDispatch} from '../../../app/hooks';
+import BackButton from '../../../components/BackButton';
 
 const PfPickAvatar = () => {
 
@@ -18,6 +19,11 @@ const PfPickAvatar = () => {
     return (
         <View style={styles.background}>
             <Background>
+
+                <BackButton
+                    onPress={() => navigation.navigate(getPrevSetupScreen("PfPickAvatar"))}
+                    color={"white"}
+                />
 
                 <Text style={styles.heading}>
                     Pick an avatar!
@@ -53,7 +59,7 @@ const PfPickAvatar = () => {
                 <NextButton
                     navigation={navigation}
                     dispatch={dispatch}
-                    userInfoKey={["pickedAvatarName"]}
+                    userInfoKey={["avatar_image_name"]}
                     userInfoValue={[pickedAvatarName]}
                     nextScreenName={pageAfter.PfPickAvatar}
                     disabled={pickedAvatarName === null}
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
         alignSelf: "stretch",
     },
     avatarGrid: {
-        width: "50%",
+        width: "75%",
         height: "50%",
         flexDirection: "column",
         alignItems: "center",

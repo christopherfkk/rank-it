@@ -3,28 +3,46 @@ import {TouchableOpacity, Text, StyleSheet} from "react-native";
 
 import {theme} from "../../../theme/GlobalStyles";
 import {updateInfo} from '../../auth/reducers/userInfoReducer';
+import {submitUserInfo} from '../api/submitUserInfo';
 
 const NextButton = ({
                         navigation,
-                        dispatch=(action)=>{},
-                        userInfoKey=[""],
-                        userInfoValue=[""],
+                        dispatch = (action) => {
+                        },
+                        userInfoKey = [""],
+                        userInfoValue = [""],
                         nextScreenName,
-                        disabled
-}) => {
+                        disabled,
+                        buttonText="Next",
+                        userToken="",
+                        userId=null,
+                        userInfo=null
+                    }) => {
     return (
         <TouchableOpacity
             style={[styles.button, disabled && styles.disabledButton]}
             onPress={() => {
                 if (!disabled) {
-                    if (Array.isArray(userInfoKey)) {
-                        for (let i = 0; i < userInfoKey.length; i++) {
-                            dispatch(updateInfo([userInfoKey[i], userInfoValue[i]]));
+
+                    const isDefaultValues = userInfoKey.every((value) => value === "") &&
+                        userInfoValue.every((value) => value === "");
+
+                    if (!isDefaultValues) {
+                        if (Array.isArray(userInfoKey)) {
+                            for (let i = 0; i < userInfoKey.length; i++) {
+                                dispatch(updateInfo([userInfoKey[i], userInfoValue[i]]));
+                            }
+                        } else {
+                            // If userInfoKey is not a list, dispatch a single action
+                            dispatch(updateInfo([userInfoKey, userInfoValue]));
                         }
-                    } else {
-                        // If userInfoKey is not a list, dispatch a single action
-                        dispatch(updateInfo([userInfoKey, userInfoValue]));
                     }
+
+                    if (buttonText === "Submit") {
+                        console.log("Submitting Info")
+                        submitUserInfo(userToken, userId, userInfo)
+                    }
+
                     navigation.navigate(nextScreenName);
                 }
             }}
@@ -32,7 +50,7 @@ const NextButton = ({
             disabled={disabled}
         >
             <Text style={styles.buttonText} numberOfLines={3}>
-                Next
+                {buttonText}
             </Text>
         </TouchableOpacity>
     );

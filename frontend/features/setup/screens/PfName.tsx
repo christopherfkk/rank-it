@@ -7,6 +7,8 @@ import NextButton from "../components/NextButton"
 import {theme} from "../../../theme/GlobalStyles";
 import {pageAfter} from '../utils/pageOrder';
 import {useAppDispatch} from '../../../app/hooks';
+import BackButton from '../../../components/BackButton';
+import {getPrevSetupScreen} from '../utils/pageOrder';
 
 const PfName = () => {
 
@@ -19,22 +21,33 @@ const PfName = () => {
         <View style={styles.background}>
             <Background>
 
+                <BackButton
+                    onPress={() => navigation.navigate(getPrevSetupScreen("PfName"))}
+                    color={"white"}
+                />
+
                 <Text style={styles.heading}>
                     What's your first and last name
                 </Text>
 
-                <Text style={styles.heading}>
+                <Text style={styles.body}>
                     You won’t be able to change this later
                 </Text>
 
                 <TextInput
-                    placeholder="First Name"
+                    style={styles.textInputBoxStyle}
+                    placeholder="Enter your first name"
+                    keyboardType="default"
+                    placeholderTextColor="#737373"
                     value={firstName}
                     onChangeText={setFirstName}
                 />
 
                 <TextInput
-                    placeholder="Last Name"
+                    style={styles.textInputBoxStyle}
+                    placeholder="Enter your last name"
+                    keyboardType="default"
+                    placeholderTextColor="#737373"
                     value={lastName}
                     onChangeText={setLastName}
                 />
@@ -42,7 +55,7 @@ const PfName = () => {
                 <NextButton
                     navigation={navigation}
                     dispatch={dispatch}
-                    userInfoKey={["firstName", "lastName"]}
+                    userInfoKey={["first_name", "last_name"]}
                     userInfoValue={[firstName, lastName]}
                     nextScreenName={pageAfter.PfName}
                     disabled={(firstName.trim() === "" || lastName.trim() === "")}
@@ -65,6 +78,38 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: theme.colors.primary,
         alignSelf: "stretch",
+    },
+    body: {
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
+        textAlign: "center",
+        color: theme.colors.primary,
+        alignSelf: "stretch",
+    },
+    textInputBoxStyle: {
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
+        color: theme.colors.primary,
+        height: "5%",
+        width: "75%",
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+        borderWidth: 1,
+        borderColor: "#fff2f2",
+        borderStyle: "solid",
+        shadowOpacity: 1,
+        elevation: 4,
+        shadowRadius: 4,
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowColor: "rgba(0, 0, 0, 0.25)",
+        borderRadius: 20,
+        marginTop: 18,
+        alignSelf: "center",
+        justifyContent: "center",
+        textAlign: "center"
     },
 });
 

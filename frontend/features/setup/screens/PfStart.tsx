@@ -16,11 +16,11 @@ const PfStart = () => {
         <Background>
 
             <Text style={styles.heading}>
-                Welcome
+                Welcome!
             </Text>
 
-            <Text style={styles.heading}>
-                We're thrilled to welcome you aboard and play badminton with you!
+            <Text style={styles.body}>
+                Set up you profile!
             </Text>
 
             <NextButton
@@ -43,6 +43,13 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: theme.textVariants.header.fontSize,
         fontFamily: theme.textVariants.header.fontFamily,
+        textAlign: "center",
+        color: theme.colors.primary,
+        alignSelf: "stretch",
+    },
+    body: {
+        fontSize: theme.textVariants.body.fontSize,
+        fontFamily: theme.textVariants.body.fontFamily,
         textAlign: "center",
         color: theme.colors.primary,
         alignSelf: "stretch",
