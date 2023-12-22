@@ -1,13 +1,13 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { default as IconEntypo } from 'react-native-vector-icons/Entypo';
+import {default as IconEntypo} from 'react-native-vector-icons/Entypo';
 
 import Ranking from '../features/ranking/screens/Ranking';
 import Profile from '../features/profile/screens/Profile';
 import MatchConfirm from '../features/postmatchfeedback/screens/MatchConfirm';
 import Instructions from '../app/screens/Instructions';
-import { theme } from '../theme/GlobalStyles';
+import {theme} from '../theme/GlobalStyles';
 import {useAppSelector} from '../app/hooks';
 import {selectId} from '../features/auth/reducers/userAuthReducer';
 
@@ -86,7 +86,7 @@ const BottomTabNavigator = () => {
                     ),
                 }}
             />
-                
+
         </Tab.Navigator>
     );
 }

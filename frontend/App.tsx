@@ -47,48 +47,17 @@ const App = () => {
 
 const InnerApp = ({hideSplashScreen}) => {
 
-    const [isRegistered, setIsRegistered] = useState(true);
     const isSignedIn = useAppSelector(selectIsSignedIn)
     const dispatch = useAppDispatch();
 
-    // useEffect(() => {
-    //
-    //     // Check if logged in
-    //     const checkLoginStatus = async () => {
-    //         const accessToken = await AsyncStorage.getItem("accessToken")
-    //         if (accessToken) {
-    //             setIsLogIn(true);
-    //             console.log("LOGGED IN: Token found");
-    //         } else {
-    //             console.log("NOT LOGGED IN: No token found");
-    //         }
-    //     };
-    //
-    //     // Checked if registered
-    //     const checkRegistrationStatus = async () => {
-    //         const userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'))
-    //         if (userInfo == null) {
-    //             console.log("NOT REGISTERED: Details not set");
-    //         } else if (userInfo.first_name && userInfo.last_name && userInfo.level) {
-    //             setIsRegistered(true);
-    //             console.log(userInfo)
-    //             console.log("REGISTERED: Details set");
-    //         }
-    //     };
-    //
-    //     checkLoginStatus();
-    //     checkRegistrationStatus();
-    //
-    // }, []);
-
     useEffect(() => {
         const initWebSocket = () => {
-            if (isSignedIn && isRegistered) {
+            if (isSignedIn) {
                 dispatch(startConnectingRankingSocket())
                 dispatch(startConnectingNotifSocket())
         }}
         initWebSocket();
-    }, [isSignedIn, isRegistered]
+    }, [isSignedIn]
     )
 
     return (
@@ -98,9 +67,7 @@ const InnerApp = ({hideSplashScreen}) => {
                     initialRouteName={
                         !isSignedIn
                             ? 'AuthStackNavigator'
-                            : !isRegistered
-                                ? 'SetupStackNavigator'
-                                : 'BottomTabNavigator'
+                            : 'BottomTabNavigator'
                     }
                     screenOptions={{headerShown: false}}
                 >
