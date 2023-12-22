@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'communities.apps.CommunitiesConfig',
     'notifications.apps.NotificationsConfig',
     'ranks.apps.RanksConfig',
+    'feed.apps.FeedConfig',
 
     # Third party
     'rest_framework',

@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/v1/accounts/', include('accounts.urls')),
     path('api/v1/ranks/', include('ranks.urls')),
     path('api/v1/notifications/', include('notifications.urls')),
+    path('api/v1/feed/', include('feed.urls')),
 
     # Admin and DRF auth interface
     path('admin/', admin.site.urls),
