@@ -60,6 +60,7 @@ const Profile = ({route}) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [editedBioText, setEditedBioText] = useState("");
     const [bioText, setBioText] = useState(profile.blurb);
+    const [following, setFollowing] = useState(false)
 
     const handleEditButtonPress = () => {
         setIsEditMode(true);
@@ -76,13 +77,17 @@ const Profile = ({route}) => {
 
     const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
-    const handleRegButtonPress = () => {
+    const handleOpenModal = () => {
         setShowFeedbackModal(true);
     };
 
     const handleCloseModal = () => {
         setShowFeedbackModal(false);
     };
+
+    const handleFollow = () => {
+        setFollowing(!following)
+    }
 
     return (
         <SafeAreaView style={[styles.background]}>
@@ -156,10 +161,22 @@ const Profile = ({route}) => {
                     : null}
 
                 {!self ?
-                    <ChallengeButton
-                        button="record"
-                        onPress={handleRegButtonPress}
-                    /> : null}
+                    <View style={styles.buttonContainer}>
+                        <ChallengeButton
+                            button="record"
+                            onPress={handleOpenModal}/>
+                        {!following ?
+                            <ChallengeButton
+                                button="follow"
+                                onPress={handleFollow}/>
+                            :
+                            <ChallengeButton
+                                button="following ✔"
+                                onPress={handleFollow}/>
+                        }
+                    </View>
+                    : null}
+
             </ScrollView>
         </SafeAreaView>
     );
@@ -186,6 +203,10 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         overflow: "scroll",
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        width: "50%"
     },
     button: {
         flexDirection: "row",
