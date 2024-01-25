@@ -3,9 +3,9 @@
 const palette = {
     lavenderblush: "#FFF2F2",
     crimson: "#D31E28",
-    white: "#F5F5F5",
+    white: "#ffffff",
     black: "#171717",
-    gray: "#E1E1E1",
+    gray: "#efefef",
     green: "#9ce3b0"
 }
 

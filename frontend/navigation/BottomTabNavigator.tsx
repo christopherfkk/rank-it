@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {default as IconEntypo} from 'react-native-vector-icons/Entypo';
 
 import Ranking from '../features/ranking/screens/Ranking';
+import Feed from '../features/feed/screens/Feed';
 import Profile from '../features/profile/screens/Profile';
 import MatchConfirm from '../features/postmatchfeedback/screens/MatchConfirm';
 import Instructions from '../app/screens/Instructions';
@@ -29,6 +30,21 @@ const BottomTabNavigator = () => {
                     tabBarIcon: ({focused}) => (
                         <Icon
                             name="medal"
+                            size={20}
+                            color={focused ? theme.colors.danger : theme.colors.foreground}
+                        />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Feed"
+                component={Feed}
+                options={{
+                    headerShown: false,
+                    tabBarLabel: () => null,
+                    tabBarIcon: ({focused}) => (
+                        <Icon
+                            name="bolt"
                             size={20}
                             color={focused ? theme.colors.danger : theme.colors.foreground}
                         />
