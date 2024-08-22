@@ -8,8 +8,6 @@
 
   <p align="center">
     <a href="https://www.loom.com/share/8231eda517c74f6ba1e316eed79b14a0">View Demo</a>
-    ·
-    <a href="https://getrankit.com/">See Website</a>
   </p>
 </div>
 
